@@ -1,0 +1,202 @@
+<resources>
+    <!-- Жалпы -->
+    <string name="app_name">Ыкчам Зилзалалар</string>
+    <string name="app_branding">Зилзала Мыкчымы</string>
+    <string name="version_text">v1.0.0 • Профессионалдык Нускасы</string>
+    <string name="back">Артка</string>
+    <string name="cancel">Баш тартуу</string>
+    <string name="close">Жабуу</string>
+    <string name="retry">Кайра аракет кылуу</string>
+    <string name="warning_offline">⚠️ Интернет байланышы жок! Сакталган маалыматтар көрсөтүлүүдө.</string>
+
+    <!-- Навигация -->
+    <string name="nav_home">Башкы бет</string>
+    <string name="nav_earthquakes">Зилзалалар</string>
+    <string name="nav_map">Карта</string>
+    <string name="nav_settings">Орнотуулар</string>
+
+    <!-- Киришүү -->
+    <string name="splash_title">Ыкчам Зилзала</string>
+    <string name="splash_subtitle">Сейсмикалык Көзөмөл жана Алдын Ала Эскертүү</string>
+    <string name="onboarding_skip">Өткөрүп жиберүү</string>
+    <string name="onboarding_next">Кийинки</string>
+    <string name="onboarding_badge_1">🔴 ТҮЗ СЕЙСМИКА</string>
+    <string name="onboarding_title_1">Сейсмикалык Көзөмөл\nИшенимдүү Колдо</string>
+    <string name="onboarding_desc_1">Kandilli, AFAD жана USGS маалыматтары менен 24/7 зилзала анализи жана жарака тилкелерин көзөмөлдөө.</string>
+    <string name="onboarding_float_title_1">Акыркы зилзала: Мрамор деңизи</string>
+    <string name="onboarding_float_sub_1">4.2 Mw • 8.5 км тереңдик</string>
+
+    <string name="onboarding_badge_2">📍 АКТУУ ОРУН</string>
+    <string name="onboarding_title_2">Алдын Ала Эскертүү жана\nОрунду Анализдөө</string>
+    <string name="onboarding_desc_2">Аймагыңыздагы жарака тилкелерин изилдеп, 3 секунддук автоматтык сурам менен коопсуз болуңуз.</string>
+    <string name="onboarding_float_title_2">Аймактык Тобокелдик Картасы</string>
+    <string name="onboarding_float_sub_2">Жогорку тактыктагы сейсмограф</string>
+
+    <string name="onboarding_badge_3">🎒 КӨРСӨТМӨ</string>
+    <string name="onboarding_title_3">Коопсуз Болуңуз,\nДаяр Туруңуз!</string>
+    <string name="onboarding_desc_3">Апаттык баштык тизмеси жана өмүрдү сактап калуучу нускамалар менен үй-бүлөңүздүн коопсуздугун кокустукка калтырбаңыз.</string>
+    <string name="onboarding_float_title_3">Апаттык Баштыкты Текшерүү</string>
+    <string name="onboarding_float_sub_3">Даярдык абалы 100% даяр жана жаңыртылган</string>
+
+    <!-- Башкы Бет -->
+    <string name="header_subtitle">Зилзала Мыкчымы</string>
+    <string name="header_title">Аман-эсен болуңуз 👋</string>
+
+    <string name="live_data">ТҮЗ МААЛЫМАТ</string>
+    <string name="data_source_title">Зилзала Маалымат Булагы</string>
+    <string name="source_kandilli">Кандилли 🏢</string>
+    <string name="source_afad">AFAD 🚨</string>
+    <string name="source_turkey_all">Түркия Аралаш 🌐</string>
+    <string name="source_usgs">USGS Дүйнө 🌍</string>
+    <string name="source_world_igp">Дүйнө (IGP) 🌍</string>
+
+    <string name="hero_guide_tag">МААНИЛҮҮ НУСКАМА</string>
+    <string name="hero_guide_title">Зилзала Учурунда Эмне Кылуу Керек</string>
+    <string name="hero_guide_desc">Өмүрдү сактап калуучу 3 алтын эрежени дароо изилдеңиз.</string>
+
+    <string name="daily_summary_title">Бүгүнкү Жыйынтык</string>
+    <string name="daily_summary_subtitle">Сейсмикалык Жигердүүлүк Отчету</string>
+    <string name="total_today">Бүгүн Жалпы</string>
+    <string name="highest">Эң Жогорку</string>
+
+    <string name="detailed_stats_title">📊 Толук Статистика</string>
+    <string name="stat_today">Бүгүн</string>
+    <string name="stat_week">Апта</string>
+    <string name="stat_month">Ай</string>
+    <string name="stat_avg">Орточо</string>
+    <string name="stat_max">Эң Чоң</string>
+    <string name="stat_active">Активдүү Аймак</string>
+    <string name="unit_earthquake">зилзала</string>
+    <string name="unit_region">аймак</string>
+
+    <string name="location_based_title">Оруну Боюнча</string>
+    <string name="location_based_subtitle">Аймактык Анализ (Автоматтык Издөө)</string>
+    <string name="location_search_placeholder">Шаарды киргизиңиз (3с кийин издейт...)</string>
+    <string name="location_no_result">Издөөгө ылайык зилзала табылган жок.</string>
+
+    <string name="map_preview_title">Зилзала Картасы</string>
+    <string name="map_preview_subtitle">Орунга негизделген сейсмикалык кароо</string>
+
+    <string name="chart_magnitude_title">📈 Магнитуда Бөлүнүшү</string>
+    <string name="chart_last_24h">Акыркы 24 Саат</string>
+
+    <string name="info_tips_title">Маалымат жана Кеңештер</string>
+    <string name="info_tips_subtitle">Апат боюнча Нускама</string>
+
+    <string name="checklist_section_title">🎒 Апаттык Баштыкты Текшерүү</string>
+    <string name="checklist_item_food_title">Суу жана консерва даярбы?</string>
+    <string name="checklist_item_food_desc">Кеминде 3 күндүк запас сунушталат.</string>
+
+    <string name="filter_1h">1 Саат</string>
+    <string name="filter_6h">6 Саат</string>
+    <string name="filter_24h">24 Саат</string>
+    <string name="filter_7d">7 Күн</string>
+    <string name="filter_30d">30 Күн</string>
+
+    <string name="recent_earthquakes_title">🔄 Акыркы Зилзалалар (%1$d)</string>
+    <string name="see_all">Баарын Көрүү</string>
+
+    <!-- Зилзала Тизмеси -->
+    <string name="seismic_flow_title">Сейсмикалык Агым</string>
+    <string name="all_earthquakes_title">Бардык Зилзалалар</string>
+    <string name="record_count">%1$d Жазуу</string>
+    <string name="search_city_or_region">Шаар же аймак издөө...</string>
+    <string name="filter_all">Баары</string>
+    <string name="source_label">Булак: %1$s</string>
+
+    <!-- Толук Маалымат -->
+    <string name="label_magnitude">Магнитуда</string>
+    <string name="label_depth">Тереңдик</string>
+    <string name="label_intensity">Күчү</string>
+    <string name="label_perceived_intensity">Сезпилген Күчү</string>
+    <string name="label_source">Булак</string>
+    <string name="important_warning">⚠️ МААНИЛҮҮ</string>
+    <string name="show_more">Көбүрөөк Көрсөтүү</string>
+    <string name="show_less">Азыраак Көрсөтүү</string>
+
+    <string name="whistle_title">Апаттык Чоор (Свисток)</string>
+    <string name="whistle_desc">Куткаруу сиренасын жаңыртат</string>
+    <string name="whistle_start">ИШТЕТҮҮ 🔊</string>
+    <string name="whistle_stop">ТОКТОТУУ</string>
+    <string name="share_earthquake_info">Зилзала Маалыматын Бөлүшүү</string>
+    <string name="share_template">🚨 ЗИЛЗАЛА ЭСКЕРТҮҮСҮ\n\n📍 Оруну: %1$s (%2$s)\n💥 Магнитудасы: %3$.1f Mw\n📏 Тереңдиги: %4$.1f км\n🕒 Убактысы: %5$s - %6$s\n\nТолугураак маалымат үчүн Ыкчам Зилзалалар колдонмосун ачыңыз: https://anlikdepremler.com/earthquake/%7$s</string>
+
+    <!-- Жарнамалар -->
+    <string name="ad_sponsored">ДЕМӨӨРЧҮЛҮК</string>
+    <string name="ad_label">Жарнама</string>
+
+    <!-- Орнотуулар -->
+    <string name="settings_title">Орнотуулар</string>
+    <string name="category_preferences">ТАҢДООЛОР ЖАНА КӨРҮНҮШ</string>
+    <string name="select_language">Колдонмо Тили</string>
+    <string name="app_theme">Колдонмо Темасы</string>
+    <string name="theme_cream">Каймак Темасы 🍦</string>
+    <string name="theme_system">Система Динамикасы 📱</string>
+    <string name="theme_dark">Караңгы Түн 🌙</string>
+    <string name="select_theme_dialog_title">Теманы Таңдаңыз</string>
+
+    <string name="category_notifications">БИЛДИРҮҮЛӨР ЖАНА УРУКСАТТАР</string>
+    <string name="notification_settings">Билдирүү Орнотуулары</string>
+    <string name="notification_settings_sub">Зилзала эскертүү ырастоолорун башкаруу</string>
+    <string name="location_permissions">Орун Уруксаттары</string>
+    <string name="location_permissions_sub">Жакындагы зилзалаларды көрүү үчүн керек</string>
+
+    <string name="category_support">КОЛДОО ЖАНА КООМЧУЛУК</string>
+    <string name="buy_coffee">Кофе Алып Берүү ☕</string>
+    <string name="buy_coffee_sub">Иштеп чыгуучуну колдоо</string>
+    <string name="rate_app">Колдонмого Баа Берүү</string>
+    <string name="rate_app_sub">Google Play Store дүкөнүнөн баа бериңиз</string>
+    <string name="share_app">Колдонмону Бөлүшүү</string>
+    <string name="share_app_sub">Жакындарыңыз жана үй-бүлөңүз менен бөлүшүңүз</string>
+    <string name="send_feedback">Пикир Жөнөтүү</string>
+    <string name="send_feedback_sub">Катаны билдирүү же сунуш киргизүү</string>
+    <string name="thanks_for_rating">Баа бергениңиз үчүн рахмат!</string>
+    <string name="thanks_for_coffee">☕ Колдооңуз жана кофе үчүн рахмат!</string>
+
+    <string name="category_legal">МЫЙЗАМДУУ ЖАНА ЖӨНҮНДӨ</string>
+    <string name="privacy_policy">Купуялык Саясаты</string>
+    <string name="privacy_policy_sub">Firebase маалыматтары жана купуялык</string>
+    <string name="terms_conditions">Колдонуу Шарттары</string>
+    <string name="terms_conditions_sub">Колдонуу эрежелери жана шарттар</string>
+    <string name="privacy_header_title">Маалыматыңыздын коопсуздугу биз үчүн маанилүү</string>
+    <string name="terms_header_title">Колдонуу Шарттары жана Эрежелер</string>
+    <string name="last_update">Акыркы жаңыртуу: 2026</string>
+    <string name="error_offline_text">Интернет байланышыңызды текшериңиз.</string>
+    <string name="error_load_text">Текст жүктөлбөдү. Кайра аракет кылыңыз.</string>
+
+    <!-- Карта -->
+    <string name="search_map_placeholder">Картадан Шаар/Аймак Издөө...</string>
+    <string name="depth_label">Тереңдик: %1$.1f км</string>
+    <string name="source_emsc">EMSC Европа 🇪🇺</string>
+
+    <!-- Расмий Колдонмолор -->
+    <string name="guide_afad_before_title">AFAD Жер титирөөгө даярдануу колдонмосу</string>
+    <string name="guide_afad_before_desc">Жер титирөөгө чейин көрүлө турган расмий чаралар жана эрежелер.</string>
+    <string name="guide_akut_bag_title">AKUT Өзгөчө кырдаал баштыгын даярдоо</string>
+    <string name="guide_akut_bag_desc">Шашылыш баштыкта болушу керек болгон буюмдар жана азыктар.</string>
+    <string name="guide_kizilay_first_aid_title">Кызыл Жарым Ай биринчи жардам эрежелери</string>
+    <string name="guide_kizilay_first_aid_desc">Силкинүү учурунда жана андан кийин өмүрдү сактап калуучу кадамдар.</string>
+
+    <!-- Шашылыш СМС -->
+    <string name="emergency_safe_btn">Мен жакшымын, коопсуз жердемин 👍</string>
+    <string name="emergency_help_btn">Мага шашылыш жардам керек 🚨</string>
+    <string name="official_sources_title">🏛️ Расмий мекеме шилтемелери</string>
+    <string name="emergency_contact_phone">Шашылыш байланыш номери</string>
+    <string name="emergency_contact_phone_sub">Кырсык учурунда СМС жөнөтүлө турган адам</string>
+    <string name="emergency_phone_title">Шашылыш байланыш</string>
+    <string name="emergency_phone_desc">Зилзала учурунда коопсуз экениңизди билдирүү же жардам суроо үчүн жайгашкан жериңиз менен СМС жөнөтүлө турган номерди киргизиңиз.</string>
+    <string name="phone_number_hint">Телефон номери</string>
+    <string name="phone_privacy_notice">Купуялык эскертүүсү: Бул номер телефонуңуздун эстутумунда гана сакталат, серверлерибизге ЭЧ КАЧАН сакталбайт.</string>
+    <string name="not_set">Азырынча белгилене элек</string>
+    <string name="save">Сактоо</string>
+    <string name="nearby_earthquake_title">Жаныңызда жер титирөө катталды!</string>
+    <string name="nearby_earthquake_desc">Абалыңызды жакындарыңызга билдирүү үчүн төмөнкү баскычтардын бирин тандаңыз:</string>
+    <string name="btn_im_safe">Мен коопсузмун</string>
+    <string name="btn_need_help">Жардам суроо</string>
+    <string name="permissions_title">Маанилүү уруксаттар талап кылынат</string>
+    <string name="permissions_desc">Сиздин жаныңыздагы силкинүүлөрдү аныктоо жана шашылыш билдирүүлөрдү жөнөтүү үчүн колдонмого Жайгашкан жер жана Билдирүү уруксаттары керек.</string>
+    <string name="btn_grant_permissions">Уруксат берүү</string>
+    <!-- Тарыхый ири жер титирөөлөр карточкасы -->
+    <string name="historical_archive_title">Тарыхтагы ири жер титирөөлөр</string>
+    <string name="historical_archive_subtitle">Мурункудан азыркыга чейинки сейсмикалык архив</string>
+</resources>

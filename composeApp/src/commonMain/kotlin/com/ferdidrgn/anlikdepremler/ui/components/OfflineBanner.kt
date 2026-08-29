@@ -13,11 +13,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ferdidrgn.anlikdepremler.R
+import com.ferdidrgn.anlikdepremler.resources.Res
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun OfflineBanner(isConnected: Boolean) {
@@ -31,7 +31,7 @@ fun OfflineBanner(isConnected: Boolean) {
             color = MaterialTheme.colorScheme.error
         ) {
             Text(
-                text = stringResource(R.string.warning_offline),
+                text = stringResource(Res.string.warning_offline),
                 color = Color.White,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Bold,

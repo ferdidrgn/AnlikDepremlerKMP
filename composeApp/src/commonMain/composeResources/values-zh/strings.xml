@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 应用通用 -->
+    <string name="app_name">实时地震</string>
+    <string name="app_branding">地震追踪</string>
+    <string name="version_text">v1.0.0 • 专业版</string>
+    <string name="back">返回</string>
+    <string name="cancel">取消</string>
+    <string name="close">关闭</string>
+    <string name="retry">重试</string>
+    <string name="warning_offline">⚠️ 无网络连接！正在显示最后缓存的数据。</string>
+
+    <!-- 底部导航栏 -->
+    <string name="nav_home">首页</string>
+    <string name="nav_earthquakes">地震列表</string>
+    <string name="nav_map">地图</string>
+    <string name="nav_settings">设置</string>
+
+    <!-- 启动页 & 引导页 -->
+    <string name="splash_title">实时地震</string>
+    <string name="splash_subtitle">地震监测与预警系统</string>
+    <string name="onboarding_skip">跳过</string>
+    <string name="onboarding_next">下一步</string>
+    <string name="onboarding_badge_1">🔴 实时监测</string>
+    <string name="onboarding_title_1">地震监测\n尽在掌握</string>
+    <string name="onboarding_desc_1">基于 Kandilli、AFAD 和 USGS 数据，提供 24/7 实时地震分析与断层线追踪。</string>
+    <string name="onboarding_float_title_1">最新震情: 马尔马拉</string>
+    <string name="onboarding_float_sub_1">4.2 级 • 深度 8.5 km</string>
+
+    <string name="onboarding_badge_2">📍 智能定位</string>
+    <string name="onboarding_title_2">早期预警 &amp;\n位置分析</string>
+    <string name="onboarding_desc_2">查看您所在区域的断层线，3 秒自动查询，保障您的安全。</string>
+    <string name="onboarding_float_title_2">区域风险地图</string>
+    <string name="onboarding_float_sub_2">高精度地震仪</string>
+
+    <string name="onboarding_badge_3">🎒 防灾意识</string>
+    <string name="onboarding_title_3">保持安全，\n做好准备！</string>
+    <string name="onboarding_desc_3">使用应急包检查清单和救命求生指南，保护家人的安全。</string>
+    <string name="onboarding_float_title_3">应急包检查</string>
+    <string name="onboarding_float_sub_3">准备状态 100% 完成且已更新</string>
+
+    <!-- 首页 (HomeScreen) -->
+    <string name="header_subtitle">地震追踪</string>
+    <string name="header_title">保重安全 👋</string>
+    <string name="live_data">实时数据</string>
+    <string name="data_source_title">地震数据来源</string>
+    <string name="source_kandilli">Kandilli 🏢</string>
+    <string name="source_afad">AFAD 🚨</string>
+    <string name="source_turkey_all">土耳其综合 🌐</string>
+    <string name="source_usgs">USGS 全球 🌍</string>
+    <string name="source_world_igp">全球 (IGP) 🌍</string>
+
+    <string name="hero_guide_tag">重要指南</string>
+    <string name="hero_guide_title">地震发生时的应对措施</string>
+    <string name="hero_guide_desc">立即查看救命的 3 条黄金法则。</string>
+
+    <string name="daily_summary_title">今日摘要</string>
+    <string name="daily_summary_subtitle">地震活动报告</string>
+    <string name="total_today">今日总计</string>
+    <string name="highest">最高震级</string>
+
+    <string name="detailed_stats_title">📊 详细统计</string>
+    <string name="stat_today">今日</string>
+    <string name="stat_week">本周</string>
+    <string name="stat_month">本月</string>
+    <string name="stat_avg">平均</string>
+    <string name="stat_max">最大震级</string>
+    <string name="stat_active">最活跃区域</string>
+    <string name="unit_earthquake">次地震</string>
+    <string name="unit_region">个区域</string>
+
+    <string name="location_based_title">按位置</string>
+    <string name="location_based_subtitle">区域地震分析（自动搜索）</string>
+    <string name="location_search_placeholder">输入城市（输入后 3 秒自动搜索...）</string>
+    <string name="location_no_result">未找到符合您搜索条件的地震记录。</string>
+
+    <string name="map_preview_title">地震地图</string>
+    <string name="map_preview_subtitle">基于位置的地震分析</string>
+
+    <string name="chart_magnitude_title">📈 震级分布</string>
+    <string name="chart_last_24h">过去 24 小时</string>
+
+    <string name="info_tips_title">信息与提示</string>
+    <string name="info_tips_subtitle">防灾意识指南</string>
+
+    <string name="checklist_section_title">🎒 应急包检查</string>
+    <string name="checklist_item_food_title">水和罐头食品准备好了吗？</string>
+    <string name="checklist_item_food_desc">建议至少储备 3 天的用量。</string>
+
+    <string name="filter_1h">1 小时</string>
+    <string name="filter_6h">6 小时</string>
+    <string name="filter_24h">24 小时</string>
+    <string name="filter_7d">7 天</string>
+    <string name="filter_30d">30 天</string>
+
+    <string name="recent_earthquakes_title">🔄 最近地震 (%1$d)</string>
+    <string name="see_all">查看全部</string>
+
+    <!-- 地震列表 (EarthquakeListScreen) -->
+    <string name="seismic_flow_title">地震动态</string>
+    <string name="all_earthquakes_title">所有地震</string>
+    <string name="record_count">%1$d 条记录</string>
+    <string name="search_city_or_region">搜索城市或区域...</string>
+    <string name="filter_all">全部</string>
+    <string name="source_label">来源: %1$s</string>
+
+    <!-- 地震详情 (EarthquakeDetailScreen) -->
+    <string name="label_magnitude">震级</string>
+    <string name="label_depth">深度</string>
+    <string name="label_intensity">烈度</string>
+    <string name="label_perceived_intensity">感触烈度</string>
+    <string name="label_source">来源</string>
+    <string name="important_warning">⚠️ 重要提示</string>
+    <string name="show_more">展开更多</string>
+    <string name="show_less">收起</string>
+
+    <string name="whistle_title">紧急口哨</string>
+    <string name="whistle_desc">播放搜救警报声</string>
+    <string name="whistle_start">播放 🔊</string>
+    <string name="whistle_stop">停止</string>
+    <string name="share_earthquake_info">分享地震信息</string>
+    <string name="share_template">🚨 地震速报\n\n📍 位置: %1$s (%2$s)\n💥 震级: %3$.1f Mw\n📏 深度: %4$.1f km\n🕒 时间: %5$s - %6$s\n\n打开实时地震应用查看详情: https://anlikdepremler.com/earthquake/%7$s</string>
+
+    <!-- 广告 -->
+    <string name="ad_sponsored">赞助内容</string>
+    <string name="ad_label">广告</string>
+
+    <!-- 设置画面 (SettingsScreen) -->
+    <string name="settings_title">设置</string>
+    <string name="category_preferences">偏好与外观</string>
+    <string name="select_language">应用语言</string>
+    <string name="app_theme">应用主题</string>
+    <string name="theme_cream">奶油主题 🍦</string>
+    <string name="theme_system">跟随系统 📱</string>
+    <string name="theme_dark">深色夜间 🌙</string>
+    <string name="select_theme_dialog_title">选择应用主题</string>
+
+    <string name="category_notifications">通知与权限</string>
+    <string name="notification_settings">通知设置</string>
+    <string name="notification_settings_sub">管理地震预警偏好设置</string>
+    <string name="location_permissions">位置权限</string>
+    <string name="location_permissions_sub">用于查看附近的地震信息</string>
+
+    <string name="category_support">支持与社区</string>
+    <string name="buy_coffee">请喝咖啡 ☕</string>
+    <string name="buy_coffee_sub">支持开发者</string>
+    <string name="rate_app">评价应用</string>
+    <string name="rate_app_sub">在 Google Play Store 上评价</string>
+    <string name="share_app">分享应用</string>
+    <string name="share_app_sub">与家人和朋友分享</string>
+    <string name="send_feedback">发送反馈</string>
+    <string name="send_feedback_sub">提交错误和建议</string>
+    <string name="thanks_for_rating">感谢您的评价！</string>
+    <string name="thanks_for_coffee">☕ 感谢您的支持与咖啡！</string>
+
+    <string name="category_legal">法律与关于</string>
+    <string name="privacy_policy">隐私政策</string>
+    <string name="privacy_policy_sub">Firebase 数据与隐私条款</string>
+    <string name="terms_conditions">用户协议</string>
+    <string name="terms_conditions_sub">使用条款与条件</string>
+    <string name="privacy_header_title">您的数据安全对我们非常重要</string>
+    <string name="terms_header_title">使用条款与规则</string>
+    <string name="last_update">最后更新: 2026</string>
+    <string name="error_offline_text">请检查您的网络连接。</string>
+    <string name="error_load_text">无法加载文本，请重试。</string>
+
+    <!-- 地图画面 (MapScreen) -->
+    <string name="search_map_placeholder">在地图上搜索城市/区域...</string>
+    <string name="depth_label">深度: %1$.1f km</string>
+
+    <string name="source_emsc">EMSC 欧洲 🇪🇺</string>
+
+    <!-- 官方指南链接 -->
+    <string name="guide_afad_before_title">AFAD 地震防范准备指南</string>
+    <string name="guide_afad_before_desc">地震发生前应采取的官方措施及结构防护。</string>
+    <string name="guide_akut_bag_title">AKUT 应急包准备说明</string>
+    <string name="guide_akut_bag_desc">应急包内应具备的物品与食品标准。</string>
+    <string name="guide_kizilay_first_aid_title">红新月会 灾害急救指南</string>
+    <string name="guide_kizilay_first_aid_desc">震动期间及震后挽救生命的急救步骤。</string>
+
+    <!-- 紧急短信 -->
+    <string name="emergency_safe_btn">我很好，很安全 👍</string>
+    <string name="emergency_help_btn">需要紧急救援 🚨</string>
+    <string name="official_sources_title">🏛️ 官方机构参考</string>
+    <string name="emergency_contact_phone">紧急联系电话</string>
+    <string name="emergency_contact_phone_sub">发生灾害时发送短信的对象</string>
+    <string name="emergency_phone_title">紧急联系人</string>
+    <string name="emergency_phone_desc">请输入一个电话号码，地震发生时只需一键即可向该号码发送包含您位置的短信，以告知安全或寻求帮助。</string>
+    <string name="phone_number_hint">电话号码</string>
+    <string name="phone_privacy_notice">隐私说明：该号码仅保存在您的手机内存中，绝不会保存到我们的服务器上。</string>
+    <string name="not_set">尚未设置</string>
+    <string name="save">保存</string>
+    <string name="nearby_earthquake_title">在您附近检测到地震！</string>
+    <string name="nearby_earthquake_desc">请选择以下按钮之一，向亲友通报您的状态：</string>
+    <string name="btn_im_safe">我目前安全</string>
+    <string name="btn_need_help">请求救援</string>
+    <string name="permissions_title">需要 critical 权限</string>
+    <string name="permissions_desc">应用需要位置和通知权限，以便检测您附近的地震并发送紧急通知。</string>
+    <string name="btn_grant_permissions">授予权限</string>
+    <!-- 历史重大地震卡片 -->
+    <string name="historical_archive_title">历史重大地震</string>
+    <string name="historical_archive_subtitle">从古至今的破坏性地震档案</string>
+</resources>

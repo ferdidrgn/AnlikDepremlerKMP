@@ -1,0 +1,204 @@
+<resources>
+    <!-- Uygulama Genel -->
+    <string name="app_name">Anlık Depremler</string>
+    <string name="app_branding">Sarsıntı Takip</string>
+    <string name="version_text">v1.0.0 • Professional Edition</string>
+    <string name="back">Geri</string>
+    <string name="cancel">İptal</string>
+    <string name="close">Kapat</string>
+    <string name="retry">Tekrar Deneyin</string>
+    <string name="warning_offline">⚠️ İnternet bağlantısı yok! Son önbellek verileri gösteriliyor.</string>
+
+    <!-- Navigasyon Alt Bar -->
+    <string name="nav_home">Ana Sayfa</string>
+    <string name="nav_earthquakes">Depremler</string>
+    <string name="nav_map">Harita</string>
+    <string name="nav_settings">Ayarlar</string>
+
+    <!-- Splash & Onboarding -->
+    <string name="splash_title">Deprem Anlık</string>
+    <string name="splash_subtitle">Sismik Takip &amp; Erken Uyarı Sistemi</string>
+    <string name="onboarding_skip">Atla</string>
+    <string name="onboarding_next">İlerle</string>
+    <string name="onboarding_badge_1">🔴 CANLI SİSMİK</string>
+    <string name="onboarding_title_1">Sismik Takip\nGüvenli Ellerde</string>
+    <string name="onboarding_desc_1">Kandilli, AFAD ve USGS verileriyle 7/24 anlık sarsıntı analizi ve canlı fay hattı takibi.</string>
+    <string name="onboarding_float_title_1">Son Sarsıntı: Marmara</string>
+    <string name="onboarding_float_sub_1">4.2 Mw • 8.5 km derinlik</string>
+
+    <string name="onboarding_badge_2">📍 AKILLI KONUM</string>
+    <string name="onboarding_title_2">Erken Uyarı &amp;\nKonum Analizi</string>
+    <string name="onboarding_desc_2">Bölgenizdeki fay hatlarını inceleyin, 3 saniyede otomatik sorgulama ile güvende kalın.</string>
+    <string name="onboarding_float_title_2">Bölgesel Risk Haritası</string>
+    <string name="onboarding_float_sub_2">Yüksek hassasiyetli sismograf</string>
+
+    <string name="onboarding_badge_3">🎒 AFET BİLİNCİ</string>
+    <string name="onboarding_title_3">Güvende Kalın,\nHazırlıklı Olun!</string>
+    <string name="onboarding_desc_3">Acil durum çantası kontrol listesi ve hayat kurtaran çök-kapan-tutun rehberleri ile ailenizin güvenliğini şansa bırakmayın.</string>
+    <string name="onboarding_float_title_3">Acil Durum Çantası Kontrolü</string>
+    <string name="onboarding_float_sub_3">Stok durumu %100 hazır ve güncel</string>
+
+    <!-- Ana Sayfa (HomeScreen) -->
+    <string name="header_subtitle">Sarsıntı Takip</string>
+    <string name="header_title">Güvende Kalın 👋</string>
+    <string name="live_data">CANLI VERİ</string>
+    <string name="data_source_title">Deprem Veri Kaynağı</string>
+    <string name="source_kandilli">Kandilli 🏢</string>
+    <string name="source_afad">AFAD 🚨</string>
+    <string name="source_turkey_all">Türkiye Karışık 🌐</string>
+    <string name="source_usgs">USGS Dünya 🌍</string>
+    <string name="source_world_igp">Dünya (IGP) 🌍</string>
+
+    <string name="hero_guide_tag">ÖNEMLİ REHBER</string>
+    <string name="hero_guide_title">Deprem Anında Yapılması Gerekenler</string>
+    <string name="hero_guide_desc">Hayat kurtaran 3 altın kuralı hemen inceleyin.</string>
+
+    <string name="daily_summary_title">Günün Özeti</string>
+    <string name="daily_summary_subtitle">Sismik Hareketlilik Raporu</string>
+    <string name="total_today">Bugün Toplam</string>
+    <string name="highest">En Yüksek</string>
+
+    <string name="detailed_stats_title">📊 Detaylı İstatistikler</string>
+    <string name="stat_today">Bugün</string>
+    <string name="stat_week">Hafta</string>
+    <string name="stat_month">Ay</string>
+    <string name="stat_avg">Ortalama</string>
+    <string name="stat_max">En Büyük</string>
+    <string name="stat_active">En Aktif</string>
+    <string name="unit_earthquake">deprem</string>
+    <string name="unit_region">bölge</string>
+
+    <string name="location_based_title">Konuma Göre</string>
+    <string name="location_based_subtitle">Bölgesel Deprem Analizi (Otomatik Arama)</string>
+    <string name="location_search_placeholder">Şehir giriniz (Yazdıktan 3 sn sonra aranır...)</string>
+    <string name="location_no_result">Aramanıza uygun deprem kaydı bulunamadı.</string>
+
+    <string name="map_preview_title">Deprem Haritası</string>
+    <string name="map_preview_subtitle">Konum bazlı sismik inceleme</string>
+
+    <string name="chart_magnitude_title">📈 Büyüklük Dağılımı</string>
+    <string name="chart_last_24h">Son 24 Saat</string>
+
+    <string name="info_tips_title">Bilgi &amp; İpuçları</string>
+    <string name="info_tips_subtitle">Afet Bilinçlendirme Rehberi</string>
+
+    <string name="checklist_section_title">🎒 Acil Durum Çantası Kontrolü</string>
+    <string name="checklist_item_food_title">Su ve Konserve Gıda Hazır mı?</string>
+    <string name="checklist_item_food_desc">En az 3 günlük stok önerilir.</string>
+
+    <string name="filter_1h">1 Saat</string>
+    <string name="filter_6h">6 Saat</string>
+    <string name="filter_24h">24 Saat</string>
+    <string name="filter_7d">7 Gün</string>
+    <string name="filter_30d">30 Gün</string>
+
+    <string name="recent_earthquakes_title">🔄 Son Depremler (%1$d)</string>
+    <string name="see_all">Tümünü Gör</string>
+
+    <!-- Deprem Listesi (EarthquakeListScreen) -->
+    <string name="seismic_flow_title">Sismik Akış</string>
+    <string name="all_earthquakes_title">Tüm Depremler</string>
+    <string name="record_count">%1$d Kayıt</string>
+    <string name="search_city_or_region">Şehir veya bölge ara...</string>
+    <string name="filter_all">Tümü</string>
+    <string name="source_label">Kaynak: %1$s</string>
+
+    <!-- Deprem Detay (EarthquakeDetailScreen) -->
+    <string name="label_magnitude">Büyüklük</string>
+    <string name="label_depth">Derinlik</string>
+    <string name="label_intensity">Şiddet</string>
+    <string name="label_perceived_intensity">Hissedilen Şiddet</string>
+    <string name="label_source">Kaynak</string>
+    <string name="important_warning">⚠️ ÖNEMLİ</string>
+    <string name="show_more">Daha Fazla</string>
+    <string name="show_less">Daha Az</string>
+
+    <string name="whistle_title">Acil Durum Düdüğü</string>
+    <string name="whistle_desc">Arama kurtarma ikaz sireni çalar</string>
+    <string name="whistle_start">ÇAL 🔊</string>
+    <string name="whistle_stop">DURDUR</string>
+    <string name="share_earthquake_info">Deprem Bilgisini Paylaş</string>
+    <string name="share_template">🚨 DEPREM BİLDİRİMİ\n\n📍 Konum: %1$s (%2$s)\n💥 Büyüklük: %3$.1f Mw\n📏 Derinlik: %4$.1f km\n🕒 Zaman: %5$s - %6$s\n\nDetaylar için Anlık Depremler uygulamasını açın: https://anlikdepremler.com/earthquake/%7$s</string>
+
+    <!-- Reklamlar -->
+    <string name="ad_sponsored">SPONSORLU</string>
+    <string name="ad_label">Reklam</string>
+
+    <!-- Ayarlar Ekranı (SettingsScreen) -->
+    <string name="settings_title">Ayarlar</string>
+    <string name="category_preferences">TERCİHLER &amp; GÖRÜNÜM</string>
+    <string name="select_language">Uygulama Dili</string>
+    <string name="app_theme">Uygulama Teması</string>
+    <string name="theme_cream">Krem Tema 🍦</string>
+    <string name="theme_system">Sistem Rengi 📱</string>
+    <string name="theme_dark">Koyu Gece 🌙</string>
+    <string name="select_theme_dialog_title">Uygulama Teması Seçin</string>
+
+    <string name="category_notifications">BİLDİRİMLER &amp; İZİNLER</string>
+    <string name="notification_settings">Bildirim Ayarları</string>
+    <string name="notification_settings_sub">Deprem uyarısı tercihlerini yönetin</string>
+    <string name="location_permissions">Konum İzinleri</string>
+    <string name="location_permissions_sub">Yakındaki sarsıntıları görmek için gereklidir</string>
+
+    <string name="category_support">DESTEK &amp; TOPLULUK</string>
+    <string name="buy_coffee">Kahve Ismarla ☕</string>
+    <string name="buy_coffee_sub">Geliştiriciye destek olun</string>
+    <string name="rate_app">Uygulamayı Değerlendir</string>
+    <string name="rate_app_sub">Google Play Store\'da değerlendirin</string>
+    <string name="share_app">Uygulamayı Paylaş</string>
+    <string name="share_app_sub">Aileniz ve sevdiklerinizle paylaşın</string>
+    <string name="send_feedback">Geri Bildirim Gönder</string>
+    <string name="send_feedback_sub">Hata ve önerilerinizi iletin</string>
+    <string name="thanks_for_rating">Değerlendirmeniz için teşekkürler!</string>
+    <string name="thanks_for_coffee">☕ Destek olduğunuz ve kahve ısmarladığınız için teşekkürler!</string>
+
+    <string name="category_legal">YASAL &amp; HAKKINDA</string>
+    <string name="privacy_policy">Gizlilik Politikası</string>
+    <string name="privacy_policy_sub">Firebase verileri ve gizlilik metni</string>
+    <string name="terms_conditions">Kullanıcı Sözleşmesi</string>
+    <string name="terms_conditions_sub">Kullanım şartları ve koşullar</string>
+    <string name="privacy_header_title">Veri Güvenliğiniz Bizim İçin Önemli</string>
+    <string name="terms_header_title">Kullanım Şartları &amp; Kurallar</string>
+    <string name="last_update">Son Güncelleme: 2026</string>
+    <string name="error_offline_text">Lütfen internet bağlantınızı kontrol ediniz.</string>
+    <string name="error_load_text">Metin yüklenemedi. Lütfen tekrar deneyiniz.</string>
+
+    <!-- Harita Ekranı (MapScreen) -->
+    <string name="search_map_placeholder">Haritada Şehir/Bölge Ara...</string>
+    <string name="depth_label">Derinlik: %1$.1f km</string>
+
+    <string name="source_emsc">EMSC Avrupa 🇪🇺</string>
+
+    <!-- Resmi Rehber Bağlantıları -->
+    <string name="guide_afad_before_title">AFAD Deprem Öncesi Hazırlık Rehberi</string>
+    <string name="guide_afad_before_desc">Deprem öncesinde alınması gereken resmi tedbirler ve yapısal önlemler.</string>
+    <string name="guide_akut_bag_title">AKUT Deprem Çantası Hazırlama</string>
+    <string name="guide_akut_bag_desc">Acil durum çantasında bulunması gereken malzeme ve gıda standartları.</string>
+    <string name="guide_kizilay_first_aid_title">Kızılay Afet İlkyardım Taktikleri</string>
+    <string name="guide_kizilay_first_aid_desc">Sarsıntı anında ve sonrasında hayat kurtaran ilkyardım adımları.</string>
+
+    <!-- Acil Durum SMS -->
+    <string name="emergency_safe_btn">İyiyim, Güvendeyim 👍</string>
+    <string name="emergency_help_btn">Acil Yardıma İhtiyacım Var 🚨</string>
+    <string name="official_sources_title">🏛️ Resmi Kurum Referansları</string>
+
+    <string name="emergency_contact_phone">Acil Durum Numarası</string>
+    <string name="emergency_contact_phone_sub">Afet anında SMS gönderilecek kişi</string>
+    <string name="emergency_phone_title">Acil Durum Kişisi</string>
+    <string name="emergency_phone_desc">Deprem anında tek tıkla güvende olduğunuzu veya yardım isteğinizi konumunuzla birlikte SMS atacağımız numarayı girin.</string>
+    <string name="phone_number_hint">Telefon Numarası</string>
+    <string name="phone_privacy_notice">Gizlilik Uyarısı: Bu numara sadece telefonunuzun hafızasında saklanır, sunucularımıza ASLA kaydedilmez.</string>
+    <string name="not_set">Henüz Eklenmedi</string>
+    <string name="save">Kaydet</string>
+    <string name="nearby_earthquake_title">Yakınınızda Deprem Algılandı!</string>
+    <string name="nearby_earthquake_desc">Durumunuzu yakınlarınıza bildirmek için lütfen aşağıdaki butonlardan birini seçin:</string>
+    <string name="btn_im_safe">Güvendeyim</string>
+    <string name="btn_need_help">Yardım İsteyin</string>
+    <string name="permissions_title">Hayati İzinler Gereklidir</string>
+    <string name="permissions_desc">Anlık Depremler uygulamasının yakınınızdaki sarsıntıları algılayıp size acil durum bildirimi gönderebilmesi için Konum ve Bildirim izinlerine ihtiyacı vardır.</string>
+    <string name="btn_grant_permissions">İzinleri Ver</string>
+
+    <!-- Tarihte Büyük Depremler Kartı -->
+    <string name="historical_archive_title">Tarihte Büyük Depremler</string>
+    <string name="historical_archive_subtitle">Geçmişten günümüze yıkıcı sismik arşiv</string>
+</resources>

@@ -1,0 +1,201 @@
+<resources>
+    <!-- General App -->
+    <string name="app_name">Instant Earthquakes</string>
+    <string name="app_branding">Quake Tracker</string>
+    <string name="version_text">v1.0.0 • Professional Edition</string>
+    <string name="back">Back</string>
+    <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
+    <string name="retry">Try Again</string>
+    <string name="warning_offline">⚠️ No internet connection! Showing cached data.</string>
+
+    <!-- Bottom Navigation Bar -->
+    <string name="nav_home">Home</string>
+    <string name="nav_earthquakes">Earthquakes</string>
+    <string name="nav_map">Map</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Splash &amp; Onboarding -->
+    <string name="splash_title">Instant Quake</string>
+    <string name="splash_subtitle">Seismic Tracking &amp; Early Warning System</string>
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_badge_1">🔴 LIVE SEISMIC</string>
+    <string name="onboarding_title_1">Seismic Tracking\nin Safe Hands</string>
+    <string name="onboarding_desc_1">24/7 instant quake analysis and live fault line tracking with Kandilli, AFAD and USGS data.</string>
+    <string name="onboarding_float_title_1">Latest Quake: Marmara</string>
+    <string name="onboarding_float_sub_1">4.2 Mw • 8.5 km depth</string>
+
+    <string name="onboarding_badge_2">📍 SMART LOCATION</string>
+    <string name="onboarding_title_2">Early Warning &amp;\nLocation Analysis</string>
+    <string name="onboarding_desc_2">Examine fault lines in your area, stay safe with auto-querying in 3 seconds.</string>
+    <string name="onboarding_float_title_2">Regional Risk Map</string>
+    <string name="onboarding_float_sub_2">High-precision seismograph</string>
+
+    <string name="onboarding_badge_3">🎒 DISASTER AWARENESS</string>
+    <string name="onboarding_title_3">Stay Safe,\nBe Prepared!</string>
+    <string name="onboarding_desc_3">Do not leave your family\'s safety to chance with emergency kit checklists and life-saving guides.</string>
+    <string name="onboarding_float_title_3">Emergency Kit Check</string>
+    <string name="onboarding_float_sub_3">Stock status 100% ready and updated</string>
+
+    <!-- Home Screen -->
+    <string name="header_subtitle">Quake Tracker</string>
+    <string name="header_title">Stay Safe 👋</string>
+    <string name="live_data">LIVE DATA</string>
+    <string name="data_source_title">Earthquake Data Source</string>
+    <string name="source_kandilli">Kandilli 🏢</string>
+    <string name="source_afad">AFAD 🚨</string>
+    <string name="source_turkey_all">Turkey All 🌐</string>
+    <string name="source_usgs">USGS World 🌍</string>
+    <string name="source_world_igp">World (IGP) 🌍</string>
+
+    <string name="hero_guide_tag">IMPORTANT GUIDE</string>
+    <string name="hero_guide_title">What to Do During an Earthquake</string>
+    <string name="hero_guide_desc">Review the 3 golden life-saving rules immediately.</string>
+
+    <string name="daily_summary_title">Today\'s Summary</string>
+    <string name="daily_summary_subtitle">Seismic Activity Report</string>
+    <string name="total_today">Total Today</string>
+    <string name="highest">Highest</string>
+
+    <string name="detailed_stats_title">📊 Detailed Statistics</string>
+    <string name="stat_today">Today</string>
+    <string name="stat_week">Week</string>
+    <string name="stat_month">Month</string>
+    <string name="stat_avg">Average</string>
+    <string name="stat_max">Max Size</string>
+    <string name="stat_active">Most Active</string>
+    <string name="unit_earthquake">quakes</string>
+    <string name="unit_region">region</string>
+
+    <string name="location_based_title">By Location</string>
+    <string name="location_based_subtitle">Regional Quake Analysis (Auto Search)</string>
+    <string name="location_search_placeholder">Enter city (Searches 3s after typing...)</string>
+    <string name="location_no_result">No earthquake records found matching your search.</string>
+
+    <string name="map_preview_title">Quake Map</string>
+    <string name="map_preview_subtitle">Location-based seismic inspection</string>
+
+    <string name="chart_magnitude_title">📈 Magnitude Distribution</string>
+    <string name="chart_last_24h">Last 24 Hours</string>
+
+    <string name="info_tips_title">Info &amp; Tips</string>
+    <string name="info_tips_subtitle">Disaster Awareness Guide</string>
+
+    <string name="checklist_section_title">🎒 Emergency Kit Checklist</string>
+    <string name="checklist_item_food_title">Is Water &amp; Canned Food Ready?</string>
+    <string name="checklist_item_food_desc">At least 3 days of supply recommended.</string>
+
+    <string name="filter_1h">1 Hour</string>
+    <string name="filter_6h">6 Hours</string>
+    <string name="filter_24h">24 Hours</string>
+    <string name="filter_7d">7 Days</string>
+    <string name="filter_30d">30 Days</string>
+
+    <string name="recent_earthquakes_title">🔄 Recent Earthquakes (%1$d)</string>
+    <string name="see_all">See All</string>
+
+    <!-- Earthquake List Screen -->
+    <string name="seismic_flow_title">Seismic Flow</string>
+    <string name="all_earthquakes_title">All Earthquakes</string>
+    <string name="record_count">%1$d Records</string>
+    <string name="search_city_or_region">Search city or region...</string>
+    <string name="filter_all">All</string>
+    <string name="source_label">Source: %1$s</string>
+
+    <!-- Earthquake Detail Screen -->
+    <string name="label_magnitude">Magnitude</string>
+    <string name="label_depth">Depth</string>
+    <string name="label_intensity">Intensity</string>
+    <string name="label_perceived_intensity">Perceived Intensity</string>
+    <string name="label_source">Source</string>
+    <string name="important_warning">⚠️ IMPORTANT</string>
+    <string name="show_more">Show More</string>
+    <string name="show_less">Show Less</string>
+
+    <string name="whistle_title">Emergency Whistle</string>
+    <string name="whistle_desc">Sounds search and rescue warning siren</string>
+    <string name="whistle_start">PLAY 🔊</string>
+    <string name="whistle_stop">STOP</string>
+    <string name="share_earthquake_info">Share Earthquake Info</string>
+    <string name="share_template">🚨 EARTHQUAKE ALERT\n\n📍 Location: %1$s (%2$s)\n💥 Magnitude: %3$.1f Mw\n📏 Depth: %4$.1f km\n🕒 Time: %5$s - %6$s\n\nOpen Instant Earthquakes app for details: https://anlikdepremler.com/earthquake/%7$s</string>
+
+    <!-- Ads -->
+    <string name="ad_sponsored">SPONSORED</string>
+    <string name="ad_label">Ad</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_title">Settings</string>
+    <string name="category_preferences">PREFERENCES &amp; APPEARANCE</string>
+    <string name="select_language">App Language</string>
+    <string name="app_theme">App Theme</string>
+    <string name="theme_cream">Cream Theme 🍦</string>
+    <string name="theme_system">System Dynamic 📱</string>
+    <string name="theme_dark">Dark Night 🌙</string>
+    <string name="select_theme_dialog_title">Select App Theme</string>
+
+    <string name="category_notifications">NOTIFICATIONS &amp; PERMISSIONS</string>
+    <string name="notification_settings">Notification Settings</string>
+    <string name="notification_settings_sub">Manage earthquake alert preferences</string>
+    <string name="location_permissions">Location Permissions</string>
+    <string name="location_permissions_sub">Required to see nearby earthquakes</string>
+
+    <string name="category_support">SUPPORT &amp; COMMUNITY</string>
+    <string name="buy_coffee">Buy a Coffee ☕</string>
+    <string name="buy_coffee_sub">Support the developer</string>
+    <string name="rate_app">Rate the App</string>
+    <string name="rate_app_sub">Rate us on Google Play Store</string>
+    <string name="share_app">Share App</string>
+    <string name="share_app_sub">Share with family and loved ones</string>
+    <string name="send_feedback">Send Feedback</string>
+    <string name="send_feedback_sub">Report bugs and suggestions</string>
+    <string name="thanks_for_rating">Thank you for your rating!</string>
+    <string name="thanks_for_coffee">☕ Thank you for your support and buying a coffee!</string>
+
+    <string name="category_legal">LEGAL &amp; ABOUT</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="privacy_policy_sub">Firebase data and privacy policy</string>
+    <string name="terms_conditions">Terms &amp; Conditions</string>
+    <string name="terms_conditions_sub">Usage terms and guidelines</string>
+    <string name="privacy_header_title">Your Data Security Matters</string>
+    <string name="terms_header_title">Terms of Use &amp; Rules</string>
+    <string name="last_update">Last Updated: 2026</string>
+    <string name="error_offline_text">Please check your internet connection.</string>
+    <string name="error_load_text">Text failed to load. Please try again.</string>
+
+    <!-- Map Screen -->
+    <string name="search_map_placeholder">Search City/Region on Map...</string>
+    <string name="depth_label">Depth: %1$.1f km</string>
+    <string name="source_emsc">EMSC Europe 🇪🇺</string>
+
+    <!-- Official Guide Links -->
+    <string name="guide_afad_before_title">AFAD Pre-Earthquake Preparedness Guide</string>
+    <string name="guide_afad_before_desc">Official measures and structural precautions to take before an earthquake.</string>
+    <string name="guide_akut_bag_title">AKUT Emergency Bag Preparation</string>
+    <string name="guide_akut_bag_desc">Material and food standards required for an emergency bag.</string>
+    <string name="guide_kizilay_first_aid_title">Red Crescent Disaster First Aid Tactics</string>
+    <string name="guide_kizilay_first_aid_desc">Life-saving first aid steps during and after tremors.</string>
+
+    <!-- Emergency SMS -->
+    <string name="emergency_safe_btn">I\'m Fine, I\'m Safe 👍</string>
+    <string name="emergency_help_btn">I Need Emergency Help 🚨</string>
+    <string name="official_sources_title">🏛️ Official Institution References</string>
+    <string name="emergency_contact_phone">Emergency Contact Number</string>
+    <string name="emergency_contact_phone_sub">Person to send SMS in case of disaster</string>
+    <string name="emergency_phone_title">Emergency Contact</string>
+    <string name="emergency_phone_desc">Enter the number we will send an SMS with your location to indicate you are safe or request help with a single click during an earthquake.</string>
+    <string name="phone_number_hint">Phone Number</string>
+    <string name="phone_privacy_notice">Privacy Notice: This number is stored only in your phone\'s memory and is NEVER saved on our servers.</string>
+    <string name="not_set">Not Set Yet</string>
+    <string name="save">Save</string>
+    <string name="nearby_earthquake_title">Earthquake Detected Nearby!</string>
+    <string name="nearby_earthquake_desc">Please select one of the buttons below to notify your loved ones of your status:</string>
+    <string name="btn_im_safe">I\'m Safe</string>
+    <string name="btn_need_help">Request Help</string>
+    <string name="permissions_title">Vital Permissions Required</string>
+    <string name="permissions_desc">The Earthquakes app needs Location and Notification permissions to detect tremors near you and send emergency notifications.</string>
+    <string name="btn_grant_permissions">Grant Permissions</string>
+    <!-- Major Historical Earthquakes Card -->
+    <string name="historical_archive_title">Major Historical Earthquakes</string>
+    <string name="historical_archive_subtitle">Devastating seismic archive from past to present</string>
+</resources>

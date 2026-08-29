@@ -1,0 +1,202 @@
+<resources>
+    <!-- Загальні -->
+    <string name="app_name">Миттєві Землетруси</string>
+    <string name="app_branding">Моніторинг Поштовхів</string>
+    <string name="version_text">v1.0.0 • Професійна версія</string>
+    <string name="back">Назад</string>
+    <string name="cancel">Скасувати</string>
+    <string name="close">Закрити</string>
+    <string name="retry">Спробувати знову</string>
+    <string name="warning_offline">⚠️ Немає з\'єднання з інтернетом! Відображаються кешовані дані.</string>
+
+    <!-- Навігація -->
+    <string name="nav_home">Головна</string>
+    <string name="nav_earthquakes">Землетруси</string>
+    <string name="nav_map">Карта</string>
+    <string name="nav_settings">Налаштування</string>
+
+    <!-- Splash та Ознайомлення -->
+    <string name="splash_title">Миттєвий Сейсмо</string>
+    <string name="splash_subtitle">Сейсмічний Моніторинг та Раннє Оповіщення</string>
+    <string name="onboarding_skip">Пропустити</string>
+    <string name="onboarding_next">Далі</string>
+    <string name="onboarding_badge_1">🔴 НАЖИВО СЕЙСМІКА</string>
+    <string name="onboarding_title_1">Сейсмомоніторинг\nу надійних руках</string>
+    <string name="onboarding_desc_1">Цілодобовий аналіз поштовхів та відстеження розломів з даними Kandilli, AFAD та USGS.</string>
+    <string name="onboarding_float_title_1">Останній поштовх: Мармурове море</string>
+    <string name="onboarding_float_sub_1">4.2 Mw • 8.5 км глибина</string>
+
+    <string name="onboarding_badge_2">📍 РОЗУМНА ЛОКАЦІЯ</string>
+    <string name="onboarding_title_2">Раннє Оповіщення та\nАналіз Локації</string>
+    <string name="onboarding_desc_2">Досліджуйте лінії розломів у вашому регіоні та залишайтеся у безпеці з запитом за 3 секунди.</string>
+    <string name="onboarding_float_title_2">Карта Регіональних Ризиків</string>
+    <string name="onboarding_float_sub_2">Високоточний сейсмограф</string>
+
+    <string name="onboarding_badge_3">🎒 БЕЗПЕКА</string>
+    <string name="onboarding_title_3">Будьте у безпеці,\nбудьте готові!</string>
+    <string name="onboarding_desc_3">Не залишайте безпеку родини напризволяще завдяки чек-листу тривожної валізки.</string>
+    <string name="onboarding_float_title_3">Перевірка Тривожного Набору</string>
+    <string name="onboarding_float_sub_3">Запас готовий на 100% та оновлений</string>
+
+    <!-- Головна сторінка -->
+    <string name="header_subtitle">Моніторинг Поштовхів</string>
+    <string name="header_title">Будьте у безпеці 👋</string>
+    <string name="live_data">ПРЯМИЙ ЕФІР</string>
+    <string name="data_source_title">Джерело Сейсмоданих</string>
+    <string name="source_kandilli">Канділлі 🏢</string>
+    <string name="source_afad">AFAD 🚨</string>
+    <string name="source_turkey_all">Туреччина Змішаний 🌐</string>
+    <string name="source_usgs">USGS Світ 🌍</string>
+    <string name="source_world_igp">Світ (IGP) 🌍</string>
+
+    <string name="hero_guide_tag">ВАЖЛИВИЙ ГІД</string>
+    <string name="hero_guide_title">Що робити під час землетрусу</string>
+    <string name="hero_guide_desc">Ознайомтеся з 3 золотими правилами, що рятують життя.</string>
+
+    <string name="daily_summary_title">Підсумки Дня</string>
+    <string name="daily_summary_subtitle">Звіт про Сейсмічну Активність</string>
+    <string name="total_today">Усього за день</string>
+    <string name="highest">Найвища</string>
+
+    <string name="detailed_stats_title">📊 Детальна Статистика</string>
+    <string name="stat_today">Сьогодні</string>
+    <string name="stat_week">Тиждень</string>
+    <string name="stat_month">Місяць</string>
+    <string name="stat_avg">Середня</string>
+    <string name="stat_max">Макс. сила</string>
+    <string name="stat_active">Активний регіон</string>
+    <string name="unit_earthquake">поштовхів</string>
+    <string name="unit_region">регіон</string>
+
+    <string name="location_based_title">За Локацією</string>
+    <string name="location_based_subtitle">Регіональний Аналіз (Автопошук)</string>
+    <string name="location_search_placeholder">Введіть місто (Пошук через 3 сек...)</string>
+    <string name="location_no_result">Записів про землетруси не знайдено.</string>
+
+    <string name="map_preview_title">Карта Землетрусів</string>
+    <string name="map_preview_subtitle">Сейсмоаналіз за місцем розташування</string>
+
+    <string name="chart_magnitude_title">📈 Розподіл Магнітуди</string>
+    <string name="chart_last_24h">За останні 24 години</string>
+
+    <string name="info_tips_title">Інфо та Поради</string>
+    <string name="info_tips_subtitle">Керівництво з Безпеки</string>
+
+    <string name="checklist_section_title">🎒 Чек-лист Тривожного Набору</string>
+    <string name="checklist_item_food_title">Вода та консерви готові?</string>
+    <string name="checklist_item_food_desc">Рекомендується запас щонайменше на 3 дні.</string>
+
+    <string name="filter_1h">1 Година</string>
+    <string name="filter_6h">6 Годин</string>
+    <string name="filter_24h">24 Години</string>
+    <string name="filter_7d">7 Днів</string>
+    <string name="filter_30d">30 Днів</string>
+
+    <string name="recent_earthquakes_title">🔄 Останні Землетруси (%1$d)</string>
+    <string name="see_all">Дивитися все</string>
+
+    <!-- Список землетрусів -->
+    <string name="seismic_flow_title">Сейсмічний Потік</string>
+    <string name="all_earthquakes_title">Усі Землетруси</string>
+    <string name="record_count">%1$d Записів</string>
+    <string name="search_city_or_region">Пошук міста або регіону...</string>
+    <string name="filter_all">Усі</string>
+    <string name="source_label">Джерело: %1$s</string>
+
+    <!-- Деталі -->
+    <string name="label_magnitude">Магнітуда</string>
+    <string name="label_depth">Глибина</string>
+    <string name="label_intensity">Інтенсивність</string>
+    <string name="label_perceived_intensity">Відчутна сила</string>
+    <string name="label_source">Джерело</string>
+    <string name="important_warning">⚠️ ВАЖЛИВО</string>
+    <string name="show_more">Показати більше</string>
+    <string name="show_less">Показати менше</string>
+
+    <string name="whistle_title">Аварійний Свисток</string>
+    <string name="whistle_desc">Вмикає сирену пошуково-рятувальних служб</string>
+    <string name="whistle_start">УВІМКНУТИ 🔊</string>
+    <string name="whistle_stop">СТОП</string>
+    <string name="share_earthquake_info">Поділитися Інформацією</string>
+    <string name="share_template">🚨 ПОПЕРЕДЖЕННЯ ПРО ЗЕМЛЕТРУС\n\n📍 Локація: %1$s (%2$s)\n💥 Магнітуда: %3$.1f Mw\n📏 Глибина: %4$.1f км\n🕒 Час: %5$s - %6$s\n\nПодробиці у додатку Миттєві Землетруси: https://anlikdepremler.com/earthquake/%7$s</string>
+
+    <!-- Реклама -->
+    <string name="ad_sponsored">СПИСАНИЙ КОНТЕНТ</string>
+    <string name="ad_label">Реклама</string>
+
+    <!-- Налаштування -->
+    <string name="settings_title">Налаштування</string>
+    <string name="category_preferences">НАЛАШТУВАННЯ ТА ЗОВНІШНІЙ ВИГЛЯД</string>
+    <string name="select_language">Мова Додатка</string>
+    <string name="app_theme">Тема Оформлення</string>
+    <string name="theme_cream">Кремова 🍦</string>
+    <string name="theme_system">Системна 📱</string>
+    <string name="theme_dark">Темна Ніч 🌙</string>
+    <string name="select_theme_dialog_title">Оберіть Тему</string>
+
+    <string name="category_notifications">СПОВІЩЕННЯ ТА ДОЗВОЛИ</string>
+    <string name="notification_settings">Налаштування Сповіщень</string>
+    <string name="notification_settings_sub">Управління сповіщеннями про землетруси</string>
+    <string name="location_permissions">Дозволи Локації</string>
+    <string name="location_permissions_sub">Необхідно для перегляду поштовхів поблизу</string>
+
+    <string name="category_support">ПІДТРИМКА ТА СПІЛЬНОТА</string>
+    <string name="buy_coffee">Пригостити Кавою ☕</string>
+    <string name="buy_coffee_sub">Підтримати розробника</string>
+    <string name="rate_app">Оцінити Додаток</string>
+    <string name="rate_app_sub">Оцініть нас у Google Play Store</string>
+    <string name="share_app">Поділитися Додатком</string>
+    <string name="share_app_sub">Розповісти друзям та близьким</string>
+    <string name="send_feedback">Надіслати Відгук</string>
+    <string name="send_feedback_sub">Повідомити про помилку або запропонувати ідею</string>
+    <string name="thanks_for_rating">Дякуємо за вашу оцінку!</string>
+    <string name="thanks_for_coffee">☕ Дякуємо за вашу підтримку та чашку кави!</string>
+
+    <string name="category_legal">ПРАВОВА ІНФОРМАЦІЯ</string>
+    <string name="privacy_policy">Політика Конфіденційності</string>
+    <string name="privacy_policy_sub">Дані Firebase та конфіденційність</string>
+    <string name="terms_conditions">Умови Використання</string>
+    <string name="terms_conditions_sub">Правила та умови сервісу</string>
+    <string name="privacy_header_title">Безпека ваших даних важлива для нас</string>
+    <string name="terms_header_title">Правила Використання</string>
+    <string name="last_update">Останнє оновлення: 2026</string>
+    <string name="error_offline_text">Будь ласка, перевірте з\'єднання з інтернетом.</string>
+    <string name="error_load_text">Не вдалося завантажити текст. Спробуйте ще раз.</string>
+
+    <!-- Карта -->
+    <string name="search_map_placeholder">Пошук міста/регіону на карті...</string>
+    <string name="depth_label">Глибина: %1$.1f км</string>
+    <string name="source_emsc">EMSC Європа 🇪🇺</string>
+
+
+    <!-- Офіційні Посібники -->
+    <string name="guide_afad_before_title">Посібник AFAD із підготовки до землетрусу</string>
+    <string name="guide_afad_before_desc">Офіційні заходи та конструктивні застереження перед землетрусом.</string>
+    <string name="guide_akut_bag_title">Збір тривожної валізи AKUT</string>
+    <string name="guide_akut_bag_desc">Стандарти матеріалів та продуктів харчування для екстреного рюкзака.</string>
+    <string name="guide_kizilay_first_aid_title">Перша допомога від Червоного Півмісяця</string>
+    <string name="guide_kizilay_first_aid_desc">Кроки першої допомоги під час та після поштовхів.</string>
+
+    <!-- Екстрене SMS -->
+    <string name="emergency_safe_btn">Я в порядку, я в безпеці 👍</string>
+    <string name="emergency_help_btn">Мені потрібна термінова допомога 🚨</string>
+    <string name="official_sources_title">🏛️ Офіційні джерела</string>
+    <string name="emergency_contact_phone">Номер екстреного контакту</string>
+    <string name="emergency_contact_phone_sub">Особа для надсилання СМС у разі лиха</string>
+    <string name="emergency_phone_title">Екстрений контакт</string>
+    <string name="emergency_phone_desc">Введіть номер, на який ми надішлемо СМС із вашим місцезнаходженням, щоб повідомити, що ви в безпеці, або попросити про допомогу одним кліком під час землетрусу.</string>
+    <string name="phone_number_hint">Номер телефону</string>
+    <string name="phone_privacy_notice">Повідомлення про конфіденційність: Цей номер зберігається лише в пам’яті вашого телефону та НІКОЛИ не зберігається на наших серверах.</string>
+    <string name="not_set">Ще не встановлено</string>
+    <string name="save">Зберегти</string>
+    <string name="nearby_earthquake_title">Поблизу виявлено землетрус!</string>
+    <string name="nearby_earthquake_desc">Будь ласка, виберіть одну з кнопок нижче, щоб повідомити про свій статус близким:</string>
+    <string name="btn_im_safe">Я в безпеці</string>
+    <string name="btn_need_help">Попросити про допомогу</string>
+    <string name="permissions_title">Необхідні життєво важливі дозволи</string>
+    <string name="permissions_desc">Додатку потрібні дозволи на Місцезнаходження та Сповіщення для виявлення поштовхів поблизу вас і надсилання екстрених сповіщень.</string>
+    <string name="btn_grant_permissions">Надати дозволи</string>
+    <!-- Картка найбільших історичних землетрусів -->
+    <string name="historical_archive_title">Найбільші історичні землетруси</string>
+    <string name="historical_archive_subtitle">Руйнівний сейсмічний архів від минулого до сьогодення</string>
+</resources>

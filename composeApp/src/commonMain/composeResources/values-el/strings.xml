@@ -1,0 +1,202 @@
+<resources>
+    <!-- Γενικά -->
+    <string name="app_name">Άμεσοι Σεισμοί</string>
+    <string name="app_branding">Παρακολούθηση Σεισμών</string>
+    <string name="version_text">v1.0.0 • Επαγγελματική Έκδοση</string>
+    <string name="back">Πίσω</string>
+    <string name="cancel">Ακύρωση</string>
+    <string name="close">Κλείσιμο</string>
+    <string name="retry">Δοκιμάστε ξανά</string>
+    <string name="warning_offline">⚠️ Χωρίς σύνδεση στο διαδίκτυο! Εμφάνιση αποθηκευμένων δεδομένων.</string>
+
+    <!-- Πλοήγηση -->
+    <string name="nav_home">Αρχική</string>
+    <string name="nav_earthquakes">Σεισμοί</string>
+    <string name="nav_map">Χάρτης</string>
+    <string name="nav_settings">Ρυθμίσεις</string>
+
+    <!-- Splash & Οδηγός -->
+    <string name="splash_title">Άμεσος Σεισμός</string>
+    <string name="splash_subtitle">Σεισμική Παρακολούθηση &amp; Σύστημα Έγκαιρης Προειδοποίησης</string>
+    <string name="onboarding_skip">Παράκαμψη</string>
+    <string name="onboarding_next">Επόμενο</string>
+    <string name="onboarding_badge_1">🔴 ΖΩΝΤΑΝΑ ΣΕΙΣΜΙΚΑ</string>
+    <string name="onboarding_title_1">Σεισμική Παρακολούθηση\nσε Ασφαλή Χέρια</string>
+    <string name="onboarding_desc_1">24/7 άμεση ανάλυση σεισμών και ζωντανή παρακολούθηση ρηγμάτων με δεδομένα Kandilli, AFAD και USGS.</string>
+    <string name="onboarding_float_title_1">Τελευταίος Σεισμός: Μαρμαράς</string>
+    <string name="onboarding_float_sub_1">4.2 Mw • 8.5 χλμ βάθος</string>
+
+    <string name="onboarding_badge_2">📍 ΕΞΥΠΝΗ ΤΟΠΟΘΕΣΙΑ</string>
+    <string name="onboarding_title_2">Έγκαιρη Προειδοποίηση &amp;\nΑνάλυση Τοποθεσίας</string>
+    <string name="onboarding_desc_2">Εξετάστε τα ρήγματα στην περιοχή σας και μείνετε ασφαλείς με αυτόματη αναζήτηση σε 3 δευτερόλεπτα.</string>
+    <string name="onboarding_float_title_2">Χάρτης Περιφερειακού Κινδύνου</string>
+    <string name="onboarding_float_sub_2">Σεισμογράφος υψηλής ακρίβειας</string>
+
+    <string name="onboarding_badge_3">🎒 ΕΤΟΙΜΟΤΗΤΑ ΚΑΤΑΣΤΡΟΦΩΝ</string>
+    <string name="onboarding_title_3">Μείνετε Ασφαλείς,\nΝα είστε Έτοιμοι!</string>
+    <string name="onboarding_desc_3">Μην αφήνετε την ασφάλεια της οικογένειάς σας στην τύχη με λίστες ελέγχου τσάντας έκτακτης ανάγκης.</string>
+    <string name="onboarding_float_title_3">Έλεγχος Τσάντας Έκτακτης Ανάγκης</string>
+    <string name="onboarding_float_sub_3">Κατάσταση αποθέματος 100% έτοιμη</string>
+
+    <!-- Αρχική Οθόνη -->
+    <string name="header_subtitle">Παρακολούθηση Σεισμών</string>
+    <string name="header_title">Μείνετε Ασφαλείς 👋</string>
+    <string name="live_data">ΖΩΝΤΑΝΑ ΔΕΔΟΜΕΝΑ</string>
+    <string name="data_source_title">Πηγή Σεισμικών Δεδομένων</string>
+    <string name="source_kandilli">Kandilli 🏢</string>
+    <string name="source_afad">AFAD 🚨</string>
+    <string name="source_turkey_all">Τουρκία Μικτό 🌐</string>
+    <string name="source_usgs">USGS Παγκόσμιο 🌍</string>
+    <string name="source_world_igp">Κόσμος (IGP) 🌍</string>
+
+    <string name="hero_guide_tag">ΣΗΜΑΝΤΙΚΟΣ ΟΔΗΓΟΣ</string>
+    <string name="hero_guide_title">Τι να κάνετε κατά τη διάρκεια σεισμού</string>
+    <string name="hero_guide_desc">Δείτε αμέσως τους 3 χρυσούς κανόνες που σώζουν ζωές.</string>
+
+    <string name="daily_summary_title">Σημερινή Σύνοψη</string>
+    <string name="daily_summary_subtitle">Αναφορά Σεισμικής Δραστηριότητας</string>
+    <string name="total_today">Σύνολο Σήμερα</string>
+    <string name="highest">Υψηλότερο</string>
+
+    <string name="detailed_stats_title">📊 Λεπτομερή Στατιστικά</string>
+    <string name="stat_today">Σήμερα</string>
+    <string name="stat_week">Εβδομάδα</string>
+    <string name="stat_month">Μήνας</string>
+    <string name="stat_avg">Μέσος Όρος</string>
+    <string name="stat_max">Μέγιστο Μέγεθος</string>
+    <string name="stat_active">Πιο Ενεργή</string>
+    <string name="unit_earthquake">σεισμοί</string>
+    <string name="unit_region">περιοχή</string>
+
+    <string name="location_based_title">Βάσει Τοποθεσίας</string>
+    <string name="location_based_subtitle">Περιφερειακή Ανάλυση (Αυτόματη Αναζήτηση)</string>
+    <string name="location_search_placeholder">Εισάγετε πόλη (Αναζήτηση μετά από 3 δευτ...)</string>
+    <string name="location_no_result">Δεν βρέθηκαν σεισμικές εγγραφές.</string>
+
+    <string name="map_preview_title">Χάρτης Σεισμών</string>
+    <string name="map_preview_subtitle">Σεισμική επιθεώρηση βάσει τοποθεσίας</string>
+
+    <string name="chart_magnitude_title">📈 Κατανομή Μεγέθους</string>
+    <string name="chart_last_24h">Τελευταίες 24 Ώρες</string>
+
+    <string name="info_tips_title">Πληροφορίες &amp; Συμβουλές</string>
+    <string name="info_tips_subtitle">Οδηγός Ευαισθητοποίησης για Καταστροφές</string>
+
+    <string name="checklist_section_title">🎒 Έλεγχος Τσάντας Έκτακτης Ανάγκης</string>
+    <string name="checklist_item_food_title">Είναι έτοιμα νερό και κονσέρβες;</string>
+    <string name="checklist_item_food_desc">Συνιστάται προμήθεια τουλάχιστον 3 ημερών.</string>
+
+    <string name="filter_1h">1 Ώρα</string>
+    <string name="filter_6h">6 Ώρες</string>
+    <string name="filter_24h">24 Ώρες</string>
+    <string name="filter_7d">7 Ημέρες</string>
+    <string name="filter_30d">30 Ημέρες</string>
+
+    <string name="recent_earthquakes_title">🔄 Πρόσφατοι Σεισμοί (%1$d)</string>
+    <string name="see_all">Προβολή Όλων</string>
+
+    <!-- Λίστα Σεισμών -->
+    <string name="seismic_flow_title">Σεισμική Ροή</string>
+    <string name="all_earthquakes_title">Όλοι οι Σεισμοί</string>
+    <string name="record_count">%1$d Εγγραφές</string>
+    <string name="search_city_or_region">Αναζήτηση πόλης ή περιοχής...</string>
+    <string name="filter_all">Όλα</string>
+    <string name="source_label">Πηγή: %1$s</string>
+
+    <!-- Λεπτομέρειες -->
+    <string name="label_magnitude">Μέγεθος</string>
+    <string name="label_depth">Βάθος</string>
+    <string name="label_intensity">Ένταση</string>
+    <string name="label_perceived_intensity">Αισθητή Ένταση</string>
+    <string name="label_source">Πηγή</string>
+    <string name="important_warning">⚠️ ΣΗΜΑΝΤΙΚΟ</string>
+    <string name="show_more">Προβολή Περισσότερων</string>
+    <string name="show_less">Προβολή Λιγότερων</string>
+
+    <string name="whistle_title">Σφυρίχτρα Έκτακτης Ανάγκης</string>
+    <string name="whistle_desc">Ηχεί σειρήνα έρευνας και διάσωσης</string>
+    <string name="whistle_start">ΕΝΑΡΞΗ 🔊</string>
+    <string name="whistle_stop">ΔΙΑΚΟΠΗ</string>
+    <string name="share_earthquake_info">Κοινοποίηση Πληροφοριών Σεισμού</string>
+    <string name="share_template">🚨 ΕΙΔΟΠΟΙΗΣΗ ΣΕΙΣΜΟΥ\n\n📍 Τοποθεσία: %1$s (%2$s)\n💥 Μέγεθος: %3$.1f Mw\n📏 Βάθος: %4$.1f km\n🕒 Ώρα: %5$s - %6$s\n\nΑνοίξτε την εφαρμογή Άμεσοι Σεισμοί για λεπτομέρειες: https://anlikdepremler.com/earthquake/%7$s</string>
+
+    <!-- Διαφημίσεις -->
+    <string name="ad_sponsored">ΧΟΡΗΓΟΥΜΕΝΟ</string>
+    <string name="ad_label">Διαφήμιση</string>
+
+    <!-- Ρυθμίσεις -->
+    <string name="settings_title">Ρυθμίσεις</string>
+    <string name="category_preferences">ΠΡΟΤΙΜΗΣΕΙΣ &amp; ΕΜΦΑΝΙΣΗ</string>
+    <string name="select_language">Γλώσσα Εφαρμογής</string>
+    <string name="app_theme">Θέμα Εφαρμογής</string>
+    <string name="theme_cream">Θέμα Κρέμα 🍦</string>
+    <string name="theme_system">Δυναμικό Συστήματος 📱</string>
+    <string name="theme_dark">Σκοτεινή Νύχτα 🌙</string>
+    <string name="select_theme_dialog_title">Επιλογή Θέματος</string>
+
+    <string name="category_notifications">ΕΙΔΟΠΟΙΗΣΕΙΣ &amp; ΑΔΕΙΕΣ</string>
+    <string name="notification_settings">Ρυθμίσεις Ειδοποιήσεων</string>
+    <string name="notification_settings_sub">Διαχείριση προτιμήσεων ειδοποιήσεων σεισμού</string>
+    <string name="location_permissions">Άδειες Τοποθεσίας</string>
+    <string name="location_permissions_sub">Απαιτείται για να δείτε κοντινούς σεισμούς</string>
+
+    <string name="category_support">ΥΠΟΣΤΗΡΙΞΗ &amp; ΚΟΙΝΟΤΗΤΑ</string>
+    <string name="buy_coffee">Κέρασε έναν Καφέ ☕</string>
+    <string name="buy_coffee_sub">Υποστηρίξτε τον προγραμματιστή</string>
+    <string name="rate_app">Αξιολογήστε την Εφαρμογή</string>
+    <string name="rate_app_sub">Αξιολογήστε μας στο Google Play Store</string>
+    <string name="share_app">Κοινοποίηση Εφαρμογής</string>
+    <string name="share_app_sub">Μοιραστείτε το με την οικογένεια και φίλους</string>
+    <string name="send_feedback">Αποστολή Σχολίων</string>
+    <string name="send_feedback_sub">Αναφέρετε σφάλματα και προτάσεις</string>
+    <string name="thanks_for_rating">Σας ευχαριστούμε για την αξιολόγηση!</string>
+    <string name="thanks_for_coffee">☕ Σας ευχαριστούμε για την υποστήριξη και τον καφέ!</string>
+
+    <string name="category_legal">ΝΟΜΙΚΑ &amp; ΣΧΕΤΙΚΑ</string>
+    <string name="privacy_policy">Πολιτική Απορρήτου</string>
+    <string name="privacy_policy_sub">Δεδομένα Firebase και απορρήτου</string>
+    <string name="terms_conditions">Όροι Χρήσης</string>
+    <string name="terms_conditions_sub">Όροι χρήσης και οδηγίες</string>
+    <string name="privacy_header_title">Η ασφάλεια των δεδομένων σας είναι σημαντική</string>
+    <string name="terms_header_title">Όροι Χρήσης &amp; Κανόνες</string>
+    <string name="last_update">Τελευταία ενημέρωση: 2026</string>
+    <string name="error_offline_text">Παρακαλώ ελέγξτε τη σύνδεσή σας στο διαδίκτυο.</string>
+    <string name="error_load_text">Αποτυχία φόρτωσης κειμένου. Παρακαλώ δοκιμάστε ξανά.</string>
+
+    <!-- Χάρτης -->
+    <string name="search_map_placeholder">Αναζήτηση Πόλης/Περιοχής στο Χάρτη...</string>
+    <string name="depth_label">Βάθος: %1$.1f km</string>
+    <string name="source_emsc">EMSC Ευρώπη 🇪🇺</string>
+
+    <!-- Επίσημοι Οδηγοί -->
+    <string name="guide_afad_before_title">Οδηγός Προετοιμασίας Σεισμού AFAD</string>
+    <string name="guide_afad_before_desc">Επίσημα μέτρα και δομικές προφυλάξεις πριν από έναν σεισμό.</string>
+    <string name="guide_akut_bag_title">Προετοιμασία Τσάντας Εκτάκτου Ανάγκης AKUT</string>
+    <string name="guide_akut_bag_desc">Πρότυπα υλικών και τροφίμων για την τσάντα έκτακτης ανάγκης.</string>
+    <string name="guide_kizilay_first_aid_title">Πρώτες Βοήθειες Ερυθράς Ημισελήνου</string>
+    <string name="guide_kizilay_first_aid_desc">Βήματα πρώτων βοηθειών κατά τη διάρκεια και μετά τις δονήσεις.</string>
+
+    <!-- SMS Έκτακτης Ανάγκης -->
+    <string name="emergency_safe_btn">Είμαι καλά, είμαι ασφαλής 👍</string>
+    <string name="emergency_help_btn">Χρειάζομαι επείγουσα βοήθεια 🚨</string>
+    <string name="official_sources_title">🏛️ Επίσημες Πηγές</string>
+    <string name="emergency_contact_phone">Αριθμός επαφής έκτακτης ανάγκης</string>
+    <string name="emergency_contact_phone_sub">Άτομο για αποστολή SMS σε περίπτωση καταστροφής</string>
+    <string name="emergency_phone_title">Επαφή έκτακτης ανάγκης</string>
+    <string name="emergency_phone_desc">Εισαγάγετε τον αριθμό στον οποίο θα στείλουμε SMS με την τοποθεσία σας για να δηλώσετε ότι είστε ασφαλείς ή να ζητήσετε βοήθεια με ένα κλικ κατά τη διάρκεια σεισμού.</string>
+    <string name="phone_number_hint">Αριθμός τηλεφώνου</string>
+    <string name="phone_privacy_notice">Σημείωμα απορρήτου: Αυτός ο αριθμός αποθηκεύεται μόνο στη μνήμη του τηλεφώνου σας και ΔΕΝ αποθηκεύεται ΠΟΤΕ στους διακομιστές μας.</string>
+    <string name="not_set">Δεν έχει οριστεί ακόμα</string>
+    <string name="save">Αποθήκευση</string>
+    <string name="nearby_earthquake_title">Εντοπίστηκε σεισμός κοντά σας!</string>
+    <string name="nearby_earthquake_desc">Παρακαλώ επιλέξτε ένα από τα παρακάτω κουμπιά για να ενημερώσετε την κατάστασή σας:</string>
+    <string name="btn_im_safe">Είμαι ασφαλής</string>
+    <string name="btn_need_help">Ζητήστε βοήθεια</string>
+    <string name="permissions_title">Απαιτούνται ζωτικές άδειες</string>
+    <string name="permissions_desc">Η εφαρμογή χρειάζεται άδειες Τοποθεσίας και Ειδοποιήσεων για να εντοπίζει δονήσεις κοντά σας και να στέλνει ειδοποιήσεις έκτακτης ανάγκης.</string>
+    <string name="btn_grant_permissions">Παραχώρηση αδειών</string>
+    <!-- Historische Erdbeben Karte -->
+    <!-- Κάρτα Ιστορικών Σεισμών -->
+    <string name="historical_archive_title">Μεγάλοι Ιστορικοί Σεισμοί</string>
+    <string name="historical_archive_subtitle">Καταστροφικό σεισμικό αρχείο από το παρελθόν έως σήμερα</string>
+</resources>

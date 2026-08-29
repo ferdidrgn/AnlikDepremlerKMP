@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 앱 일반 -->
+    <string name="app_name">실시간 지진</string>
+    <string name="app_branding">지진 추적</string>
+    <string name="version_text">v1.0.0 • Professional Edition</string>
+    <string name="back">뒤로</string>
+    <string name="cancel">취소</string>
+    <string name="close">닫기</string>
+    <string name="retry">다시 시도</string>
+    <string name="warning_offline">⚠️ 인터넷 연결이 없습니다! 마지막 캐시 데이터를 표시합니다.</string>
+
+    <!-- 하단 네비게이션 바 -->
+    <string name="nav_home">홈</string>
+    <string name="nav_earthquakes">지진</string>
+    <string name="nav_map">지도</string>
+    <string name="nav_settings">설정</string>
+
+    <!-- 스플래시 & 온보딩 -->
+    <string name="splash_title">실시간 지진</string>
+    <string name="splash_subtitle">지진 추적 &amp; 조기 경보 시스템</string>
+    <string name="onboarding_skip">건너뛰기</string>
+    <string name="onboarding_next">다음</string>
+    <string name="onboarding_badge_1">🔴 실시간 지진</string>
+    <string name="onboarding_title_1">지진 추적\n안전하게 관리</string>
+    <string name="onboarding_desc_1">Kandilli, AFAD 및 USGS 데이터를 활용한 24/7 실시간 지진 분석 및 단층선 추적.</string>
+    <string name="onboarding_float_title_1">최근 진동: 마르마라</string>
+    <string name="onboarding_float_sub_1">4.2 Mw • 깊이 8.5 km</string>
+
+    <string name="onboarding_badge_2">📍 스마트 위치</string>
+    <string name="onboarding_title_2">조기 경보 &amp;\n위치 분석</string>
+    <string name="onboarding_desc_2">지역 단층선을 확인하고 3초 자동 조회를 통해 안전을 지키세요.</string>
+    <string name="onboarding_float_title_2">지역 위험 지도</string>
+    <string name="onboarding_float_sub_2">고정밀 지진계</string>
+
+    <string name="onboarding_badge_3">🎒 재난 대비</string>
+    <string name="onboarding_title_3">안전을 지키고\n대비하세요!</string>
+    <string name="onboarding_desc_3">비상 가방 체크리스트와 생명을 구하는 수칙으로 가족의 안전을 지키세요.</string>
+    <string name="onboarding_float_title_3">비상 가방 점검</string>
+    <string name="onboarding_float_sub_3">재고 상태 100% 준비 완료 및 최신화</string>
+
+    <!-- 홈 화면 (HomeScreen) -->
+    <string name="header_subtitle">지진 추적</string>
+    <string name="header_title">안전하게 지내세요 👋</string>
+    <string name="live_data">실시간 데이터</string>
+    <string name="data_source_title">지진 데이터 출처</string>
+    <string name="source_kandilli">Kandilli 🏢</string>
+    <string name="source_afad">AFAD 🚨</string>
+    <string name="source_turkey_all">튀르키예 통합 🌐</string>
+    <string name="source_usgs">USGS 글로벌 🌍</string>
+    <string name="source_world_igp">글로벌 (IGP) 🌍</string>
+
+    <string name="hero_guide_tag">중요 가이드</string>
+    <string name="hero_guide_title">지진 발생 시 행동 요령</string>
+    <string name="hero_guide_desc">생명을 구하는 3가지 황금 수칙을 확인하세요.</string>
+
+    <string name="daily_summary_title">오늘의 요약</string>
+    <string name="daily_summary_subtitle">지진 활동 보고서</string>
+    <string name="total_today">오늘 총계</string>
+    <string name="highest">최고 규모</string>
+
+    <string name="detailed_stats_title">📊 상세 통계</string>
+    <string name="stat_today">오늘</string>
+    <string name="stat_week">이번 주</string>
+    <string name="stat_month">이번 달</string>
+    <string name="stat_avg">평균</string>
+    <string name="stat_max">최대 규모</string>
+    <string name="stat_active">최다 발생 지역</string>
+    <string name="unit_earthquake">회</string>
+    <string name="unit_region">지역</string>
+
+    <string name="location_based_title">위치 기반</string>
+    <string name="location_based_subtitle">지역 지진 분석 (자동 검색)</string>
+    <string name="location_search_placeholder">도시 입력 (입력 후 3초 뒤 검색...)</string>
+    <string name="location_no_result">검색 조건에 맞는 지진 기록이 없습니다.</string>
+
+    <string name="map_preview_title">지진 지도</string>
+    <string name="map_preview_subtitle">위치 기반 지진 분석</string>
+
+    <string name="chart_magnitude_title">📈 규모 분포</string>
+    <string name="chart_last_24h">최근 24시간</string>
+
+    <string name="info_tips_title">정보 &amp; 팁</string>
+    <string name="info_tips_subtitle">재난 대비 안전 가이드</string>
+
+    <string name="checklist_section_title">🎒 비상 가방 점검</string>
+    <string name="checklist_item_food_title">생수 및 통조림이 준비되었나요?</string>
+    <string name="checklist_item_food_desc">최소 3일 치 비축을 권장합니다.</string>
+
+    <string name="filter_1h">1시간</string>
+    <string name="filter_6h">6시간</string>
+    <string name="filter_24h">24시간</string>
+    <string name="filter_7d">7일</string>
+    <string name="filter_30d">30일</string>
+
+    <string name="recent_earthquakes_title">🔄 최근 지진 (%1$d)</string>
+    <string name="see_all">전체 보기</string>
+
+    <!-- 지진 목록 (EarthquakeListScreen) -->
+    <string name="seismic_flow_title">지진 피드</string>
+    <string name="all_earthquakes_title">전체 지진 목록</string>
+    <string name="record_count">%1$d개 기록</string>
+    <string name="search_city_or_region">도시 또는 지역 검색...</string>
+    <string name="filter_all">전체</string>
+    <string name="source_label">출처: %1$s</string>
+
+    <!-- 지진 상세 (EarthquakeDetailScreen) -->
+    <string name="label_magnitude">규모</string>
+    <string name="label_depth">깊이</string>
+    <string name="label_intensity">진도</string>
+    <string name="label_perceived_intensity">체감 진도</string>
+    <string name="label_source">출처</string>
+    <string name="important_warning">⚠️ 중요</string>
+    <string name="show_more">더 보기</string>
+    <string name="show_less">접기</string>
+
+    <string name="whistle_title">비상 호루라기</string>
+    <string name="whistle_desc">수색 구조 경보 사이렌 울림</string>
+    <string name="whistle_start">울리기 🔊</string>
+    <string name="whistle_stop">정지</string>
+    <string name="share_earthquake_info">지진 정보 공유</string>
+    <string name="share_template">🚨 지진 알림\n\n📍 위치: %1$s (%2$s)\n💥 규모: %3$.1f Mw\n📏 깊이: %4$.1f km\n🕒 시간: %5$s - %6$s\n\n자세한 내용은 실시간 지진 앱을 열어 확인하세요: https://anlikdepremler.com/earthquake/%7$s</string>
+
+    <!-- 광고 -->
+    <string name="ad_sponsored">후원 광고</string>
+    <string name="ad_label">광고</string>
+
+    <!-- 설정 화면 (SettingsScreen) -->
+    <string name="settings_title">설정</string>
+    <string name="category_preferences">환경 설정 &amp; 테마</string>
+    <string name="select_language">앱 언어</string>
+    <string name="app_theme">앱 테마</string>
+    <string name="theme_cream">크림 테마 🍦</string>
+    <string name="theme_system">시스템 기본 📱</string>
+    <string name="theme_dark">다크 모드 🌙</string>
+    <string name="select_theme_dialog_title">앱 테마 선택</string>
+
+    <string name="category_notifications">알림 &amp; 권한</string>
+    <string name="notification_settings">알림 설정</string>
+    <string name="notification_settings_sub">지진 경보 환경 설정을 관리합니다</string>
+    <string name="location_permissions">위치 권한</string>
+    <string name="location_permissions_sub">주변 진동 정보를 확인하는 데 필요합니다</string>
+
+    <string name="category_support">지원 &amp; 커뮤니티</string>
+    <string name="buy_coffee">커피 후원하기 ☕</string>
+    <string name="buy_coffee_sub">개발자를 응원해 주세요</string>
+    <string name="rate_app">앱 평가하기</string>
+    <string name="rate_app_sub">Google Play Store에서 평가해 주세요</string>
+    <string name="share_app">앱 공유하기</string>
+    <string name="share_app_sub">소중한 사람들과 앱을 공유하세요</string>
+    <string name="send_feedback">피드백 보내기</string>
+    <string name="send_feedback_sub">오류 제보 및 제안 사항 보내기</string>
+    <string name="thanks_for_rating">평가해 주셔서 감사합니다!</string>
+    <string name="thanks_for_coffee">☕ 후원해 주신 커피 감사합니다!</string>
+
+    <string name="category_legal">약관 &amp; 정보</string>
+    <string name="privacy_policy">개인정보 처리방침</string>
+    <string name="privacy_policy_sub">Firebase 데이터 및 개인정보 방침</string>
+    <string name="terms_conditions">이용약관</string>
+    <string name="terms_conditions_sub">이용 조건 및 규정</string>
+    <string name="privacy_header_title">개인정보 보호는 소중합니다</string>
+    <string name="terms_header_title">이용약관 및 규정</string>
+    <string name="last_update">최종 업데이트: 2026</string>
+    <string name="error_offline_text">인터넷 연결을 확인해 주세요.</string>
+    <string name="error_load_text">텍스트를 불러오지 못했습니다. 다시 시도해 주세요.</string>
+
+    <!-- 지도 화면 (MapScreen) -->
+    <string name="search_map_placeholder">지도에서 도시/지역 검색...</string>
+    <string name="depth_label">깊이: %1$.1f km</string>
+
+    <string name="source_emsc">EMSC 유럽 🇪🇺</string>
+
+    <!-- 공식 가이드 링크 -->
+    <string name="guide_afad_before_title">AFAD 지진 대비 가이드</string>
+    <string name="guide_afad_before_desc">지진 발생 전 취해야 할 공식 조치 및 구조적 예방법.</string>
+    <string name="guide_akut_bag_title">AKUT 비상 가방 준비하기</string>
+    <string name="guide_akut_bag_desc">비상 가방에 포함되어야 할 보급품 및 식품 표준.</string>
+    <string name="guide_kizilay_first_aid_title">적신월사 재난 응급처치 수칙</string>
+    <string name="guide_kizilay_first_aid_desc">진동 중 및 직후 인명을 구하는 응급처치 단계.</string>
+
+    <!-- 긴급 SMS -->
+    <string name="emergency_safe_btn">괜찮습니다, 안전합니다 👍</string>
+    <string name="emergency_help_btn">긴급 도움이 필요합니다 🚨</string>
+    <string name="official_sources_title">🏛️ 공식 기관 참조</string>
+    <string name="emergency_contact_phone">비상 연락처 번호</string>
+    <string name="emergency_contact_phone_sub">재난 발생 시 SMS를 보낼 사람</string>
+    <string name="emergency_phone_title">비상 연락처</string>
+    <string name="emergency_phone_desc">지진 발생 시 원클릭으로 안전함을 알리거나 도움을 요청할 수 있도록 위치 정보가 담긴 SMS를 보낼 번호를 입력하세요.</string>
+    <string name="phone_number_hint">전화번호</string>
+    <string name="phone_privacy_notice">개인정보 보호 안내: 이 번호는 휴대전화 메모리에만 저장되며 당사 서버에는 절대로 저장되지 않습니다.</string>
+    <string name="not_set">설정되지 않음</string>
+    <string name="save">저장</string>
+    <string name="nearby_earthquake_title">근처에서 지진이 감지되었습니다!</string>
+    <string name="nearby_earthquake_desc">소중한 사람들에게 상태를 알리려면 아래 버튼 중 하나를 선택하세요.</string>
+    <string name="btn_im_safe">안전함</string>
+    <string name="btn_need_help">도움 요청</string>
+    <string name="permissions_title">필수 권한 필요</string>
+    <string name="permissions_desc">앱이 근처의 진동을 감지하고 긴급 알림을 보내려면 위치 및 알림 권한이 필요합니다.</string>
+    <string name="btn_grant_permissions">권한 허용</string>
+    <!-- 역사적 대형 지진 카드 -->
+    <string name="historical_archive_title">역사적 대형 지진</string>
+    <string name="historical_archive_subtitle">과거부터 현재까지의 파괴적인 지진 기록 아카이브</string>
+</resources>

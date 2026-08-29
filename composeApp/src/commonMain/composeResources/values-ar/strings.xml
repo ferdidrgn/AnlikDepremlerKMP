@@ -1,0 +1,201 @@
+<resources>
+    <!-- عام -->
+    <string name="app_name">الزلزال الفوري</string>
+    <string name="app_branding">راصد الزلازل</string>
+    <string name="version_text">v1.0.0 • الإصدار الاحترافي</string>
+    <string name="back">رجوع</string>
+    <string name="cancel">إلغاء</string>
+    <string name="close">إغلاق</string>
+    <string name="retry">إعادة المحاولة</string>
+    <string name="warning_offline">⚠️ لا يوجد اتصال بالإنترنت! يتم عرض البيانات المخزنة مؤقتًا.</string>
+
+    <!-- شريط التنقل -->
+    <string name="nav_home">الرئيسية</string>
+    <string name="nav_earthquakes">الزلازل</string>
+    <string name="nav_map">الخريطة</string>
+    <string name="nav_settings">الإعدادات</string>
+
+    <!-- شاشات الترحيب -->
+    <string name="splash_title">الزلزال الفوري</string>
+    <string name="splash_subtitle">نظام التتبع السيزمي والإنذار المبكر</string>
+    <string name="onboarding_skip">تخطي</string>
+    <string name="onboarding_next">التالي</string>
+    <string name="onboarding_badge_1">🔴 سيزمي مباشر</string>
+    <string name="onboarding_title_1">التتبع السيزمي\nفي أيدٍ أمينة</string>
+    <string name="onboarding_desc_1">تحليل فوري للهزات على مدار الساعة وتتبع مباشر لخطوط الصدع مع بيانات Kandilli و AFAD و USGS.</string>
+    <string name="onboarding_float_title_1">آخر هزة: مرمرة</string>
+    <string name="onboarding_float_sub_1">4.2 Mw • عمق 8.5 كم</string>
+
+    <string name="onboarding_badge_2">📍 موقع ذكي</string>
+    <string name="onboarding_title_2">الإنذار المبكر و\nتحليل الموقع</string>
+    <string name="onboarding_desc_2">افحص خطوط الصدع في منطقتك وابْقَ آمنًا مع الاستعلام التلقائي خلال 3 ثوانٍ.</string>
+    <string name="onboarding_float_title_2">خريطة المخاطر الإقليمية</string>
+    <string name="onboarding_float_sub_2">مقياس زلازل عالي الدقة</string>
+
+    <string name="onboarding_badge_3">🎒 التوعية بالكوارث</string>
+    <string name="onboarding_title_3">ابْقَ آمنًا،\nوكن مستعدًا!</string>
+    <string name="onboarding_desc_3">لا تترك سلامة عائلتك للصدفة مع قوائم التحقق من حقيبة الطوارئ والأدلة المنقذة للحياة.</string>
+    <string name="onboarding_float_title_3">فحص حقيبة الطوارئ</string>
+    <string name="onboarding_float_sub_3">حالة المخزون جاهزة ومحدثة بنسبة 100%</string>
+
+    <!-- الشاشة الرئيسية -->
+    <string name="header_subtitle">راصد الزلازل</string>
+    <string name="header_title">ابْقَ آمنًا 👋</string>
+    <string name="live_data">بيانات مباشرة</string>
+    <string name="data_source_title">مصدر بيانات الزلازل</string>
+    <string name="source_kandilli">Kandilli 🏢</string>
+    <string name="source_afad">AFAD 🚨</string>
+    <string name="source_turkey_all">تركيا مختلط 🌐</string>
+    <string name="source_usgs">USGS العالم 🌍</string>
+    <string name="source_world_igp">العالم (IGP) 🌍</string>
+
+    <string name="hero_guide_tag">دليل هام</string>
+    <string name="hero_guide_title">ماذا تفعل أثناء وقوع الزلزال</string>
+    <string name="hero_guide_desc">اطّلع على القواعد الذهبية الثلاث المنقذة للحياة فورًا.</string>
+
+    <string name="daily_summary_title">ملخص اليوم</string>
+    <string name="daily_summary_subtitle">تقرير النشاط السيزمي</string>
+    <string name="total_today">إجمالي اليوم</string>
+    <string name="highest">الأعلى شدة</string>
+
+    <string name="detailed_stats_title">📊 إحصائيات تفصيلية</string>
+    <string name="stat_today">اليوم</string>
+    <string name="stat_week">الأسبوع</string>
+    <string name="stat_month">الشهر</string>
+    <string name="stat_avg">المتوسط</string>
+    <string name="stat_max">الأكبر شدة</string>
+    <string name="stat_active">المنطقة الأكثر نشاطًا</string>
+    <string name="unit_earthquake">زلازل</string>
+    <string name="unit_region">منطقة</string>
+
+    <string name="location_based_title">حسب الموقع</string>
+    <string name="location_based_subtitle">التحليل السيزمي الإقليمي (بحث تلقائي)</string>
+    <string name="location_search_placeholder">أدخل المدينة (يبحث بعد 3 ثوانٍ من الكتابة...)</string>
+    <string name="location_no_result">لم يتم العثور على سجلات زلازل تطابق بحثك.</string>
+
+    <string name="map_preview_title">خريطة الزلازل</string>
+    <string name="map_preview_subtitle">فحص سيزمي قائم على الموقع</string>
+
+    <string name="chart_magnitude_title">📈 توزيع الشدة</string>
+    <string name="chart_last_24h">آخر 24 ساعة</string>
+
+    <string name="info_tips_title">معلومات ونصائح</string>
+    <string name="info_tips_subtitle">دليل التوعية بالكوارث</string>
+
+    <string name="checklist_section_title">🎒 فحص حقيبة الطوارئ</string>
+    <string name="checklist_item_food_title">هل الماء والأغذية المعلبة جاهزة؟</string>
+    <string name="checklist_item_food_desc">يوصى بتقديم إمدادات لمدة 3 أيام على الأقل.</string>
+
+    <string name="filter_1h">ساعة واحدة</string>
+    <string name="filter_6h">6 ساعات</string>
+    <string name="filter_24h">24 ساعة</string>
+    <string name="filter_7d">7 أيام</string>
+    <string name="filter_30d">30 يومًا</string>
+
+    <string name="recent_earthquakes_title">🔄 أحدث الزلازل (%1$d)</string>
+    <string name="see_all">عرض الكل</string>
+
+    <!-- قائمة الزلازل -->
+    <string name="seismic_flow_title"> التدفق السيزمي</string>
+    <string name="all_earthquakes_title">جميع الزلازل</string>
+    <string name="record_count">%1$d سجلات</string>
+    <string name="search_city_or_region">ابحث عن مدينة أو منطقة...</string>
+    <string name="filter_all">الكل</string>
+    <string name="source_label">المصدر: %1$s</string>
+
+    <!-- التفاصيل -->
+    <string name="label_magnitude">الشدة</string>
+    <string name="label_depth">العمق</string>
+    <string name="label_intensity">القوة</string>
+    <string name="label_perceived_intensity">القوة المحسوسة</string>
+    <string name="label_source">المصدر</string>
+    <string name="important_warning">⚠️ هام جداً</string>
+    <string name="show_more">عرض المزيد</string>
+    <string name="show_less">عرض أقل</string>
+
+    <string name="whistle_title">صفارة الطوارئ</string>
+    <string name="whistle_desc">تطلق صفارة إنذار للبحث والإنقاذ</string>
+    <string name="whistle_start">تشغيل 🔊</string>
+    <string name="whistle_stop">إيقاف</string>
+    <string name="share_earthquake_info">مشاركة معلومات الزلزال</string>
+    <string name="share_template">🚨 تنبيه زلزال\n\n📍 الموقع: %1$s (%2$s)\n💥 الشدة: %3$.1f Mw\n📏 العمق: %4$.1f كم\n🕒 الوقت: %5$s - %6$s\n\nافتح تطبيق الزلزال الفوري للتفاصيل: https://anlikdepremler.com/earthquake/%7$s</string>
+
+    <!-- الإعلانات -->
+    <string name="ad_sponsored">برعاية</string>
+    <string name="ad_label">إعلان</string>
+
+    <!-- الإعدادات -->
+    <string name="settings_title">الإعدادات</string>
+    <string name="category_preferences">التفضيلات والمظهر</string>
+    <string name="select_language">لغة التطبيق</string>
+    <string name="app_theme">مظهر التطبيق</string>
+    <string name="theme_cream">المظهر الكريمي 🍦</string>
+    <string name="theme_system">ديناميكي النظام 📱</string>
+    <string name="theme_dark">الليل المظلم 🌙</string>
+    <string name="select_theme_dialog_title">اختر مظهر التطبيق</string>
+
+    <string name="category_notifications">الإشعارات والأذونات</string>
+    <string name="notification_settings">إعدادات الإشعارات</string>
+    <string name="notification_settings_sub">إدارة تفضيلات تنبيهات الزلازل</string>
+    <string name="location_permissions">أذونات الموقع</string>
+    <string name="location_permissions_sub">مطلوب لرؤية الزلازل القريبة</string>
+
+    <string name="category_support">الدعم والمجتمع</string>
+    <string name="buy_coffee">اشترِ لي فنجان قهوة ☕</string>
+    <string name="buy_coffee_sub">ادعم المطور</string>
+    <string name="rate_app">تقييم التطبيق</string>
+    <string name="rate_app_sub">قَيِّمنا على متجر Google Play</string>
+    <string name="share_app">مشاركة التطبيق</string>
+    <string name="share_app_sub">شارك التطبيق مع العائلة والأصدقاء</string>
+    <string name="send_feedback">إرسال ملاحظات</string>
+    <string name="send_feedback_sub">أبلغ عن أخطاء أو قدّم اقتراحات</string>
+    <string name="thanks_for_rating">شكراً لك على تقييمك!</string>
+    <string name="thanks_for_coffee">☕ شكراً لك على دعمك وشراء فنجان القهوة!</string>
+
+    <string name="category_legal">الشروط القانونية ومعلومات</string>
+    <string name="privacy_policy">سياسة الخصوصية</string>
+    <string name="privacy_policy_sub">بيانات Firebase وسياسة الخصوصية</string>
+    <string name="terms_conditions">شروط الاستخدام</string>
+    <string name="terms_conditions_sub">شروط وإرشادات الاستخدام</string>
+    <string name="privacy_header_title">أمان بياناتك يهمنا جداً</string>
+    <string name="terms_header_title">شروط وقواعد الاستخدام</string>
+    <string name="last_update">آخر تحديث: 2026</string>
+    <string name="error_offline_text">يرجى التحقق من اتصالك بالإنترنت.</string>
+    <string name="error_load_text">تعذر تحميل النص. يرجى المحاولة مرة أخرى.</string>
+
+    <!-- الخريطة -->
+    <string name="search_map_placeholder">ابحث عن مدينة/منطقة على الخريطة...</string>
+    <string name="depth_label">العمق: %1$.1f كم</string>
+    <string name="source_emsc">EMSC أوروبا 🇪🇺</string>
+
+    <!-- أدلة رسمية -->
+    <string name="guide_afad_before_title">دليل AFAD للاستعداد قبل الزلازل</string>
+    <string name="guide_afad_before_desc">الإجراءات الرسمية والاحتياطات الهيكلية الواجب اتخاذها قبل الزلزال.</string>
+    <string name="guide_akut_bag_title">إعداد حقيبة الطوارئ من AKUT</string>
+    <string name="guide_akut_bag_desc">معايير المواد والأغذية المطلوبة في حقيبة الطوارئ.</string>
+    <string name="guide_kizilay_first_aid_title">إسعافات الهلال الأحمر في الكوارث</string>
+    <string name="guide_kizilay_first_aid_desc">خطوات الإسعافات الأولية المنقذة للحياة أثناء الهزات وبعدها.</string>
+
+    <!-- رسائل طوارئ SMS -->
+    <string name="emergency_safe_btn">أنا بخير، أنا في أمان 👍</string>
+    <string name="emergency_help_btn">أحتاج إلى مساعدة عاجلة 🚨</string>
+    <string name="official_sources_title">🏛️ مراجع المؤسسات الرسمية</string>
+    <string name="emergency_contact_phone">رقم اتصال الطوارئ</string>
+    <string name="emergency_contact_phone_sub">الشخص الذي سيتم إرسال رسالة نصية إليه في حالة الكوارث</string>
+    <string name="emergency_phone_title">جهة اتصال الطوارئ</string>
+    <string name="emergency_phone_desc">أدخل الرقم الذي سنرسل إليه رسالة نصية تتضمن موقعك لإبلاغهم بأنك آمن أو لطلب المساعدة بضغطة زر واحدة أثناء الزلزال.</string>
+    <string name="phone_number_hint">رقم الهاتف</string>
+    <string name="phone_privacy_notice">إشعار الخصوصية: يتم حفظ هذا الرقم فقط في ذاكرة هاتفك ولا يتم حفظه أبداً على خوادمنا.</string>
+    <string name="not_set">لم يحدد بعد</string>
+    <string name="save">حفظ</string>
+    <string name="nearby_earthquake_title">تم اكتشاف زلزال بالقرب منك!</string>
+    <string name="nearby_earthquake_desc">يرجى تحديد أحد الأزرار أدناه لإبلاغ أحبائك بحالتك:</string>
+    <string name="btn_im_safe">أنا بخير</string>
+    <string name="btn_need_help">طلب المساعدة</string>
+    <string name="permissions_title">الأذونات الحيوية مطلوبة</string>
+    <string name="permissions_desc">يحتاج التطبيق إلى أذونات الموقع والإشعارات لاكتشاف الهزات القريبة منك وإرسال إشعارات الطوارئ.</string>
+    <string name="btn_grant_permissions">منح الأذونات</string>
+    <!-- بطاقة الزلازل التاريخية الكبرى -->
+    <string name="historical_archive_title">أكبر الزلازل التاريخية</string>
+    <string name="historical_archive_subtitle">أرشيف زلزالي مدمر من الماضي إلى الحاضر</string>
+</resources>

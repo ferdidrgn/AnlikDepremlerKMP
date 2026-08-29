@@ -1,0 +1,201 @@
+<resources>
+    <!-- Allgemein -->
+    <string name="app_name">Sofort-Erdbeben</string>
+    <string name="app_branding">Erdbeben-Tracker</string>
+    <string name="version_text">v1.0.0 • Professional Edition</string>
+    <string name="back">Zurück</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="close">Schließen</string>
+    <string name="retry">Erneut versuchen</string>
+    <string name="warning_offline">⚠️ Keine Internetverbindung! Zwischengespeicherte Daten werden angezeigt.</string>
+
+    <!-- Navigation Bar -->
+    <string name="nav_home">Startseite</string>
+    <string name="nav_earthquakes">Erdbeben</string>
+    <string name="nav_map">Karte</string>
+    <string name="nav_settings">Einstellungen</string>
+
+    <!-- Splash & Onboarding -->
+    <string name="splash_title">Erdbeben Sofort</string>
+    <string name="splash_subtitle">Seismische Verfolgung &amp; Frühwarnsystem</string>
+    <string name="onboarding_skip">Überspringen</string>
+    <string name="onboarding_next">Weiter</string>
+    <string name="onboarding_badge_1">🔴 LIVE SEISMISCH</string>
+    <string name="onboarding_title_1">Seismische Verfolgung\nin sicheren Händen</string>
+    <string name="onboarding_desc_1">Rund um die Uhr Analyse von Erdbeben und Live-Verfolgung von Verwerfungslinien mit Daten von Kandilli, AFAD und USGS.</string>
+    <string name="onboarding_float_title_1">Letztes Erdbeben: Marmara</string>
+    <string name="onboarding_float_sub_1">4.2 Mw • 8.5 km Tiefe</string>
+
+    <string name="onboarding_badge_2">📍 INTELLIGENTER STANDORT</string>
+    <string name="onboarding_title_2">Frühwarnung &amp;\nStandortanalyse</string>
+    <string name="onboarding_desc_2">Untersuchen Sie Verwerfungslinien in Ihrer Nähe und bleiben Sie mit automatischer Abfrage in 3 Sekunden sicher.</string>
+    <string name="onboarding_float_title_2">Regionale Risiko-Karte</string>
+    <string name="onboarding_float_sub_2">Hochpräziser Seismograph</string>
+
+    <string name="onboarding_badge_3">🎒 KATASTROPHENBEWUSSTSEIN</string>
+    <string name="onboarding_title_3">Bleiben Sie sicher,\nseien Sie vorbereitet!</string>
+    <string name="onboarding_desc_3">Überlassen Sie die Sicherheit Ihrer Familie nicht dem Zufall mit Notfallset-Checklisten und lebensrettenden Anleitungen.</string>
+    <string name="onboarding_float_title_3">Notfallset-Überprüfung</string>
+    <string name="onboarding_float_sub_3">Lagerbestand 100% bereit und aktuell</string>
+
+    <!-- Home Screen -->
+    <string name="header_subtitle">Erdbeben-Tracker</string>
+    <string name="header_title">Sicher bleiben 👋</string>
+    <string name="live_data">LIVE-DATEN</string>
+    <string name="data_source_title">Erdbeben-Datenquelle</string>
+    <string name="source_kandilli">Kandilli 🏢</string>
+    <string name="source_afad">AFAD 🚨</string>
+    <string name="source_turkey_all">Türkei Gemischt 🌐</string>
+    <string name="source_usgs">USGS Welt 🌍</string>
+    <string name="source_world_igp">Welt (IGP) 🌍</string>
+
+    <string name="hero_guide_tag">WICHTIGER LEITFADEN</string>
+    <string name="hero_guide_title">Verhalten bei einem Erdbeben</string>
+    <string name="hero_guide_desc">Lesen Sie sofort die 3 goldenen Regeln zum Überleben.</string>
+
+    <string name="daily_summary_title">Heutige Zusammenfassung</string>
+    <string name="daily_summary_subtitle">Seismischer Aktivitätsbericht</string>
+    <string name="total_today">Heute Gesamt</string>
+    <string name="highest">Höchste</string>
+
+    <string name="detailed_stats_title">📊 Detaillierte Statistiken</string>
+    <string name="stat_today">Heute</string>
+    <string name="stat_week">Woche</string>
+    <string name="stat_month">Monat</string>
+    <string name="stat_avg">Durchschnitt</string>
+    <string name="stat_max">Größtes</string>
+    <string name="stat_active">Aktivste</string>
+    <string name="unit_earthquake">Erdbeben</string>
+    <string name="unit_region">Region</string>
+
+    <string name="location_based_title">Nach Standort</string>
+    <string name="location_based_subtitle">Regionale Erdbebenanalyse (Auto-Suche)</string>
+    <string name="location_search_placeholder">Stadt eingeben (Sucht 3s nach Eingabe...)</string>
+    <string name="location_no_result">Keine Erdbebendaten zu Ihrer Suche gefunden.</string>
+
+    <string name="map_preview_title">Erdbebenkarte</string>
+    <string name="map_preview_subtitle">Standortbezogene seismische Überprüfung</string>
+
+    <string name="chart_magnitude_title">📈 Stärkenverteilung</string>
+    <string name="chart_last_24h">Letzte 24 Stunden</string>
+
+    <string name="info_tips_title">Info &amp; Tipps</string>
+    <string name="info_tips_subtitle">Katastrophenaufklärungs-Ratgeber</string>
+
+    <string name="checklist_section_title">🎒 Notfallgepäck-Checkliste</string>
+    <string name="checklist_item_food_title">Sind Wasser &amp; Konserven bereit?</string>
+    <string name="checklist_item_food_desc">Mindestens 3 Tage Vorrat empfohlen.</string>
+
+    <string name="filter_1h">1 Std.</string>
+    <string name="filter_6h">6 Std.</string>
+    <string name="filter_24h">24 Std.</string>
+    <string name="filter_7d">7 Tage</string>
+    <string name="filter_30d">30 Tage</string>
+
+    <string name="recent_earthquakes_title">🔄 Neueste Erdbeben (%1$d)</string>
+    <string name="see_all">Alle anzeigen</string>
+
+    <!-- Erdbeben Liste -->
+    <string name="seismic_flow_title">Seismischer Fluss</string>
+    <string name="all_earthquakes_title">Alle Erdbeben</string>
+    <string name="record_count">%1$d Einträge</string>
+    <string name="search_city_or_region">Stadt oder Region suchen...</string>
+    <string name="filter_all">Alle</string>
+    <string name="source_label">Quelle: %1$s</string>
+
+    <!-- Erdbeben Detail -->
+    <string name="label_magnitude">Stärke</string>
+    <string name="label_depth">Tiefe</string>
+    <string name="label_intensity">Intensität</string>
+    <string name="label_perceived_intensity">Gefühlte Intensität</string>
+    <string name="label_source">Quelle</string>
+    <string name="important_warning">⚠️ WICHTIG</string>
+    <string name="show_more">Mehr anzeigen</string>
+    <string name="show_less">Weniger anzeigen</string>
+
+    <string name="whistle_title">Notfallpfeife</string>
+    <string name="whistle_desc">Klingt wie eine Such- und Rettungssirene</string>
+    <string name="whistle_start">START 🔊</string>
+    <string name="whistle_stop">STOPP</string>
+    <string name="share_earthquake_info">Erdbeben-Info teilen</string>
+    <string name="share_template">🚨 ERDBEBEN-WARNUNG\n\n📍 Ort: %1$s (%2$s)\n💥 Stärke: %3$.1f Mw\n📏 Tiefe: %4$.1f km\n🕒 Zeit: %5$s - %6$s\n\nÖffnen Sie die App Sofort-Erdbeben für Details: https://anlikdepremler.com/earthquake/%7$s</string>
+
+    <!-- Werbung -->
+    <string name="ad_sponsored">GESPONSERT</string>
+    <string name="ad_label">Anzeige</string>
+
+    <!-- Einstellungen -->
+    <string name="settings_title">Einstellungen</string>
+    <string name="category_preferences">EINSTELLUNGEN &amp; ERSCHEINUNGSBILD</string>
+    <string name="select_language">App-Sprache</string>
+    <string name="app_theme">App-Design</string>
+    <string name="theme_cream">Creme Design 🍦</string>
+    <string name="theme_system">Systemdynamik 📱</string>
+    <string name="theme_dark">Dunkle Nacht 🌙</string>
+    <string name="select_theme_dialog_title">App-Design wählen</string>
+
+    <string name="category_notifications">BENACHRICHTIGUNGEN &amp; BERECHTIGUNGEN</string>
+    <string name="notification_settings">Benachrichtigungseinstellungen</string>
+    <string name="notification_settings_sub">Erdbebenwarnungs-Präferenzen verwalten</string>
+    <string name="location_permissions">Standortberechtigungen</string>
+    <string name="location_permissions_sub">Erforderlich, um Erdbeben in der Nähe zu sehen</string>
+
+    <string name="category_support">UNTERSTÜTZUNG &amp; COMMUNITY</string>
+    <string name="buy_coffee">Kaffee ausgeben ☕</string>
+    <string name="buy_coffee_sub">Den Entwickler unterstützen</string>
+    <string name="rate_app">App bewerten</string>
+    <string name="rate_app_sub">Bewerten Sie uns im Google Play Store</string>
+    <string name="share_app">App teilen</string>
+    <string name="share_app_sub">Mit Familie und Freunden teilen</string>
+    <string name="send_feedback">Feedback senden</string>
+    <string name="send_feedback_sub">Fehler melden und Vorschläge senden</string>
+    <string name="thanks_for_rating">Vielen Dank für Ihre Bewertung!</string>
+    <string name="thanks_for_coffee">☕ Vielen Dank für Ihre Unterstützung und den Kaffee!</string>
+
+    <string name="category_legal">RECHTLICHES &amp; ÜBER UNS</string>
+    <string name="privacy_policy">Datenschutz-Bestimmungen</string>
+    <string name="privacy_policy_sub">Firebase-Daten und Datenschutzhinweise</string>
+    <string name="terms_conditions">Nutzungsbedingungen</string>
+    <string name="terms_conditions_sub">Nutzungsbedingungen und Richtlinien</string>
+    <string name="privacy_header_title">Ihre Datensicherheit ist uns wichtig</string>
+    <string name="terms_header_title">Nutzungsbedingungen &amp; Regeln</string>
+    <string name="last_update">Letzte Aktualisierung: 2026</string>
+    <string name="error_offline_text">Bitte überprüfen Sie Ihre Internetverbindung.</string>
+    <string name="error_load_text">Text konnte nicht geladen werden. Bitte erneut versuchen.</string>
+
+    <!-- Karte -->
+    <string name="search_map_placeholder">Stadt/Region auf der Karte suchen...</string>
+    <string name="depth_label">Tiefe: %1$.1f km</string>
+    <string name="source_emsc">EMSC Europa 🇪🇺</string>
+
+    <!-- Offizielle Leitfäden -->
+    <string name="guide_afad_before_title">AFAD Erdbebenvorsorge-Leitfaden</string>
+    <string name="guide_afad_before_desc">Offizielle Maßnahmen und bauliche Vorkehrungen vor einem Erdbeben.</string>
+    <string name="guide_akut_bag_title">AKUT Notfallrucksack-Vorbereitung</string>
+    <string name="guide_akut_bag_desc">Erforderliche Notfallausrüstung und Lebensmittelstandards.</string>
+    <string name="guide_kizilay_first_aid_title">Roter Halbmond Erste-Hilfe-Taktiken</string>
+    <string name="guide_kizilay_first_aid_desc">Lebensrettende Erste-Hilfe-Schritte während und nach Erdbeben.</string>
+
+    <!-- Notfall-SMS -->
+    <string name="emergency_safe_btn">Mir geht es gut, ich bin sicher 👍</string>
+    <string name="emergency_help_btn">Ich brauche dringend Hilfe 🚨</string>
+    <string name="official_sources_title">🏛️ Offizielle Referenzen</string>
+    <string name="emergency_contact_phone">Notfallkontaktnummer</string>
+    <string name="emergency_contact_phone_sub">Person, an die im Katastrophenfall eine SMS gesendet wird</string>
+    <string name="emergency_phone_title">Notfallkontakt</string>
+    <string name="emergency_phone_desc">Geben Sie die Nummer ein, an die wir bei einem Erdbeben mit einem Klick eine SMS mit Ihrem Standort senden, um mitzuteilen, dass Sie sicher sind oder Hilfe anzufordern.</string>
+    <string name="phone_number_hint">Telefonnummer</string>
+    <string name="phone_privacy_notice">Datenschutzhinweis: Diese Nummer wird nur im Speicher Ihres Telefons gespeichert und NIEMALS auf unseren Servern gesichert.</string>
+    <string name="not_set">Noch nicht festgelegt</string>
+    <string name="save">Speichern</string>
+    <string name="nearby_earthquake_title">Erdbeben in der Nähe erkannt!</string>
+    <string name="nearby_earthquake_desc">Bitte wählen Sie eine der folgenden Schaltflächen, um Ihren Status mitzuteilen:</string>
+    <string name="btn_im_safe">Ich bin sicher</string>
+    <string name="btn_need_help">Hilfe anfordern</string>
+    <string name="permissions_title">Wichtige Berechtigungen erforderlich</string>
+    <string name="permissions_desc">Die App benötigt Standort- und Benachrichtigungsberechtigungen, um Erschütterungen in Ihrer Nähe zu erkennen und Notfallbenachrichtigungen zu senden.</string>
+    <string name="btn_grant_permissions">Berechtigungen erteilen</string>
+    <!-- Historische Erdbeben Karte -->
+    <string name="historical_archive_title">Historische Großerdbeben</string>
+    <string name="historical_archive_subtitle">Verheerendes seismisches Archiv von der Vergangenheit bis heute</string>
+</resources>

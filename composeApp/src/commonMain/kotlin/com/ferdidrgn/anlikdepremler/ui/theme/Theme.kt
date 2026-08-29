@@ -1,42 +1,47 @@
 package com.ferdidrgn.anlikdepremler.ui.theme
 
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.*
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Typography
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.ferdidrgn.anlikdepremler.R
-import com.ferdidrgn.anlikdepremler.ui.theme.AppThemeMode
+import com.ferdidrgn.anlikdepremler.resources.Res
+import org.jetbrains.compose.resources.Font
 
-// XML'deki Merienda Bold Fontunun Compose Tanımı
-val MeriendaBold = FontFamily(
-    Font(R.font.merienda_bold, FontWeight.Bold)
-)
+/** Android 12+ Material You dynamic color; null (and falls back to [CreamLightColors]) elsewhere. */
+@Composable
+expect fun dynamicColorSchemeOrNull(isDark: Boolean): ColorScheme?
 
-val AppTypography = Typography(
-    displayLarge = TextStyle(
-        fontFamily = MeriendaBold,
-        fontWeight = FontWeight.Bold,
-        fontSize = 28.sp
-    ),
-    headlineMedium = TextStyle(
-        fontFamily = MeriendaBold,
-        fontWeight = FontWeight.Bold,
-        fontSize = 22.sp
-    ),
-    titleLarge = TextStyle(
-        fontFamily = MeriendaBold,
-        fontWeight = FontWeight.Bold,
-        fontSize = 18.sp
-    ),
-    bodyMedium = TextStyle(fontWeight = FontWeight.Normal, fontSize = 14.sp)
-)
+@Composable
+private fun appTypography(): Typography {
+    val meriendaBold = FontFamily(Font(Res.font.merienda_bold, FontWeight.Bold))
+    return Typography(
+        displayLarge = TextStyle(
+            fontFamily = meriendaBold,
+            fontWeight = FontWeight.Bold,
+            fontSize = 28.sp
+        ),
+        headlineMedium = TextStyle(
+            fontFamily = meriendaBold,
+            fontWeight = FontWeight.Bold,
+            fontSize = 22.sp
+        ),
+        titleLarge = TextStyle(
+            fontFamily = meriendaBold,
+            fontWeight = FontWeight.Bold,
+            fontSize = 18.sp
+        ),
+        bodyMedium = TextStyle(fontWeight = FontWeight.Normal, fontSize = 14.sp)
+    )
+}
 
 // 1. Krem Light Tema Renkleri
 private val CreamLightColors = lightColorScheme(
@@ -53,7 +58,7 @@ private val CreamLightColors = lightColorScheme(
     error = Color(0xFFE85D5D)
 )
 
-// 3. Senin Koyu Mavi Teman
+// 3. Koyu Mavi Tema
 private val DarkNightColors = darkColorScheme(
     primary = Color(0xFF3B82F6),
     onPrimary = Color.White,
@@ -71,25 +76,17 @@ fun DepremTheme(
     themeMode: AppThemeMode = AppThemeMode.CREAM_LIGHT,
     content: @Composable () -> Unit
 ) {
-    val context = LocalContext.current
     val colorScheme = when (themeMode) {
         AppThemeMode.CREAM_LIGHT -> CreamLightColors
-        AppThemeMode.SYSTEM_DYNAMIC -> {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                if (isSystemInDarkTheme()) dynamicDarkColorScheme(context) else dynamicLightColorScheme(
-                    context
-                )
-            } else {
-                CreamLightColors
-            }
-        }
+        AppThemeMode.SYSTEM_DYNAMIC ->
+            dynamicColorSchemeOrNull(isDark = isSystemInDarkTheme()) ?: CreamLightColors
 
         AppThemeMode.DARK_NIGHT -> DarkNightColors
     }
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = AppTypography,
+        typography = appTypography(),
         content = content
     )
 }

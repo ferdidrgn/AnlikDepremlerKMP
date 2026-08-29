@@ -1,0 +1,201 @@
+<resources>
+    <!-- Umumiy -->
+    <string name="app_name">Lazzatli Zilzilalar</string>
+    <string name="app_branding">Zilzila Kuzatuvchi</string>
+    <string name="version_text">v1.0.0 • Professional Nashr</string>
+    <string name="back">Orqaga</string>
+    <string name="cancel">Bekor qilish</string>
+    <string name="close">Yopish</string>
+    <string name="retry">Qaytadan urinib ko\'ring</string>
+    <string name="warning_offline">⚠️ Internet aloqasi yo\'q! Keshdagi ma\'lumotlar ko\'rsatilmoqda.</string>
+
+    <!-- Navigatsiya -->
+    <string name="nav_home">Bosh sahifa</string>
+    <string name="nav_earthquakes">Zilzilalar</string>
+    <string name="nav_map">Xarita</string>
+    <string name="nav_settings">Sozlamalar</string>
+
+    <!-- Splash va Kirish -->
+    <string name="splash_title">Tezkor Zilzila</string>
+    <string name="splash_subtitle">Seysmik Kuzatuv va Erta Ogohlantirish</string>
+    <string name="onboarding_skip">O\'tkazib yuborish</string>
+    <string name="onboarding_next">Keyingisi</string>
+    <string name="onboarding_badge_1">🔴 JONLI SEYSMIKA</string>
+    <string name="onboarding_title_1">Seysmik Kuzatuv\nXavfsiz Qo\'llarda</string>
+    <string name="onboarding_desc_1">Kandilli, AFAD va USGS ma\'lumotlari bilan 24/7 tezkor zilzila tahlili va jonli yoriqlar kuzatuvi.</string>
+    <string name="onboarding_float_title_1">Oxirgi zilzila: Marmara</string>
+    <string name="onboarding_float_sub_1">4.2 Mw • 8.5 km chuqurlik</string>
+
+    <string name="onboarding_badge_2">📍 AQLLI JOYLASHUV</string>
+    <string name="onboarding_title_2">Erta Ogohlantirish va\nJoylashuv Tahlili</string>
+    <string name="onboarding_desc_2">Hududingizdagi yoriq chiziqlarini o\'rganing, 3 soniyada avtomatik so\'rov bilan xavfsiz bo\'ling.</string>
+    <string name="onboarding_float_title_2">Mintaqaviy Xavf Xaritasi</string>
+    <string name="onboarding_float_sub_2">Yuqori aniqlikdagi seysmograf</string>
+
+    <string name="onboarding_badge_3">🎒 XAVFSIZLIK</string>
+    <string name="onboarding_title_3">Xavfsiz Bo\'ling,\nTayyorgarlik Ko\'ring!</string>
+    <string name="onboarding_desc_3">Favqulodda vaziyatlar toplami ro\'yxati va hayotni saqlab qoluvchi qo\'llanmalar bilan oilangiz xavfsizligini tasodifga topshirmang.</string>
+    <string name="onboarding_float_title_3">Favqulodda To\'plamni Tekshirish</string>
+    <string name="onboarding_float_sub_3">Zahirasi 100% tayyor va yangilangan</string>
+
+    <!-- Bosh Sahifa -->
+    <string name="header_subtitle">Zilzila Kuzatuvchi</string>
+    <string name="header_title">Xavfsiz bo\'ling 👋</string>
+    <string name="live_data">JONLI MA\'LUMOT</string>
+    <string name="data_source_title">Zilzila Ma\'lumot Manbai</string>
+    <string name="source_kandilli">Kandilli 🏢</string>
+    <string name="source_afad">AFAD 🚨</string>
+    <string name="source_turkey_all">Turkiya Aralash 🌐</string>
+    <string name="source_usgs">USGS Dunyo 🌍</string>
+    <string name="source_world_igp">Dunyo (IGP) 🌍</string>
+
+    <string name="hero_guide_tag">MUHIM QO\'LLANMA</string>
+    <string name="hero_guide_title">Zilzila Paytida Nima Qilish Kerak</string>
+    <string name="hero_guide_desc">Hayotni saqlab qoluvchi 3 oltin qoidani darhol o\'rganing.</string>
+
+    <string name="daily_summary_title">Bugungi Xulosa</string>
+    <string name="daily_summary_subtitle">Seysmik Faollik Hisoboti</string>
+    <string name="total_today">Bugun Jami</string>
+    <string name="highest">Eng Yuqori</string>
+
+    <string name="detailed_stats_title">📊 Batafsil Statistikalar</string>
+    <string name="stat_today">Bugun</string>
+    <string name="stat_week">Hafta</string>
+    <string name="stat_month">Oylik</string>
+    <string name="stat_avg">O\'rtacha</string>
+    <string name="stat_max">Eng Kattasi</string>
+    <string name="stat_active">Eng Faol Hudud</string>
+    <string name="unit_earthquake">zilzila</string>
+    <string name="unit_region">hudud</string>
+
+    <string name="location_based_title">Joylashuv Bo\'yicha</string>
+    <string name="location_based_subtitle">Mintaqaviy Zilzila Tahlili (Avto Qidiruv)</string>
+    <string name="location_search_placeholder">Shaharni kiriting (3s keyin qidiradi...)</string>
+    <string name="location_no_result">Qidiruvingizga mos zilzila yozuvi topilmadi.</string>
+
+    <string name="map_preview_title">Zilzila Xaritasi</string>
+    <string name="map_preview_subtitle">Joylashuvga asoslangan seysmik ko\'rik</string>
+
+    <string name="chart_magnitude_title">📈 Magnituda Taqsimoti</string>
+    <string name="chart_last_24h">Oxirgi 24 Soat</string>
+
+    <string name="info_tips_title">Ma\'lumot va Maslahatlar</string>
+    <string name="info_tips_subtitle">Opat bo\'yicha Yo\'riqnoma</string>
+
+    <string name="checklist_section_title">🎒 Favqulodda To\'plam Nazorati</string>
+    <string name="checklist_item_food_title">Suv va konserva tayyormi?</string>
+    <string name="checklist_item_food_desc">Kamida 3 kunlik zaxira tavsiya etiladi.</string>
+
+    <string name="filter_1h">1 Soat</string>
+    <string name="filter_6h">6 Soat</string>
+    <string name="filter_24h">24 Soat</string>
+    <string name="filter_7d">7 Kun</string>
+    <string name="filter_30d">30 Kun</string>
+
+    <string name="recent_earthquakes_title">🔄 Oxirgi Zilzilalar (%1$d)</string>
+    <string name="see_all">Barchasini Ko\'rish</string>
+
+    <!-- Zilzila Ro'yxati -->
+    <string name="seismic_flow_title">Seysmik Oqim</string>
+    <string name="all_earthquakes_title">Barcha Zilzilalar</string>
+    <string name="record_count">%1$d Yozuv</string>
+    <string name="search_city_or_region">Shahar yoki hududni qidiring...</string>
+    <string name="filter_all">Barchasi</string>
+    <string name="source_label">Manba: %1$s</string>
+
+    <!-- Tafsilotlar -->
+    <string name="label_magnitude">Magnituda</string>
+    <string name="label_depth">Chuqurlik</string>
+    <string name="label_intensity">Kuchi</string>
+    <string name="label_perceived_intensity">Sezilgan Kuchi</string>
+    <string name="label_source">Manba</string>
+    <string name="important_warning">⚠️ MUHIM</string>
+    <string name="show_more">Ko\'proq Ko\'rsatish</string>
+    <string name="show_less">Kamroq Ko\'rsatish</string>
+
+    <string name="whistle_title">Favqulodda Hushtak</string>
+    <string name="whistle_desc">Qidiruv va qutqaruv sirenasini chaladi</string>
+    <string name="whistle_start">CHALISH 🔊</string>
+    <string name="whistle_stop">TO\'XTATISH</string>
+    <string name="share_earthquake_info">Zilzila Ma\'lumotini Ulashish</string>
+    <string name="share_template">🚨 ZILZILA OGOHLANTIRISHI\n\n📍 Joylashuv: %1$s (%2$s)\n💥 Magnituda: %3$.1f Mw\n📏 Chuqurlik: %4$.1f km\n🕒 Vaqt: %5$s - %6$s\n\nBatafsil ma\'lumot uchun Lazzatli Zilzilalar ilovasini oching: https://anlikdepremler.com/earthquake/%7$s</string>
+
+    <!-- Reklamalar -->
+    <string name="ad_sponsored">HOMIYLIK</string>
+    <string name="ad_label">Reklama</string>
+
+    <!-- Sozlamalar -->
+    <string name="settings_title">Sozlamalar</string>
+    <string name="category_preferences">SOZLAMALAR VA KO\'RINISH</string>
+    <string name="select_language">Ilova Tili</string>
+    <string name="app_theme">Ilova Mavzusi</string>
+    <string name="theme_cream">Kaymoq Mavzusi 🍦</string>
+    <string name="theme_system">Tizim Dinamikasi 📱</string>
+    <string name="theme_dark">Qorong\'i Tun 🌙</string>
+    <string name="select_theme_dialog_title">Mavzuni Tanlang</string>
+
+    <string name="category_notifications">BILDIRISHNOMALAR VA RUXSATLAR</string>
+    <string name="notification_settings">Bildirishnoma Sozlamalari</string>
+    <string name="notification_settings_sub">Zilzila ogohlantirish sozlamalarini boshqarish</string>
+    <string name="location_permissions">Joylashuv Ruxsatlari</string>
+    <string name="location_permissions_sub">Yaqindagi zilzilalarni ko\'rish uchun zarur</string>
+
+    <string name="category_support">QO\'LLAB-QUVVATLASH VA JAMOAT</string>
+    <string name="buy_coffee">Kofe Olib Berish ☕</string>
+    <string name="buy_coffee_sub">Dasturchini qo\'llab-quvvatlang</string>
+    <string name="rate_app">Ilovani Baholash</string>
+    <string name="rate_app_sub">Google Play Store do\'konida baholang</string>
+    <string name="share_app">Ilovani Ulashish</string>
+    <string name="share_app_sub">Oilangiz va yaqinlaringiz bilan ulashing</string>
+    <string name="send_feedback">Fikr-mulohaza Yuborish</string>
+    <string name="send_feedback_sub">Xatolik haqida xabar bering yoki taklif yuboring</string>
+    <string name="thanks_for_rating">Baholaganingiz uchun rahmat!</string>
+    <string name="thanks_for_coffee">☕ Qo\'llab-quvvatlaganingiz va kofe uchun rahmat!</string>
+
+    <string name="category_legal">HUQUQIY VA HAQIDA</string>
+    <string name="privacy_policy">Mahiylik Siyosati</string>
+    <string name="privacy_policy_sub">Firebase ma\'lumotlari va maxfiylik</string>
+    <string name="terms_conditions">Foydalanish Shartlari</string>
+    <string name="terms_conditions_sub">Foydalanish qoidalari va shartlari</string>
+    <string name="privacy_header_title">Ma\'lumotlaringiz xavfsizligi biz uchun muhim</string>
+    <string name="terms_header_title">Foydalanish Qoidalari va Shartlar</string>
+    <string name="last_update">Oxirgi yangilanish: 2026</string>
+    <string name="error_offline_text">Internet aloqangizni tekshiring.</string>
+    <string name="error_load_text">Matn yuklanmadi. Qayta urinib ko\'ring.</string>
+
+    <!-- Xarita -->
+    <string name="search_map_placeholder">Xaritalardan Shahar/Hudud Qidirish...</string>
+    <string name="depth_label">Chuqurlik: %1$.1f km</string>
+    <string name="source_emsc">EMSC Yevropa 🇪🇺</string>
+
+    <!-- Rasmiy Qo‘llanmalar -->
+    <string name="guide_afad_before_title">AFAD Zilzilaga tayyorgarlik qo‘llanmasi</string>
+    <string name="guide_afad_before_desc">Zilziladan oldin ko‘rilishi kerak bo‘lgan rasmiy choralar.</string>
+    <string name="guide_akut_bag_title">AKUT Favqulodda xaltani tayyorlash</string>
+    <string name="guide_akut_bag_desc">Favqulodda vaziyat xaltasida bo‘lishi kerak bo‘lgan buyumlar va oziq-ovqatlar.</string>
+    <string name="guide_kizilay_first_aid_title">Qizil Yarim Oy Birinchi yordam qoidalari</string>
+    <string name="guide_kizilay_first_aid_desc">Siltanish paytida va undan keyin hayotni saqlab qoluvchi qadamlar.</string>
+
+    <!-- Favqulodda SMS -->
+    <string name="emergency_safe_btn">Men yaxshiman, xavfsizdaman 👍</string>
+    <string name="emergency_help_btn">Menga shoshilinch yordam kerak 🚨</string>
+    <string name="official_sources_title">🏛️ Rasmiy tashkilot manbalari</string>
+    <string name="emergency_contact_phone">Favqulodda aloqa raqami</string>
+    <string name="emergency_contact_phone_sub">Otabat paytida SMS yuboriladigan shaxs</string>
+    <string name="emergency_phone_title">Favqulodda aloqa</string>
+    <string name="emergency_phone_desc">Zilzila paytida xavfsiz ekanligingizni bildirish yoki yordam so\'rash uchun joylashuvingiz bilan SMS yuboriladigan raqamni kiriting.</string>
+    <string name="phone_number_hint">Telefon raqami</string>
+    <string name="phone_privacy_notice">Maxfiylik bildirishnomasi: Ushbu raqam faqat telefoningiz xotirasida saqlanadi va serverlarimizga HECH QACHON saqlanmaydi.</string>
+    <string name="not_set">Hali sozlanmagan</string>
+    <string name="save">Saqlash</string>
+    <string name="nearby_earthquake_title">Yaqiningizda zilzila aniqlandi!</string>
+    <string name="nearby_earthquake_desc">Yaqinlaringizga holatingiz haqida xabar berish uchun quyidagi tugmalardan birini tanlang:</string>
+    <string name="btn_im_safe">Xavfsizdaman</string>
+    <string name="btn_need_help">Yordam so\'rash</string>
+    <string name="permissions_title">Muhim ruxsatlar talab qilinadi</string>
+    <string name="permissions_desc">Ilova yaqiningizdagi silkinishlarni aniqlashi va favqulodda xabarnomalarni yuborishi uchun Joylashuv va Bildirishnoma ruxsatlari kerak.</string>
+    <string name="btn_grant_permissions">Ruxsat berish</string>
+    <!-- Tarixiy yirik zilzilalar kartochkasi -->
+    <string name="historical_archive_title">Tarixdagi yirik zilzilalar</string>
+    <string name="historical_archive_subtitle">O‘tmishdan hozirgacha bo‘lgan seysmik arxiv</string>
+</resources>

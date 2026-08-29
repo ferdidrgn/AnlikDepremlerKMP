@@ -42,6 +42,12 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material3)
+            implementation(compose.materialIconsExtended)
+            implementation(compose.components.resources)
+
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlinx.datetime)
@@ -65,11 +71,6 @@ kotlin {
             implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
             implementation("androidx.activity:activity-compose:1.9.3")
 
-            implementation("androidx.compose.ui:ui:1.7.5")
-            implementation("androidx.compose.ui:ui-graphics:1.7.5")
-            implementation("androidx.compose.ui:ui-tooling-preview:1.7.5")
-            implementation("androidx.compose.material3:material3:1.3.1")
-            implementation("androidx.compose.material:material-icons-extended:1.7.5")
             implementation(libs.material)
 
             implementation("androidx.navigation:navigation-compose:2.8.4")
@@ -184,5 +185,11 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
+    }
+}
+
+compose {
+    resources {
+        packageOfResClass = "com.ferdidrgn.anlikdepremler.resources"
     }
 }

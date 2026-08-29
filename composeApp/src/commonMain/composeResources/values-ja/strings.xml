@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- アプリ全般 -->
+    <string name="app_name">リアルタイム地震</string>
+    <string name="app_branding">地震トラッカー</string>
+    <string name="version_text">v1.0.0 • Professional Edition</string>
+    <string name="back">戻る</string>
+    <string name="cancel">キャンセル</string>
+    <string name="close">閉じる</string>
+    <string name="retry">再試行</string>
+    <string name="warning_offline">⚠️ インターネット接続がありません。最後にキャッシュされたデータを表示しています。</string>
+
+    <!-- ナビゲーションバー -->
+    <string name="nav_home">ホーム</string>
+    <string name="nav_earthquakes">地震一覧</string>
+    <string name="nav_map">マップ</string>
+    <string name="nav_settings">設定</string>
+
+    <!-- スプラッシュ & オンボーディング -->
+    <string name="splash_title">リアルタイム地震</string>
+    <string name="splash_subtitle">地震監視 &amp; 早期警戒システム</string>
+    <string name="onboarding_skip">スキップ</string>
+    <string name="onboarding_next">次へ</string>
+    <string name="onboarding_badge_1">🔴 リアルタイム監視</string>
+    <string name="onboarding_title_1">地震監視を\n安心の手に</string>
+    <string name="onboarding_desc_1">Kandilli、AFAD、USGSのデータを使用した24/7のリアルタイム揺れ分析と断層線トラッキング。</string>
+    <string name="onboarding_float_title_1">最新の揺れ: マルマラ</string>
+    <string name="onboarding_float_sub_1">4.2 Mw • 深さ 8.5 km</string>
+
+    <string name="onboarding_badge_2">📍 スマート位置情報</string>
+    <string name="onboarding_title_2">早期警戒 &amp;\n位置分析</string>
+    <string name="onboarding_desc_2">地域の断層線を調べ、3秒の自動照会で身の安全を確保しましょう。</string>
+    <string name="onboarding_float_title_2">地域リスクマップ</string>
+    <string name="onboarding_float_sub_2">高精度地震計</string>
+
+    <string name="onboarding_badge_3">🎒 防災意識</string>
+    <string name="onboarding_title_3">安全を確保し、\n備えましょう！</string>
+    <string name="onboarding_desc_3">非常用持ち出し袋のチェックリストと命を守るガイドで、ご家族の安全を確保しましょう。</string>
+    <string name="onboarding_float_title_3">非常持ち出し袋の点検</string>
+    <string name="onboarding_float_sub_3">準備状態 100% 完了・最新</string>
+
+    <!-- ホーム画面 (HomeScreen) -->
+    <string name="header_subtitle">地震トラッカー</string>
+    <string name="header_title">ご無事で 👋</string>
+    <string name="live_data">ライブデータ</string>
+    <string name="data_source_title">地震データ情報源</string>
+    <string name="source_kandilli">Kandilli 🏢</string>
+    <string name="source_afad">AFAD 🚨</string>
+    <string name="source_turkey_all">トルコ総合 🌐</string>
+    <string name="source_usgs">USGS グローバル 🌍</string>
+    <string name="source_world_igp">世界 (IGP) 🌍</string>
+
+    <string name="hero_guide_tag">重要ガイド</string>
+    <string name="hero_guide_title">地震発生時の行動基準</string>
+    <string name="hero_guide_desc">命を守る3つのゴールデンルールを今すぐチェック。</string>
+
+    <string name="daily_summary_title">本日の概要</string>
+    <string name="daily_summary_subtitle">地震活動レポート</string>
+    <string name="total_today">本日合計</string>
+    <string name="highest">最大規模</string>
+
+    <string name="detailed_stats_title">📊 詳細統計</string>
+    <string name="stat_today">本日</string>
+    <string name="stat_week">今週</string>
+    <string name="stat_month">今月</string>
+    <string name="stat_avg">平均</string>
+    <string name="stat_max">最大規模</string>
+    <string name="stat_active">最活発地域</string>
+    <string name="unit_earthquake">回</string>
+    <string name="unit_region">地域</string>
+
+    <string name="location_based_title">位置情報指定</string>
+    <string name="location_based_subtitle">地域別地震分析（自動検索）</string>
+    <string name="location_search_placeholder">都市を入力（入力3秒後に検索...）</string>
+    <string name="location_no_result">条件に一致する地震記録が見つかりませんでした。</string>
+
+    <string name="map_preview_title">地震マップ</string>
+    <string name="map_preview_subtitle">位置情報に基づく地震分析</string>
+
+    <string name="chart_magnitude_title">📈 マグニチュード分布</string>
+    <string name="chart_last_24h">過去24時間</string>
+
+    <string name="info_tips_title">情報 &amp; ヒント</string>
+    <string name="info_tips_subtitle">防災意識向上ガイド</string>
+
+    <string name="checklist_section_title">🎒 非常用持ち出し袋チェック</string>
+    <string name="checklist_item_food_title">水や缶詰の準備はできていますか？</string>
+    <string name="checklist_item_food_desc">最低3日分の備蓄を推奨します。</string>
+
+    <string name="filter_1h">1時間</string>
+    <string name="filter_6h">6時間</string>
+
+    <string name="filter_24h">24時間</string>
+    <string name="filter_7d">7日間</string>
+    <string name="filter_30d">30日間</string>
+
+    <string name="recent_earthquakes_title">🔄 最新の地震 (%1$d)</string>
+    <string name="see_all">すべて見る</string>
+
+    <!-- 地震一覧 (EarthquakeListScreen) -->
+    <string name="seismic_flow_title">地震フィード</string>
+    <string name="all_earthquakes_title">すべての地震</string>
+    <string name="record_count">%1$d 件の記録</string>
+    <string name="search_city_or_region">都市または地域を検索...</string>
+    <string name="filter_all">すべて</string>
+    <string name="source_label">情報源: %1$s</string>
+
+    <!-- 地震詳細 (EarthquakeDetailScreen) -->
+    <string name="label_magnitude">規模 (M)</string>
+    <string name="label_depth">深さ</string>
+    <string name="label_intensity">震度</string>
+    <string name="label_perceived_intensity">体感震度</string>
+    <string name="label_source">情報源</string>
+    <string name="important_warning">⚠️ 重要</string>
+    <string name="show_more">詳細を表示</string>
+    <string name="show_less">折りたたむ</string>
+
+    <string name="whistle_title">緊急ホイッスル</string>
+    <string name="whistle_desc">捜索救助用の警報サイレンを鳴らします</string>
+    <string name="whistle_start">鳴らす 🔊</string>
+    <string name="whistle_stop">停止</string>
+    <string name="share_earthquake_info">地震情報を共有</string>
+    <string name="share_template">🚨 地震速報\n\n📍 場所: %1$s (%2$s)\n💥 規模: %3$.1f Mw\n📏 深さ: %4$.1f km\n🕒 日時: %5$s - %6$s\n\n詳細についてはアプリを開いて確認してください: https://anlikdepremler.com/earthquake/%7$s</string>
+
+    <!-- 広告 -->
+    <string name="ad_sponsored">スポンサー</string>
+    <string name="ad_label">広告</string>
+
+    <!-- 設定画面 (SettingsScreen) -->
+    <string name="settings_title">設定</string>
+    <string name="category_preferences">環境設定 &amp; テーマ</string>
+    <string name="select_language">アプリ言語</string>
+    <string name="app_theme">アプリテーマ</string>
+    <string name="theme_cream">クリーム 🍦</string>
+    <string name="theme_system">システム標準 📱</string>
+    <string name="theme_dark">ダークモード 🌙</string>
+    <string name="select_theme_dialog_title">アプリテーマを選択</string>
+
+    <string name="category_notifications">通知 &amp; 権限</string>
+    <string name="notification_settings">通知設定</string>
+    <string name="notification_settings_sub">地震アラートの設定を管理します</string>
+    <string name="location_permissions">位置情報の権限</string>
+    <string name="location_permissions_sub">近くの揺れを確認するために必要です</string>
+
+    <string name="category_support">サポート &amp; コミュニティ</string>
+    <string name="buy_coffee">コーヒーを奢る ☕</string>
+    <string name="buy_coffee_sub">開発者を応援する</string>
+    <string name="rate_app">アプリを評価する</string>
+    <string name="rate_app_sub">Google Play Storeで評価する</string>
+    <string name="share_app">アプリを共有する</string>
+    <string name="share_app_sub">ご家族やご友人と共有しましょう</string>
+    <string name="send_feedback">フィードバックを送信</string>
+    <string name="send_feedback_sub">不具合やご要望を報告する</string>
+    <string name="thanks_for_rating">評価ありがとうございます！</string>
+    <string name="thanks_for_coffee">☕ コーヒーのご支援ありがとうございます！</string>
+
+    <string name="category_legal">利用規約 &amp; 詳細</string>
+    <string name="privacy_policy">プライバシーポリシー</string>
+    <string name="privacy_policy_sub">Firebaseデータおよびプライバシー規定</string>
+    <string name="terms_conditions">利用規約</string>
+    <string name="terms_conditions_sub">利用条件と規定</string>
+    <string name="privacy_header_title">個人情報の保護を重視しています</string>
+    <string name="terms_header_title">利用規約とルール</string>
+    <string name="last_update">最終更新: 2026</string>
+    <string name="error_offline_text">インターネット接続を確認してください。</string>
+    <string name="error_load_text">テキストを読み込めませんでした。再試行してください。</string>
+
+    <!-- マップ画面 (MapScreen) -->
+    <string name="search_map_placeholder">マップで都市/地域を検索...</string>
+    <string name="depth_label">深さ: %1$.1f km</string>
+
+    <string name="source_emsc">EMSC 欧州 🇪🇺</string>
+
+    <!-- 公式ガイドリンク -->
+    <string name="guide_afad_before_title">AFAD 地震事前対策ガイド</string>
+    <string name="guide_afad_before_desc">地震発生前に講じるべき公式な予防措置と構造対策。</string>
+    <string name="guide_akut_bag_title">AKUT 非常用バッグの準備</string>
+    <string name="guide_akut_bag_desc">非常用持ち出し袋に含めるべき物資と食料の基準。</string>
+    <string name="guide_kizilay_first_aid_title">赤新月社 災害応急手当ガイド</string>
+    <string name="guide_kizilay_first_aid_desc">揺れの中および直後に命を救う応急手当のステップ。</string>
+
+    <!-- 緊急 SMS -->
+    <string name="emergency_safe_btn">無事です、安全です 👍</string>
+    <string name="emergency_help_btn">緊急支援が必要です 🚨</string>
+    <string name="official_sources_title">🏛️ 公的機関の参照情報</string>
+    <string name="emergency_contact_phone">緊急連絡先電話番号</string>
+    <string name="emergency_contact_phone_sub">災害時にSMSを送信する相手</string>
+    <string name="emergency_phone_title">緊急連絡先</string>
+    <string name="emergency_phone_desc">地震発生時にワンタップで無事を知らせたり救助を we 要請できるよう、 위치情報付きSMSを送信する電話番号を入力してください。</string>
+    <string name="phone_number_hint">電話番号</string>
+    <string name="phone_privacy_notice">プライバシーに関する注意：この番号はお使いのスマートフォンのメモリにのみ保存され、当社のサーバーに保存されることは一切ありません。</string>
+    <string name="not_set">未設定</string>
+    <string name="save">保存</string>
+    <string name="nearby_earthquake_title">近くで地震が検知されました！</string>
+    <string name="nearby_earthquake_desc">安否状況を大切な人に知らせるには、以下のボタンのいずれかを選択してください：</string>
+    <string name="btn_im_safe">無事です</string>
+    <string name="btn_need_help">救助を要請</string>
+    <string name="permissions_title">必要な権限について</string>
+    <string name="permissions_desc">アプリが近くの揺れを検知して緊急通知を送信するには、位置情報と通知の権限が必要です。</string>
+    <string name="btn_grant_permissions">権限を許可</string>
+    <!-- 歴史的大地震カード -->
+    <string name="historical_archive_title">歴史的大地震</string>
+    <string name="historical_archive_subtitle">過去から現在までの破滅的な地震記録アーカイブ</string>
+</resources>

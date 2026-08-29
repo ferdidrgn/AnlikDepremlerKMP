@@ -1,0 +1,201 @@
+<resources>
+    <!-- Generale -->
+    <string name="app_name">Terremoti Istantanei</string>
+    <string name="app_branding">Monitor Sismico</string>
+    <string name="version_text">v1.0.0 • Edizione Professionale</string>
+    <string name="back">Indietro</string>
+    <string name="cancel">Annulla</string>
+    <string name="close">Chiudi</string>
+    <string name="retry">Riprova</string>
+    <string name="warning_offline">⚠️ Nessuna connessione internet! Visualizzazione dati memorizzati.</string>
+
+    <!-- Barra di Navigazione -->
+    <string name="nav_home">Home</string>
+    <string name="nav_earthquakes">Terremoti</string>
+    <string name="nav_map">Mappa</string>
+    <string name="nav_settings">Impostazioni</string>
+
+    <!-- Splash e Onboarding -->
+    <string name="splash_title">Sisma Istantaneo</string>
+    <string name="splash_subtitle">Monitoraggio Sismico &amp; Allarme Precoce</string>
+    <string name="onboarding_skip">Salta</string>
+    <string name="onboarding_next">Avanti</string>
+    <string name="onboarding_badge_1">🔴 SISMA IN DIRETTA</string>
+    <string name="onboarding_title_1">Monitoraggio Sismico\nin Mani Sicure</string>
+    <string name="onboarding_desc_1">Analisi sismica istantanea 24/7 e tracciamento in tempo reale delle faglie con dati Kandilli, AFAD e USGS.</string>
+    <string name="onboarding_float_title_1">Ultima Scossa: Marmara</string>
+    <string name="onboarding_float_sub_1">4.2 Mw • 8.5 km di profondità</string>
+
+    <string name="onboarding_badge_2">📍 POSIZIONE INTELLIGENTE</string>
+    <string name="onboarding_title_2">Allarme Precoce e\nAnalisi della Posizione</string>
+    <string name="onboarding_desc_2">Esamina le linee di faglia nella tua zona e rimani al sicuro con interrogazioni automatiche in 3 secondi.</string>
+    <string name="onboarding_float_title_2">Mappa del Rischio Regionale</string>
+    <string name="onboarding_float_sub_2">Sismografo ad alta precisione</string>
+
+    <string name="onboarding_badge_3">🎒 PREVENZIONE DISASTRI</string>
+    <string name="onboarding_title_3">Rimani al Sicuro,\nSii Preparato!</string>
+    <string name="onboarding_desc_3">Non lasciare al caso la sicurezza della tua famiglia con liste di controllo per il kit di emergenza e guide salvavita.</string>
+    <string name="onboarding_float_title_3">Controllo Kit di Emergenza</string>
+    <string name="onboarding_float_sub_3">Stato scorte 100% pronto e aggiornato</string>
+
+    <!-- Schermata Principale -->
+    <string name="header_subtitle">Monitor Sismico</string>
+    <string name="header_title">Rimani al Sicuro 👋</string>
+    <string name="live_data">DATI IN DIRETTA</string>
+    <string name="data_source_title">Fonte Dati Terremoti</string>
+    <string name="source_kandilli">Kandilli 🏢</string>
+    <string name="source_afad">AFAD 🚨</string>
+    <string name="source_turkey_all">Turchia Misto 🌐</string>
+    <string name="source_usgs">USGS Mondo 🌍</string>
+    <string name="source_world_igp">Mondo (IGP) 🌍</string>
+
+    <string name="hero_guide_tag">GUIDA IMPORTANTE</string>
+    <string name="hero_guide_title">Cosa Fare Durante un Terremoto</string>
+    <string name="hero_guide_desc">Leggi subito le 3 regole d\'oro per salvare la vita.</string>
+
+    <string name="daily_summary_title">Riepilogo di Oggi</string>
+    <string name="daily_summary_subtitle">Rapporto Attività Sismica</string>
+    <string name="total_today">Totale Oggi</string>
+    <string name="highest">Più Alto</string>
+
+    <string name="detailed_stats_title">📊 Statistiche Dettagliate</string>
+    <string name="stat_today">Oggi</string>
+    <string name="stat_week">Settimana</string>
+    <string name="stat_month">Mese</string>
+    <string name="stat_avg">Media</string>
+    <string name="stat_max">Mag. Massima</string>
+    <string name="stat_active">Più Attiva</string>
+    <string name="unit_earthquake">scosse</string>
+    <string name="unit_region">regione</string>
+
+    <string name="location_based_title">Per Posizione</string>
+    <string name="location_based_subtitle">Analisi Sismica Regionale (Ricerca Auto)</string>
+    <string name="location_search_placeholder">Inserisci città (Cerca dopo 3s...)</string>
+    <string name="location_no_result">Nessun terremoto trovato corrispondente alla ricerca.</string>
+
+    <string name="map_preview_title">Mappa dei Terremoti</string>
+    <string name="map_preview_subtitle">Ispezione sismica basata sulla posizione</string>
+
+    <string name="chart_magnitude_title">📈 Distribuzione Magnitudo</string>
+    <string name="chart_last_24h">Ultime 24 Ore</string>
+
+    <string name="info_tips_title">Info &amp; Consigli</string>
+    <string name="info_tips_subtitle">Guida alla Sensibilizzazione sui Disastri</string>
+
+    <string name="checklist_section_title">🎒 Controllo Kit di Emergenza</string>
+    <string name="checklist_item_food_title">Acqua e cibo in scatola pronti?</string>
+    <string name="checklist_item_food_desc">Si consigliano scorte per almeno 3 giorni.</string>
+
+    <string name="filter_1h">1 Ora</string>
+    <string name="filter_6h">6 Ore</string>
+    <string name="filter_24h">24 Ore</string>
+    <string name="filter_7d">7 Giorni</string>
+    <string name="filter_30d">30 Giorni</string>
+
+    <string name="recent_earthquakes_title">🔄 Terremoti Recenti (%1$d)</string>
+    <string name="see_all">Vedi Tutti</string>
+
+    <!-- Lista Terremoti -->
+    <string name="seismic_flow_title">Flusso Sismico</string>
+    <string name="all_earthquakes_title">Tutti i Terremoti</string>
+    <string name="record_count">%1$d Registrazioni</string>
+    <string name="search_city_or_region">Cerca città o regione...</string>
+    <string name="filter_all">Tutti</string>
+    <string name="source_label">Fonte: %1$s</string>
+
+    <!-- Dettaglio Terremoto -->
+    <string name="label_magnitude">Magnitudo</string>
+    <string name="label_depth">Profondità</string>
+    <string name="label_intensity">Intensità</string>
+    <string name="label_perceived_intensity">Intensità Avvertita</string>
+    <string name="label_source">Fonte</string>
+    <string name="important_warning">⚠️ IMPORTANTE</string>
+    <string name="show_more">Mostra Più</string>
+    <string name="show_less">Mostra Meno</string>
+
+    <string name="whistle_title">Fischietto di Emergenza</string>
+    <string name="whistle_desc">Suona sirena di ricerca e soccorso</string>
+    <string name="whistle_start">AVVIA 🔊</string>
+    <string name="whistle_stop">STOP</string>
+    <string name="share_earthquake_info">Condividi Info Terremoto</string>
+    <string name="share_template">🚨 ALLERTA TERREMOTO\n\n📍 Posizione: %1$s (%2$s)\n💥 Magnitudo: %3$.1f Mw\n📏 Profondità: %4$.1f km\n🕒 Ora: %5$s - %6$s\n\nApri l\'app Terremoti Istantanei per i dettagli: https://anlikdepremler.com/earthquake/%7$s</string>
+
+    <!-- Pubblicità -->
+    <string name="ad_sponsored">SPONSORIZZATO</string>
+    <string name="ad_label">Annuncio</string>
+
+    <!-- Impostazioni -->
+    <string name="settings_title">Impostazioni</string>
+    <string name="category_preferences">PREFERENZE &amp; ASPETTO</string>
+    <string name="select_language">Lingua dell\'App</string>
+    <string name="app_theme">Tema dell\'App</string>
+    <string name="theme_cream">Tema Crema 🍦</string>
+    <string name="theme_system">Dinamico di Sistema 📱</string>
+    <string name="theme_dark">Notte Scura 🌙</string>
+    <string name="select_theme_dialog_title">Seleziona Tema</string>
+
+    <string name="category_notifications">NOTIFICHE &amp; PERMESSI</string>
+    <string name="notification_settings">Impostazioni Notifiche</string>
+    <string name="notification_settings_sub">Gestisci le preferenze di allerta sismica</string>
+    <string name="location_permissions">Permessi di Posizione</string>
+    <string name="location_permissions_sub">Necessario per vedere i terremoti vicini</string>
+
+    <string name="category_support">SUPPORTO &amp; COMMUNITY</string>
+    <string name="buy_coffee">Offri un Caffè ☕</string>
+    <string name="buy_coffee_sub">Sostieni lo sviluppatore</string>
+    <string name="rate_app">Valuta l\'App</string>
+    <string name="rate_app_sub">Valutaci su Google Play Store</string>
+    <string name="share_app">Condividi App</string>
+    <string name="share_app_sub">Condividi con familiari e amici</string>
+    <string name="send_feedback">Invia Feedback</string>
+    <string name="send_feedback_sub">Segnala bug e invia suggerimenti</string>
+    <string name="thanks_for_rating">Grazie per la tua valutazione!</string>
+    <string name="thanks_for_coffee">☕ Grazie per il tuo supporto e per il caffè!</string>
+
+    <string name="category_legal">LEGALE &amp; INFO</string>
+    <string name="privacy_policy">Informativa sulla Privacy</string>
+    <string name="privacy_policy_sub">Dati Firebase e privacy</string>
+    <string name="terms_conditions">Termini e Condizioni</string>
+    <string name="terms_conditions_sub">Termini d\'uso e linee guida</string>
+    <string name="privacy_header_title">La sicurezza dei tuoi dati è importante</string>
+    <string name="terms_header_title">Termini di Utilizzo &amp; Regole</string>
+    <string name="last_update">Ultimo aggiornamento: 2026</string>
+    <string name="error_offline_text">Controlla la tua connessione internet.</string>
+    <string name="error_load_text">Impossibile caricare il testo. Riprova.</string>
+
+    <!-- Mappa -->
+    <string name="search_map_placeholder">Cerca Città/Regione sulla Mappa...</string>
+    <string name="depth_label">Profondità: %1$.1f km</string>
+    <string name="source_emsc">EMSC Europa 🇪🇺</string>
+
+    <!-- Guide Ufficiali -->
+    <string name="guide_afad_before_title">Guida Pre-Terremoto AFAD</string>
+    <string name="guide_afad_before_desc">Misure ufficiali e precauzioni strutturali prima di un terremoto.</string>
+    <string name="guide_akut_bag_title">Preparazione Kit Emergenza AKUT</string>
+    <string name="guide_akut_bag_desc">Standard di materiali e cibo necessari per lo zaino di emergenza.</string>
+    <string name="guide_kizilay_first_aid_title">Primo Soccorso Mezzaluna Rossa</string>
+    <string name="guide_kizilay_first_aid_desc">Passaggi salvavita di primo soccorso durante e dopo le scosse.</string>
+
+    <!-- SMS di Emergenza -->
+    <string name="emergency_safe_btn">Sto bene, sono al sicuro 👍</string>
+    <string name="emergency_help_btn">Ho bisogno di aiuto urgente 🚨</string>
+    <string name="official_sources_title">🏛️ Riferimenti Istituzionali Ufficiali</string>
+    <string name="emergency_contact_phone">Numero di contatto di emergenza</string>
+    <string name="emergency_contact_phone_sub">Persona a cui inviare un SMS in caso di disastro</string>
+    <string name="emergency_phone_title">Contatto di emergenza</string>
+    <string name="emergency_phone_desc">Inserisci il numero a cui invieremo un SMS con la tua posizione per indicare che sei al sicuro o per richiedere aiuto con un solo clic durante un terremoto.</string>
+    <string name="phone_number_hint">Numero di telefono</string>
+    <string name="phone_privacy_notice">Informativa sulla privacy: Questo numero è memorizzato solo nella memoria del telefono e NON viene mai salvato sui nostri server.</string>
+    <string name="not_set">Non ancora impostato</string>
+    <string name="save">Salva</string>
+    <string name="nearby_earthquake_title">Terremoto rilevato nelle vicinanze!</string>
+    <string name="nearby_earthquake_desc">Seleziona uno dei pulsanti sottostanti per comunicare il tuo stato:</string>
+    <string name="btn_im_safe">Sono al sicuro</string>
+    <string name="btn_need_help">Richiedi aiuto</string>
+    <string name="permissions_title">Autorizzazioni vitali richieste</string>
+    <string name="permissions_desc">L\'app necessita dei permessi di Posizione e Notifica per rilevare scosse vicine a te e inviare notifiche di emergenza.</string>
+    <string name="btn_grant_permissions">Concedi autorizzazioni</string>
+    <!-- Scheda Terremoti Storici -->
+    <string name="historical_archive_title">Grandi Terremoti Storici</string>
+    <string name="historical_archive_subtitle">Devastante archivio sismico dal passato al presente</string>
+</resources>
