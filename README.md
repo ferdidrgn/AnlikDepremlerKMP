@@ -1,5 +1,37 @@
 # Deprem Takip — Premium Kart Tasarımı + Harita + Reklam + Gerçek Veri
 
+## Proje yapısı (Kotlin Multiplatform)
+
+Proje artık tek modüllü bir Android app değil, gerçek bir **Kotlin Multiplatform**
+projesi:
+
+```
+composeApp/
+  src/
+    commonMain/   ← Android + iOS ortak: modeller, DTO'lar, mapper, repository
+                    (Ktor), use case'ler, DataStore, Koin DI, AppThemeMode
+    androidMain/   ← Android'e özel: Compose UI ekranları, navigation, Maps,
+                    AdMob, Firebase, Hilt yerine Koin ile bağlanan ViewModel'ler
+    iosMain/       ← iOS'a özel: CoreLocation konum, Koin platform modülü
+iosApp/            ← Xcode projesine eklenecek Swift kaynakları (bkz. iosApp/README.md)
+```
+
+Paylaşılan katman: veri modelleri, ağ istekleri (Retrofit+Gson yerine Ktor+
+kotlinx.serialization), repository/use case katmanı, DataStore tercihleri, DI
+(Hilt yerine Koin — KMP'de Hilt çalışmıyor). Android UI hâlâ Jetpack Compose
+(`androidMain`); iOS tarafı şimdilik paylaşılan katmanı kullanan minimal bir
+SwiftUI ekranı — Compose UI'ı da paylaşmak ve Maps/AdMob/Firebase'i iOS'a
+taşımak için `iosApp/README.md` içindeki "Sırada ne var" bölümüne bak.
+
+Bu yapı bir Linux sandbox'ta hazırlandı; Android SDK, Xcode ve Google'ın Maven
+deposu (`dl.google.com`) o ortamdan erişilebilir değildi, yani hiçbir hedef
+(`assembleDebug` dahil) orada derlenip doğrulanamadı. İlk gerçek Gradle sync'i
+Android Studio'da (veya normal internet erişimi olan herhangi bir makinede)
+çalıştırıp çıkan hataları düzeltmen gerekebilir — mekanik bir taşıma olduğu için
+beklenen sorunlar küçük olmalı (paket/versiyon uyuşmazlıkları gibi).
+
+---
+
 Bu paket, mevcut (veya yeni oluşturacağın) bir Android Studio projesinin üzerine
 **overlay** edilmek üzere hazırlandı. Paket adı `com.ferdi.deprem`.
 

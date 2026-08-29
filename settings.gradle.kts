@@ -23,5 +23,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "AnlikDepremler"
-include(":app")
+include(":composeApp")
  
