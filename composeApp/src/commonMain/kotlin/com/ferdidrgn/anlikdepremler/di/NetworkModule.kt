@@ -5,6 +5,7 @@ import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.http.ContentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import org.koin.dsl.module
@@ -13,11 +14,17 @@ val networkModule = module {
     single {
         HttpClient {
             install(ContentNegotiation) {
-                json(Json {
+                val json = Json {
                     ignoreUnknownKeys = true
                     isLenient = true
                     coerceInputValues = true
-                })
+                }
+                // A few of the earthquake sources (e.g. Kandilli) send real JSON but
+                // mislabel it as text/html or text/plain - accept the JSON converter
+                // for those content types too, not just application/json.
+                json(json, contentType = ContentType.Application.Json)
+                json(json, contentType = ContentType.Text.Plain)
+                json(json, contentType = ContentType.Text.Html)
             }
             install(Logging) {
                 level = LogLevel.INFO
