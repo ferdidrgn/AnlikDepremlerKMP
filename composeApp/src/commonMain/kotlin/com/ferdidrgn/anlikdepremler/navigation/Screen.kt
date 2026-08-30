@@ -7,6 +7,10 @@ import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.ferdidrgn.anlikdepremler.resources.Res
+import com.ferdidrgn.anlikdepremler.resources.nav_earthquakes
+import com.ferdidrgn.anlikdepremler.resources.nav_home
+import com.ferdidrgn.anlikdepremler.resources.nav_map
+import com.ferdidrgn.anlikdepremler.resources.nav_settings
 import org.jetbrains.compose.resources.StringResource
 
 sealed class Screen(val route: String, val titleRes: StringResource, val icon: ImageVector) {

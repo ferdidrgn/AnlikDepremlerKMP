@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ferdidrgn.anlikdepremler.resources.Res
+import com.ferdidrgn.anlikdepremler.resources.warning_offline
 import org.jetbrains.compose.resources.stringResource
 
 @Composable

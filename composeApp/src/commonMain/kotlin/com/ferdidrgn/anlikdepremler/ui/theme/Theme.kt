@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.ferdidrgn.anlikdepremler.resources.Res
+import com.ferdidrgn.anlikdepremler.resources.merienda_bold
 import org.jetbrains.compose.resources.Font
 
 /** Android 12+ Material You dynamic color; null (and falls back to [CreamLightColors]) elsewhere. */
