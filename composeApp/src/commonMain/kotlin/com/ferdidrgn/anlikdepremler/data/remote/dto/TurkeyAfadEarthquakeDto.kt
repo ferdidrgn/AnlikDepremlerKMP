@@ -20,4 +20,4 @@ data class TurkeyAfadEarthquakeDto(
     @SerialName("date") val date: String? = null,
     @SerialName("isEventUpdate") val isEventUpdate: Boolean? = null,
     @SerialName("lastUpdateDate") val lastUpdateDate: String? = null
-) : Serializable
+)

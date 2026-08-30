@@ -15,4 +15,4 @@ data class TurkeyKandilliEarthquakeDto(
     @SerialName("ml") val ml: String? = null,
     @SerialName("mw") val mw: String? = null,
     @SerialName("revize") val revize: String? = null
-) : Serializable
+)
