@@ -3,15 +3,17 @@ package com.ferdidrgn.anlikdepremler
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.ComposeViewport
 import com.ferdidrgn.anlikdepremler.app.App
+import com.ferdidrgn.anlikdepremler.di.doInitKoin
+import com.ferdidrgn.anlikdepremler.ui.screen.MainViewModel
 import kotlinx.browser.document
+import org.koin.mp.KoinPlatform
 
-// TODO: once the shared App() actually needs injected dependencies (repository, view models),
-// call di.doInitKoin() here first - deliberately skipped for now since the wasmJs
-// DataStore/PreferenceDataStoreFactory path (see di/PlatformModule.kt) is unverified in a real
-// browser and shouldn't be able to crash this minimal render-only entry point.
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
+    doInitKoin()
+    val mainViewModel = KoinPlatform.getKoin().get<MainViewModel>()
+
     ComposeViewport(document.body!!) {
-        App()
+        App(mainViewModel = mainViewModel)
     }
 }

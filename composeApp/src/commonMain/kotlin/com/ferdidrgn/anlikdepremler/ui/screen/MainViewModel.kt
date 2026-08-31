@@ -35,6 +35,14 @@ data class HomeUiState(
     val emergencyPhoneNumber: String = ""
 )
 
+/**
+ * Shared across Android, iOS and web: none of its dependencies are Android-specific
+ * (NetworkMonitor/LocationTracker are expect/actual, PreferencesManager wraps a
+ * cross-platform DataStore, ViewModel/viewModelScope come from the KMP lifecycle-viewmodel
+ * artifact). Each platform still injects it its own way - Android via Koin's
+ * androidx-compose `viewModel {}` DSL (tied to the Activity's ViewModelStore), web/iOS via a
+ * plain Koin `single` since there is no platform ViewModelStore to tie it to there.
+ */
 class MainViewModel(
     private val getEarthquakesUseCase: GetEarthquakesUseCase,
     private val calculateStatisticsUseCase: CalculateStatisticsUseCase,
@@ -50,11 +58,13 @@ class MainViewModel(
 
     private val _locationQueryState = MutableStateFlow("")
 
-    val isOnboardingCompleted = preferencesManager.isOnboardingCompleted.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = false
-    )
+    val isOnboardingCompleted = preferencesManager.isOnboardingCompleted
+        .catch { emit(false) }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = false
+        )
 
     val isConnected: StateFlow<Boolean> = networkMonitor.isConnected
         .stateIn(
@@ -71,9 +81,11 @@ class MainViewModel(
 
     private fun observeEmergencyPhone() {
         viewModelScope.launch {
-            preferencesManager.emergencyPhoneNumber.collect { phone ->
-                _uiState.update { it.copy(emergencyPhoneNumber = phone) }
-            }
+            preferencesManager.emergencyPhoneNumber
+                .catch { /* no persisted phone number available on this platform yet */ }
+                .collect { phone ->
+                    _uiState.update { it.copy(emergencyPhoneNumber = phone) }
+                }
         }
     }
 
@@ -122,15 +134,21 @@ class MainViewModel(
 
     private fun observeUserPreferences() {
         viewModelScope.launch {
-            getUserPreferencesUseCase().collect { prefs ->
-                _uiState.update {
-                    it.copy(
-                        selectedSource = prefs.selectedSource,
-                        currentTheme = prefs.themeMode
-                    )
+            getUserPreferencesUseCase()
+                .catch {
+                    // Preference storage isn't available (e.g. an unsupported browser) -
+                    // fall back to HomeUiState()'s defaults and still load earthquake data.
+                    loadEarthquakes()
                 }
-                loadEarthquakes()
-            }
+                .collect { prefs ->
+                    _uiState.update {
+                        it.copy(
+                            selectedSource = prefs.selectedSource,
+                            currentTheme = prefs.themeMode
+                        )
+                    }
+                    loadEarthquakes()
+                }
         }
     }
 
@@ -163,7 +181,7 @@ class MainViewModel(
                 source = _uiState.value.selectedSource,
                 query = activeQuery
             ).catch { e ->
-                _uiState.update { it.copy(isLoading = false, errorMessage = e.localizedMessage) }
+                _uiState.update { it.copy(isLoading = false, errorMessage = e.localizedMessage()) }
             }.collect { list ->
                 val stats = calculateStatisticsUseCase(list)
                 _uiState.update {
@@ -206,3 +224,6 @@ class MainViewModel(
         _locationQueryState.value = newText
     }
 }
+
+/** java.lang.Throwable.localizedMessage isn't available outside the JVM; this is. */
+private fun Throwable.localizedMessage(): String? = message

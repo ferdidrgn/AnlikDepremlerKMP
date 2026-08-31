@@ -1,0 +1,235 @@
+package com.ferdidrgn.anlikdepremler.ui.web
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import com.ferdidrgn.anlikdepremler.resources.Res
+import com.ferdidrgn.anlikdepremler.resources.chart_magnitude_title
+import com.ferdidrgn.anlikdepremler.resources.filter_1h
+import com.ferdidrgn.anlikdepremler.resources.filter_24h
+import com.ferdidrgn.anlikdepremler.resources.filter_30d
+import com.ferdidrgn.anlikdepremler.resources.filter_6h
+import com.ferdidrgn.anlikdepremler.resources.filter_7d
+import com.ferdidrgn.anlikdepremler.resources.header_subtitle
+import com.ferdidrgn.anlikdepremler.resources.header_title
+import com.ferdidrgn.anlikdepremler.resources.recent_earthquakes_title
+import com.ferdidrgn.anlikdepremler.resources.stat_avg
+import com.ferdidrgn.anlikdepremler.resources.stat_max
+import com.ferdidrgn.anlikdepremler.resources.stat_month
+import com.ferdidrgn.anlikdepremler.resources.stat_today
+import com.ferdidrgn.anlikdepremler.resources.stat_week
+import com.ferdidrgn.anlikdepremler.ui.screen.HomeUiState
+import com.ferdidrgn.anlikdepremler.ui.screen.MainViewModel
+import org.jetbrains.compose.resources.stringResource
+
+/** Width above which the desktop dashboard layout (sidebar + table) replaces the stacked one. */
+private val DESKTOP_BREAKPOINT = 900.dp
+
+/**
+ * The web target's real home screen - deliberately NOT a stretched copy of the mobile phone
+ * layout (a single scrolling column of cards). Wide viewports get a fixed sidebar + a dense,
+ * hoverable data table that only the table itself scrolls, the way a browser-based monitoring
+ * dashboard reads; narrow (mobile browser) viewports fall back to a stacked layout instead.
+ */
+@Composable
+fun WebDashboard(mainViewModel: MainViewModel) {
+    val uiState by mainViewModel.uiState.collectAsState()
+
+    BoxWithConstraints(
+        modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)
+    ) {
+        if (maxWidth >= DESKTOP_BREAKPOINT) {
+            DesktopDashboard(uiState, mainViewModel)
+        } else {
+            MobileWebDashboard(uiState, mainViewModel)
+        }
+    }
+}
+
+@Composable
+private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel) {
+    Row(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .width(280.dp)
+                .fillMaxHeight()
+                .background(MaterialTheme.colorScheme.surface)
+                .verticalScroll(rememberScrollState())
+                .padding(20.dp)
+        ) {
+            WebBrandHeader(stringResource(Res.string.header_title))
+            Spacer(modifier = Modifier.height(28.dp))
+            Text(
+                "VERİ KAYNAĞI",
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            WebSourceList(selected = uiState.selectedSource, onSelected = viewModel::onSourceChanged)
+
+            Spacer(modifier = Modifier.height(28.dp))
+            Text(
+                stringResource(Res.string.chart_magnitude_title),
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            WebMagnitudeMiniChart(uiState.statistics.magnitudeDistribution)
+        }
+
+        HorizontalDivider(
+            modifier = Modifier.fillMaxHeight().width(1.dp),
+            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f)
+        )
+
+        Column(modifier = Modifier.weight(1f).fillMaxHeight().padding(28.dp)) {
+            Text(stringResource(Res.string.header_subtitle), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(stringResource(Res.string.header_title), style = MaterialTheme.typography.displayMedium, fontWeight = FontWeight.Bold)
+
+            Spacer(modifier = Modifier.height(20.dp))
+            WebStatsGrid(uiState)
+
+            Spacer(modifier = Modifier.height(24.dp))
+            WebTimeFilterRow(
+                selected = uiState.selectedTimeFilter,
+                labels = timeFilterLabels(),
+                onSelected = viewModel::onTimeFilterSelected
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                stringResource(Res.string.recent_earthquakes_title, uiState.earthquakes.size),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Card(
+                modifier = Modifier.fillMaxWidth().weight(1f),
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+            ) {
+                Column(modifier = Modifier.fillMaxSize()) {
+                    WebEarthquakeTableHeader()
+                    EarthquakeTableBody(uiState)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun MobileWebDashboard(uiState: HomeUiState, viewModel: MainViewModel) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(20.dp)
+    ) {
+        WebBrandHeader(stringResource(Res.string.header_title))
+        Spacer(modifier = Modifier.height(20.dp))
+
+        WebSourceList(selected = uiState.selectedSource, onSelected = viewModel::onSourceChanged)
+        Spacer(modifier = Modifier.height(20.dp))
+
+        WebStatsGrid(uiState)
+        Spacer(modifier = Modifier.height(20.dp))
+
+        WebTimeFilterRow(
+            selected = uiState.selectedTimeFilter,
+            labels = timeFilterLabels(),
+            onSelected = viewModel::onTimeFilterSelected
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            stringResource(Res.string.recent_earthquakes_title, uiState.earthquakes.size),
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+
+        if (uiState.isLoading && uiState.earthquakes.isEmpty()) {
+            LoadingState()
+        } else {
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                uiState.earthquakes.forEach { eq ->
+                    WebEarthquakeCardCompact(earthquake = eq, onClick = {})
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun WebStatsGrid(uiState: HomeUiState) {
+    val stats = uiState.statistics
+    Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+        WebStatTile(stringResource(Res.string.stat_today), stats.totalToday.toString(), MaterialTheme.colorScheme.primary, Modifier.weight(1f))
+        WebStatTile(stringResource(Res.string.stat_week), stats.totalWeek.toString(), MaterialTheme.colorScheme.secondary, Modifier.weight(1f))
+        WebStatTile(stringResource(Res.string.stat_month), stats.totalMonth.toString(), MaterialTheme.colorScheme.tertiary, Modifier.weight(1f))
+        WebStatTile(stringResource(Res.string.stat_avg), formatMagnitude(stats.avgMagnitude), MaterialTheme.colorScheme.primary, Modifier.weight(1f))
+        WebStatTile(stringResource(Res.string.stat_max), formatMagnitude(stats.maxMagnitude), MaterialTheme.colorScheme.error, Modifier.weight(1f))
+    }
+}
+
+@Composable
+private fun EarthquakeTableBody(uiState: HomeUiState) {
+    when {
+        uiState.isLoading && uiState.earthquakes.isEmpty() -> LoadingState()
+        uiState.earthquakes.isEmpty() -> EmptyState()
+        else -> LazyColumn(modifier = Modifier.fillMaxSize()) {
+            items(uiState.earthquakes, key = { it.id }) { eq ->
+                WebEarthquakeRow(earthquake = eq, onClick = {})
+                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.2f))
+            }
+        }
+    }
+}
+
+@Composable
+private fun LoadingState() {
+    Box(modifier = Modifier.fillMaxWidth().padding(48.dp), contentAlignment = Alignment.Center) {
+        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+    }
+}
+
+@Composable
+private fun EmptyState() {
+    Box(modifier = Modifier.fillMaxWidth().padding(48.dp), contentAlignment = Alignment.Center) {
+        Text("Gösterilecek deprem verisi yok.", color = MaterialTheme.colorScheme.onSurfaceVariant)
+    }
+}
+
+@Composable
+private fun timeFilterLabels() = mapOf(
+    "1s" to stringResource(Res.string.filter_1h),
+    "6s" to stringResource(Res.string.filter_6h),
+    "24s" to stringResource(Res.string.filter_24h),
+    "7g" to stringResource(Res.string.filter_7d),
+    "30g" to stringResource(Res.string.filter_30d)
+)
+
+private fun formatMagnitude(value: Double): String {
+    val rounded = kotlin.math.round(value * 10) / 10.0
+    return rounded.toString()
+}
