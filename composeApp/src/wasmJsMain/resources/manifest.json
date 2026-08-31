@@ -1,0 +1,25 @@
+{
+  "name": "Anlık Depremler - Deprem Uyarı ve Bilgi",
+  "short_name": "Anlık Depremler",
+  "description": "Türkiye ve dünya genelinde gerçek zamanlı deprem verileri, harita ve bildirimler.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#EBE3D5",
+  "theme_color": "#113D62",
+  "lang": "tr",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
