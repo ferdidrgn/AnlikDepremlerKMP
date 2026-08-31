@@ -4,6 +4,9 @@
     <string name="app_branding">Quake Tracker</string>
     <string name="version_text">v1.0.0 • Professional Edition</string>
     <string name="back">Back</string>
+    <string name="deeplink_loading">Loading earthquake information…</string>
+    <string name="deeplink_not_found_title">This earthquake is no longer in the list</string>
+    <string name="deeplink_not_found_desc">The earthquake from the shared link may have fallen outside the current list.</string>
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>
     <string name="retry">Try Again</string>

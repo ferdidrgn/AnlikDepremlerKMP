@@ -4,6 +4,9 @@
     <string name="app_branding">Моніторинг Поштовхів</string>
     <string name="version_text">v1.0.0 • Професійна версія</string>
     <string name="back">Назад</string>
+    <string name="deeplink_loading">Завантаження інформації про землетрус…</string>
+    <string name="deeplink_not_found_title">Цього землетрусу більше немає в списку</string>
+    <string name="deeplink_not_found_desc">Землетрус із наданого посилання може бути відсутнім у поточному списку.</string>
     <string name="cancel">Скасувати</string>
     <string name="close">Закрити</string>
     <string name="retry">Спробувати знову</string>

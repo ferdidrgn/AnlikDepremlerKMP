@@ -4,6 +4,9 @@
     <string name="app_branding">Зилзала Мыкчымы</string>
     <string name="version_text">v1.0.0 • Профессионалдык Нускасы</string>
     <string name="back">Артка</string>
+    <string name="deeplink_loading">Жер титирөө маалыматы жүктөлүүдө…</string>
+    <string name="deeplink_not_found_title">Бул жер титирөө тизмеде жок болуп калды</string>
+    <string name="deeplink_not_found_desc">Бөлүшүлгөн шилтемедеги жер титирөө учурдагы тизмеден чыгып калган болушу мүмкүн.</string>
     <string name="cancel">Баш тартуу</string>
     <string name="close">Жабуу</string>
     <string name="retry">Кайра аракет кылуу</string>

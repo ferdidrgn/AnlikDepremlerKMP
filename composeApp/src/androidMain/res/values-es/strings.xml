@@ -4,6 +4,9 @@
     <string name="app_branding">Rastreador de Sismos</string>
     <string name="version_text">v1.0.0 • Edición Profesional</string>
     <string name="back">Atrás</string>
+    <string name="deeplink_loading">Cargando información del terremoto…</string>
+    <string name="deeplink_not_found_title">Este terremoto ya no está en la lista</string>
+    <string name="deeplink_not_found_desc">El terremoto del enlace compartido puede haber quedado fuera de la lista actual.</string>
     <string name="cancel">Cancelar</string>
     <string name="close">Cerrar</string>
     <string name="retry">Reintentar</string>

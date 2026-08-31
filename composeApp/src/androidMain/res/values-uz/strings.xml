@@ -4,6 +4,9 @@
     <string name="app_branding">Zilzila Kuzatuvchi</string>
     <string name="version_text">v1.0.0 • Professional Nashr</string>
     <string name="back">Orqaga</string>
+    <string name="deeplink_loading">Zilzila ma\'lumotlari yuklanmoqda…</string>
+    <string name="deeplink_not_found_title">Bu zilzila endi ro\'yxatda yo\'q</string>
+    <string name="deeplink_not_found_desc">Ulashilgan havoladagi zilzila joriy ro\'yxatdan chiqib ketgan bo\'lishi mumkin.</string>
     <string name="cancel">Bekor qilish</string>
     <string name="close">Yopish</string>
     <string name="retry">Qaytadan urinib ko\'ring</string>

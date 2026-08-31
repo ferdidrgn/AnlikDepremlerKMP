@@ -4,6 +4,9 @@
     <string name="app_branding">Παρακολούθηση Σεισμών</string>
     <string name="version_text">v1.0.0 • Επαγγελματική Έκδοση</string>
     <string name="back">Πίσω</string>
+    <string name="deeplink_loading">Φόρτωση πληροφοριών σεισμού…</string>
+    <string name="deeplink_not_found_title">Αυτός ο σεισμός δεν είναι πλέον στη λίστα</string>
+    <string name="deeplink_not_found_desc">Ο σεισμός από τον κοινόχρηστο σύνδεσμο ενδέχεται να μην περιλαμβάνεται πλέον στην τρέχουσα λίστα.</string>
     <string name="cancel">Ακύρωση</string>
     <string name="close">Κλείσιμο</string>
     <string name="retry">Δοκιμάστε ξανά</string>

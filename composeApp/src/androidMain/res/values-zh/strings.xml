@@ -5,6 +5,9 @@
     <string name="app_branding">地震追踪</string>
     <string name="version_text">v1.0.0 • 专业版</string>
     <string name="back">返回</string>
+    <string name="deeplink_loading">正在加载地震信息…</string>
+    <string name="deeplink_not_found_title">该地震已不在列表中</string>
+    <string name="deeplink_not_found_desc">分享链接中的地震可能已不在当前列表范围内。</string>
     <string name="cancel">取消</string>
     <string name="close">关闭</string>
     <string name="retry">重试</string>

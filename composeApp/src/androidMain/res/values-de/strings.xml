@@ -4,6 +4,9 @@
     <string name="app_branding">Erdbeben-Tracker</string>
     <string name="version_text">v1.0.0 • Professional Edition</string>
     <string name="back">Zurück</string>
+    <string name="deeplink_loading">Erdbebeninformationen werden geladen…</string>
+    <string name="deeplink_not_found_title">Dieses Erdbeben ist nicht mehr in der Liste</string>
+    <string name="deeplink_not_found_desc">Das Erdbeben aus dem geteilten Link ist möglicherweise nicht mehr in der aktuellen Liste enthalten.</string>
     <string name="cancel">Abbrechen</string>
     <string name="close">Schließen</string>
     <string name="retry">Erneut versuchen</string>

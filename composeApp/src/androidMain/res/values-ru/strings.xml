@@ -4,6 +4,9 @@
     <string name="app_branding">Мониторинг Толчков</string>
     <string name="version_text">v1.0.0 • Профессиональная версия</string>
     <string name="back">Назад</string>
+    <string name="deeplink_loading">Загрузка информации о землетрясении…</string>
+    <string name="deeplink_not_found_title">Этого землетрясения больше нет в списке</string>
+    <string name="deeplink_not_found_desc">Землетрясение из общей ссылки могло выпасть из текущего списка.</string>
     <string name="cancel">Отмена</string>
     <string name="close">Закрыть</string>
     <string name="retry">Повторить</string>

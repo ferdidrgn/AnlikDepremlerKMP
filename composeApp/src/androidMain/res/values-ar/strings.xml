@@ -4,6 +4,9 @@
     <string name="app_branding">راصد الزلازل</string>
     <string name="version_text">v1.0.0 • الإصدار الاحترافي</string>
     <string name="back">رجوع</string>
+    <string name="deeplink_loading">جارٍ تحميل معلومات الزلزال…</string>
+    <string name="deeplink_not_found_title">هذا الزلزال لم يعد في القائمة</string>
+    <string name="deeplink_not_found_desc">قد يكون الزلزال الموجود في الرابط المشارك قد خرج من القائمة الحالية.</string>
     <string name="cancel">إلغاء</string>
     <string name="close">إغلاق</string>
     <string name="retry">إعادة المحاولة</string>

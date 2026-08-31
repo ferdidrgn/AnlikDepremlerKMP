@@ -4,6 +4,9 @@
     <string name="app_branding">Monitor Sismico</string>
     <string name="version_text">v1.0.0 • Edizione Professionale</string>
     <string name="back">Indietro</string>
+    <string name="deeplink_loading">Caricamento informazioni sul terremoto…</string>
+    <string name="deeplink_not_found_title">Questo terremoto non è più nell\'elenco</string>
+    <string name="deeplink_not_found_desc">Il terremoto nel link condiviso potrebbe essere uscito dall\'elenco aggiornato.</string>
     <string name="cancel">Annulla</string>
     <string name="close">Chiudi</string>
     <string name="retry">Riprova</string>
