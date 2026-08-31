@@ -4,20 +4,17 @@ import android.app.Activity
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
-import androidx.core.content.edit
 
 object LocaleUtils {
 
+    /**
+     * AppCompatDelegate self-persists the per-app locale (Android 13+ system settings,
+     * or an internal store on older versions) and re-applies it automatically on every
+     * future launch — no manual SharedPreferences/attachBaseContext bookkeeping needed.
+     */
     fun setAppLanguage(context: Context, languageCode: String) {
-        // 1. AppCompatDelegate üzerinden varsayılan uygulama dilini güncelliyoruz
         val appLocale = LocaleListCompat.forLanguageTags(languageCode)
         AppCompatDelegate.setApplicationLocales(appLocale)
-
-        // 2. Eski SharedPreferences uyumluluğu (MainActivity attachBaseContext için)
-        val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        prefs.edit { putString("selected_language", languageCode) }
-
-        // 3. Ekranın ve tüm stringResource'ların anında yeni dile dönmesi için Activity'yi yeniden başlatıyoruz
         (context as? Activity)?.recreate()
     }
 }

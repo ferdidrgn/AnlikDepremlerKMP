@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Matches DepremTheme's DarkNightColors.background (Theme.kt), so the
+         Android 12+ splash screen blends into the app's own dark theme. -->
+    <color name="splash_background">#FF111827</color>
+</resources>

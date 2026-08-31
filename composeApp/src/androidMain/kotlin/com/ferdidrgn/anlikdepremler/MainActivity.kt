@@ -1,6 +1,5 @@
 package com.ferdidrgn.anlikdepremler
 
-import android.content.Context
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -14,9 +13,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import com.ferdidrgn.anlikdepremler.core.ads.AdManager
-import com.ferdidrgn.anlikdepremler.core.language.LocaleHelper
 import com.ferdidrgn.anlikdepremler.core.util.CrashlyticsLogger
 import com.ferdidrgn.anlikdepremler.navigation.AppNavigation
 import com.ferdidrgn.anlikdepremler.ui.screen.MainViewModel
@@ -31,14 +30,8 @@ class MainActivity : AppCompatActivity() {
 
     private val adManager: AdManager by inject()
 
-    // 🎯 DİL DOKUNUŞU: UYGULAMA AÇILIRKEN KAYITLI DİLİ YÜKLEYEN KRİTİK METOT
-    override fun attachBaseContext(newBase: Context) {
-        val prefs = newBase.getSharedPreferences("app_prefs", MODE_PRIVATE)
-        val savedLanguage = prefs.getString("selected_language", "tr") ?: "tr"
-        super.attachBaseContext(LocaleHelper.applyLanguage(newBase, savedLanguage))
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setupUncaughtExceptionHandler()

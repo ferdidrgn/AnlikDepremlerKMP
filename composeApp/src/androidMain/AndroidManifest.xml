@@ -96,13 +96,14 @@
 
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <!-- 🌐 1. WEB DEEPLINK (https://anlikdepremler.com/earthquake/...) -->
+            <!-- 🌐 1. WEB DEEPLINK (https://anlikdeprem.web.app/earthquake/... , /map) -->
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -110,8 +111,12 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="anlikdepremler.com"
+                    android:host="anlikdeprem.web.app"
                     android:pathPrefix="/earthquake"
+                    android:scheme="https" />
+                <data
+                    android:host="anlikdeprem.web.app"
+                    android:pathPrefix="/map"
                     android:scheme="https" />
             </intent-filter>
 

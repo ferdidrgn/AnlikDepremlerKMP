@@ -8,6 +8,9 @@
     <string name="close">Kapat</string>
     <string name="retry">Tekrar Deneyin</string>
     <string name="warning_offline">⚠️ İnternet bağlantısı yok! Son önbellek verileri gösteriliyor.</string>
+    <string name="deeplink_loading">Deprem bilgisi yükleniyor…</string>
+    <string name="deeplink_not_found_title">Bu deprem artık listede değil</string>
+    <string name="deeplink_not_found_desc">Paylaşılan bağlantıdaki deprem, güncel liste dışında kalmış olabilir.</string>
 
     <!-- Navigasyon Alt Bar -->
     <string name="nav_home">Ana Sayfa</string>

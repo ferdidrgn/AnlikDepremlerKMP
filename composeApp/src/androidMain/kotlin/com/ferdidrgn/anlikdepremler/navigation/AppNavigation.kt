@@ -3,14 +3,27 @@ package com.ferdidrgn.anlikdepremler.navigation
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.SearchOff
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -115,7 +128,10 @@ fun AppNavigation(
             }
 
             // 3. HARİTA EKRANI
-            composable(Screen.Map.route) {
+            composable(
+                route = Screen.Map.route,
+                deepLinks = DeepLinkHelper.mapDeepLink
+            ) {
                 MapScreen(
                     viewModel = mainViewModel,
                     onBackClick = { navController.popBackStack() }
@@ -139,14 +155,20 @@ fun AppNavigation(
                 deepLinks = DeepLinkHelper.earthquakeDetailDeepLink
             ) { backStackEntry ->
                 val eqId = backStackEntry.arguments?.getString("earthquakeId")
-                val earthquake = uiState.earthquakes.find { it.id == eqId }
+                // rawEarthquakes (not the time-filtered `earthquakes`) so a deep link still
+                // resolves an earthquake that's outside the currently selected time window.
+                val earthquake = uiState.rawEarthquakes.find { it.id == eqId }
 
-                if (earthquake != null)
-                    EarthquakeDetailScreen(
+                when {
+                    earthquake != null -> EarthquakeDetailScreen(
                         earthquake = earthquake,
                         onBackClick = { navController.popBackStack() }
                     )
 
+                    uiState.isLoading -> DeepLinkLoadingState()
+
+                    else -> DeepLinkNotFoundState(onBackClick = { navController.popBackStack() })
+                }
             }
 
             // 6. YASAL METİNLER EKRANI
@@ -175,4 +197,52 @@ fun Context.findActivity(): Activity? {
         context = context.baseContext
     }
     return null
+}
+
+@Composable
+private fun DeepLinkLoadingState() {
+    Column(
+        modifier = Modifier.fillMaxSize().padding(24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+        Text(
+            text = stringResource(com.ferdidrgn.anlikdepremler.R.string.deeplink_loading),
+            modifier = Modifier.padding(top = 16.dp),
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+    }
+}
+
+@Composable
+private fun DeepLinkNotFoundState(onBackClick: () -> Unit) {
+    Column(
+        modifier = Modifier.fillMaxSize().padding(24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Icon(
+            imageVector = Icons.Default.SearchOff,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(bottom = 12.dp)
+        )
+        Text(
+            text = stringResource(com.ferdidrgn.anlikdepremler.R.string.deeplink_not_found_title),
+            style = MaterialTheme.typography.titleMedium,
+            textAlign = TextAlign.Center
+        )
+        Text(
+            text = stringResource(com.ferdidrgn.anlikdepremler.R.string.deeplink_not_found_desc),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(top = 8.dp, bottom = 20.dp)
+        )
+        Button(onClick = onBackClick) {
+            Text(stringResource(com.ferdidrgn.anlikdepremler.R.string.back))
+        }
+    }
 }
