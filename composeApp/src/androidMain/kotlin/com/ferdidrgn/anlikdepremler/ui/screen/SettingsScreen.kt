@@ -1,45 +1,55 @@
 package com.ferdidrgn.anlikdepremler.ui.screen
 
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
-import android.os.Build
-import android.provider.Settings
-import android.widget.Toast
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Language
+import androidx.compose.material.icons.filled.LocalCafe
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.PhoneInTalk
+import androidx.compose.material.icons.filled.PrivacyTip
+import androidx.compose.material.icons.filled.Security
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Gavel
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.koin.androidx.compose.koinViewModel
-import com.android.billingclient.api.*
 import com.ferdidrgn.anlikdepremler.R
 import com.ferdidrgn.anlikdepremler.core.ads.BannerAdView
+import com.ferdidrgn.anlikdepremler.core.billing.launchCoffeeDonationFlow
 import com.ferdidrgn.anlikdepremler.core.language.AppLanguage
 import com.ferdidrgn.anlikdepremler.core.util.ReviewHelper
 import com.ferdidrgn.anlikdepremler.ui.components.NativeAdCard
-import com.ferdidrgn.anlikdepremler.ui.theme.AppThemeMode
+import com.ferdidrgn.anlikdepremler.ui.screen.settings.ModernSettingsTile
+import com.ferdidrgn.anlikdepremler.ui.screen.settings.ModernThemeSelectorCard
+import com.ferdidrgn.anlikdepremler.ui.screen.settings.SettingsCardContainer
+import com.ferdidrgn.anlikdepremler.ui.screen.settings.SettingsCategoryTitle
+import com.ferdidrgn.anlikdepremler.ui.screen.settings.DividerLine
+import com.ferdidrgn.anlikdepremler.ui.screen.settings.openLocationSettings
+import com.ferdidrgn.anlikdepremler.ui.screen.settings.openNotificationSettings
+import com.ferdidrgn.anlikdepremler.ui.screen.settings.openWebPage
+import com.ferdidrgn.anlikdepremler.ui.screen.settings.sendEmailIntent
+import com.ferdidrgn.anlikdepremler.ui.screen.settings.shareApp
 import kotlinx.coroutines.flow.collectLatest
-import androidx.core.net.toUri
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SettingsScreen(
@@ -346,315 +356,5 @@ fun SettingsScreen(
                 }
             }
         )
-    }
-}
-
-@Composable
-fun ModernThemeSelectorCard(
-    currentTheme: AppThemeMode,
-    onThemeSelected: (AppThemeMode) -> Unit
-) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(22.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = stringResource(R.string.app_theme),
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-
-            Surface(
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(16.dp),
-                color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(4.dp),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    val themes = listOf(
-                        AppThemeMode.CREAM_LIGHT to stringResource(R.string.theme_cream),
-                        AppThemeMode.SYSTEM_DYNAMIC to stringResource(R.string.theme_system),
-                        AppThemeMode.DARK_NIGHT to stringResource(R.string.theme_dark)
-                    )
-
-                    themes.forEach { (mode, label) ->
-                        val isSelected = currentTheme == mode
-                        val bgColor by animateColorAsState(
-                            targetValue = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
-                            label = "themeBg"
-                        )
-                        val textColor by animateColorAsState(
-                            targetValue = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant,
-                            label = "themeText"
-                        )
-
-                        Surface(
-                            modifier = Modifier
-                                .weight(1f)
-                                .height(40.dp)
-                                .clickable { onThemeSelected(mode) },
-                            shape = RoundedCornerShape(12.dp),
-                            color = bgColor
-                        ) {
-                            Box(contentAlignment = Alignment.Center) {
-                                Text(
-                                    text = label,
-                                    color = textColor,
-                                    fontSize = 11.sp,
-                                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun SettingsCategoryTitle(title: String) {
-    Text(
-        text = title,
-        fontSize = 11.sp,
-        fontWeight = FontWeight.Bold,
-        color = MaterialTheme.colorScheme.primary,
-        letterSpacing = 1.2.sp,
-        modifier = Modifier.padding(start = 8.dp, bottom = 8.dp)
-    )
-}
-
-@Composable
-private fun SettingsCardContainer(content: @Composable ColumnScope.() -> Unit) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(22.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
-    ) {
-        Column(modifier = Modifier.padding(vertical = 4.dp)) {
-            content()
-        }
-    }
-}
-
-@Composable
-private fun ModernSettingsTile(
-    icon: ImageVector,
-    iconBgColor: Color,
-    title: String,
-    badgeText: String? = null,
-    subtitle: String? = null,
-    valueText: String? = null,
-    onClick: () -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onClick() }
-            .padding(horizontal = 16.dp, vertical = 12.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Box(
-            modifier = Modifier
-                .size(38.dp)
-                .clip(CircleShape)
-                .background(iconBgColor.copy(alpha = 0.15f)),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = null,
-                tint = iconBgColor,
-                modifier = Modifier.size(20.dp)
-            )
-        }
-
-        Spacer(modifier = Modifier.width(12.dp))
-
-        if (badgeText != null) {
-            Surface(
-                shape = RoundedCornerShape(8.dp),
-                color = MaterialTheme.colorScheme.primaryContainer,
-                modifier = Modifier.padding(end = 8.dp)
-            ) {
-                Text(
-                    text = badgeText,
-                    fontSize = 11.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
-                )
-            }
-        }
-
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = title,
-                fontSize = 15.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-            if (subtitle != null) {
-                Text(
-                    text = subtitle,
-                    fontSize = 11.sp,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-        }
-
-        if (valueText != null) {
-            Text(
-                text = valueText,
-                fontSize = 13.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.padding(end = 6.dp)
-            )
-        }
-
-        Icon(
-            imageVector = Icons.Default.ChevronRight,
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f),
-            modifier = Modifier.size(18.dp)
-        )
-    }
-}
-
-@Composable
-private fun DividerLine() {
-    HorizontalDivider(
-        color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f),
-        modifier = Modifier.padding(start = 68.dp)
-    )
-}
-
-private fun sendEmailIntent(context: Context, email: String) {
-    val intent = Intent(Intent.ACTION_SENDTO).apply {
-        "mailto:$email".toUri().also { data = it }
-        putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.app_name))
-    }
-    context.startActivity(Intent.createChooser(intent, null))
-}
-
-private fun openNotificationSettings(context: Context) {
-    val intent = Intent().apply {
-        action = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            Settings.ACTION_APP_NOTIFICATION_SETTINGS
-        else Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
-    }
-    context.startActivity(intent)
-}
-
-private fun openLocationSettings(context: Context) {
-    val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-    context.startActivity(intent)
-}
-
-private fun openWebPage(context: Context, url: String) {
-    context.startActivity(Intent(Intent.ACTION_VIEW, url.toUri()))
-}
-
-private fun shareApp(context: Context) {
-    val sendIntent = Intent(Intent.ACTION_SEND).apply {
-        putExtra(
-            Intent.EXTRA_TEXT,
-            "${context.getString(R.string.app_name)}: https://play.google.com/store/apps/details?id=${context.packageName}"
-        )
-        type = "text/plain"
-    }
-    context.startActivity(Intent.createChooser(sendIntent, null))
-}
-
-private const val DONATION_SMALL = "donation_small"
-
-private fun launchCoffeeDonationFlow(context: Context, productId: String = DONATION_SMALL) {
-    val activity = context as? Activity ?: return
-    lateinit var billingClient: BillingClient
-
-    val pendingPurchasesParams = PendingPurchasesParams.newBuilder()
-        .enableOneTimeProducts()
-        .build()
-
-    billingClient = BillingClient.newBuilder(context)
-        .setListener { billingResult, purchases ->
-            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
-                for (purchase in purchases) {
-                    if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
-                        consumeCoffeePurchase(billingClient, context, purchase)
-                    }
-                }
-            }
-        }
-        .enablePendingPurchases(pendingPurchasesParams)
-        .build()
-
-    billingClient.startConnection(object : BillingClientStateListener {
-        override fun onBillingServiceDisconnected() {}
-        override fun onBillingSetupFinished(billingResult: BillingResult) {
-            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                val productList = listOf(
-                    QueryProductDetailsParams.Product.newBuilder()
-                        .setProductId(productId)
-                        .setProductType(BillingClient.ProductType.INAPP)
-                        .build()
-                )
-
-                val params = QueryProductDetailsParams.newBuilder()
-                    .setProductList(productList)
-                    .build()
-
-                billingClient.queryProductDetailsAsync(params) { result, productDetailsResult ->
-                    val list = productDetailsResult.productDetailsList
-                    if (result.responseCode == BillingClient.BillingResponseCode.OK && list.isNotEmpty()) {
-                        val productDetails = list.first()
-                        val flowParams = BillingFlowParams.newBuilder()
-                            .setProductDetailsParamsList(
-                                listOf(
-                                    BillingFlowParams.ProductDetailsParams.newBuilder()
-                                        .setProductDetails(productDetails)
-                                        .build()
-                                )
-                            )
-                            .build()
-                        billingClient.launchBillingFlow(activity, flowParams)
-                    }
-                }
-            }
-        }
-    })
-}
-
-private fun consumeCoffeePurchase(
-    billingClient: BillingClient,
-    context: Context,
-    purchase: Purchase
-) {
-    val consumeParams = ConsumeParams.newBuilder()
-        .setPurchaseToken(purchase.purchaseToken)
-        .build()
-
-    billingClient.consumeAsync(consumeParams) { billingResult, _ ->
-        if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-            Toast.makeText(
-                context,
-                context.getString(R.string.thanks_for_coffee),
-                Toast.LENGTH_LONG
-            ).show()
-        }
     }
 }
