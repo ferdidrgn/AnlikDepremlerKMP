@@ -1,9 +1,11 @@
 {
   "hosting": {
+    "site": "anlikdeprem",
     "public": "composeApp/build/dist/wasmJs/productionExecutable",
     "ignore": [
       "firebase.json",
       "**/.*",
+      "!/.well-known/**",
       "**/node_modules/**"
     ],
     "headers": [
