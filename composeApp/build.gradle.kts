@@ -145,8 +145,8 @@ android {
         applicationId = "com.ferdidrgn.anlikdepremler"
         minSdk = 24
         targetSdk = 36
-        versionCode = 34
-        versionName = "1.34"
+        versionCode = 36
+        versionName = "1.36"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables { useSupportLibrary = true }
