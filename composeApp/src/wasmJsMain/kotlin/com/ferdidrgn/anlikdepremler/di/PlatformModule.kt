@@ -12,10 +12,13 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 
 /**
- * TODO: androidx.datastore's browser (wasmJs, non-Node) filesystem story is unverified - this
- * compiles against the same PreferenceDataStoreFactory API as Android/iOS, but a real browser
- * has no filesystem, so this almost certainly needs a localStorage/IndexedDB-backed DataStore
- * (or a different persistence layer entirely) before settings actually survive a page reload.
+ * PreferenceDataStoreFactory.createWithPath has a webMain `actual` (since datastore
+ * 1.3.0-alpha01) that swaps in WebSessionStorage automatically instead of touching a
+ * filesystem - the exact same createDataStore() call used on Android/iOS works here
+ * unchanged. Caveat: it's *session* storage, so settings persist for the browser tab's
+ * lifetime but not across a full close-and-reopen; androidx.datastore's newer WebLocalStorage
+ * (1.3.0-alpha08+) would persist permanently instead, at the cost of calling
+ * PreferenceDataStoreFactory.create(storage = ...) directly instead of this shared helper.
  */
 actual fun platformModule(): Module = module {
     single<DataStore<Preferences>> {
