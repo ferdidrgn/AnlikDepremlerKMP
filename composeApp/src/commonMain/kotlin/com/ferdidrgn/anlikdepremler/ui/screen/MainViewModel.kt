@@ -20,10 +20,13 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.seconds
+import kotlin.time.Duration.Companion.minutes
 
 data class HomeUiState(
     val isLoading: Boolean = false,
+    /** A background refresh is in flight while the list already has data to show - unlike
+     *  [isLoading], the UI must never swap the visible list out for a loading skeleton for this. */
+    val isRefreshing: Boolean = false,
     val earthquakes: List<Earthquake> = emptyList(),
     val rawEarthquakes: List<Earthquake> = emptyList(),
     val statistics: EarthquakeStatistics = EarthquakeStatistics(0, 0, 0, 0.0, 0.0, "-", emptyMap()),
@@ -67,6 +70,20 @@ class MainViewModel(
      *  one on every auto-refresh poll while it's still the nearest qualifying quake. */
     private var lastNotifiedEarthquakeId: String? = null
 
+    /** Whether the app is currently visible to the user - set by the platform layer from the
+     *  Activity/page lifecycle. Auto-refresh skips its network call while this is false, since
+     *  the earthquake APIs it polls are free third-party services we don't operate, not ours
+     *  to hammer on a timer while nobody's even looking at the screen. */
+    private var isAppForeground = true
+
+    fun setAppForeground(foreground: Boolean) {
+        val wasBackground = !isAppForeground
+        isAppForeground = foreground
+        if (foreground && wasBackground) {
+            loadEarthquakes()
+        }
+    }
+
     val isOnboardingCompleted = preferencesManager.isOnboardingCompleted
         .catch { emit(false) }
         .stateIn(
@@ -90,12 +107,18 @@ class MainViewModel(
     }
 
     /** Nothing was re-fetching earthquake data once the first load finished - this keeps the
-     *  list "live" instead of only ever updating on a source change or search. */
+     *  list "live" instead of only ever updating on a source change or search. Every 3 minutes
+     *  rather than every minute, and skipped entirely while backgrounded (see
+     *  [isAppForeground]/[setAppForeground]) - these are free public earthquake APIs we don't
+     *  run ourselves, and polling them once a minute from every device around the clock is the
+     *  kind of load that gets an app's IP/key blocked. */
     private fun startAutoRefresh() {
         viewModelScope.launch {
             while (isActive) {
-                delay(60.seconds)
-                loadEarthquakes()
+                delay(AUTO_REFRESH_INTERVAL)
+                if (isAppForeground) {
+                    loadEarthquakes()
+                }
             }
         }
     }
@@ -209,7 +232,14 @@ class MainViewModel(
 
     fun loadEarthquakes() {
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true) }
+            // A refresh with data already on screen must never flip isLoading - that's the flag
+            // HomeScreen/EarthquakeListScreen use to swap the real list out for a loading
+            // skeleton, which was yanking whatever the user was scrolled to back to a 4-row
+            // skeleton on every background poll.
+            val hasExistingData = _uiState.value.rawEarthquakes.isNotEmpty()
+            _uiState.update {
+                if (hasExistingData) it.copy(isRefreshing = true) else it.copy(isLoading = true)
+            }
 
             val activeQuery =
                 _uiState.value.locationSearchQuery.ifEmpty { _uiState.value.searchQuery }
@@ -218,12 +248,15 @@ class MainViewModel(
                 source = _uiState.value.selectedSource,
                 query = activeQuery
             ).catch { e ->
-                _uiState.update { it.copy(isLoading = false, errorMessage = e.localizedMessage()) }
+                _uiState.update {
+                    it.copy(isLoading = false, isRefreshing = false, errorMessage = e.localizedMessage())
+                }
             }.collect { list ->
                 val stats = calculateStatisticsUseCase(list)
                 _uiState.update {
                     it.copy(
                         isLoading = false,
+                        isRefreshing = false,
                         rawEarthquakes = list,
                         earthquakes = list.filterByTimeSpan(it.selectedTimeFilter),
                         statistics = stats,
@@ -259,6 +292,10 @@ class MainViewModel(
     fun onLocationQueryTyped(newText: String) {
         _uiState.update { it.copy(isSearchingLocation = true) }
         _locationQueryState.value = newText
+    }
+
+    companion object {
+        private val AUTO_REFRESH_INTERVAL = 3.minutes
     }
 }
 

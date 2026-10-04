@@ -119,7 +119,7 @@ fun HomeScreen(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        if (uiState.isLoading)
+        if (uiState.isLoading || uiState.isRefreshing)
             LinearProgressIndicator(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -212,7 +212,7 @@ fun HomeScreen(
             }
         }
 
-        if (uiState.isLoading) {
+        if (uiState.isLoading && uiState.earthquakes.isEmpty()) {
             Column(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)

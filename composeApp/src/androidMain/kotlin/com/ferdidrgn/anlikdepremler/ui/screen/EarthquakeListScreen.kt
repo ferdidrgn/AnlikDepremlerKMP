@@ -252,12 +252,19 @@ fun EarthquakeListScreen(
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
+            if (uiState.isRefreshing) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(14.dp),
+                    strokeWidth = 2.dp,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
         }
 
         Spacer(modifier = Modifier.height(8.dp))
 
         // LİSTELEME VEYA YÜKLENİYOR / BOŞ DURUMU
-        if (uiState.isLoading) {
+        if (uiState.isLoading && filteredList.isEmpty()) {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 repeat(6) {
                     Box(
