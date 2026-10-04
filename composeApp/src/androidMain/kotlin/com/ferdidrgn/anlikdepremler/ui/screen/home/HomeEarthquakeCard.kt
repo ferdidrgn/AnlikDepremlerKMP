@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import com.ferdi.deprem.model.Earthquake
 import com.ferdidrgn.anlikdepremler.R
 import com.ferdidrgn.anlikdepremler.core.ui.animation.AppAnimations
+import com.ferdidrgn.anlikdepremler.ui.theme.magnitudeHeatColor
 
 @Composable
 fun ExpandableEarthquakeCard(
@@ -42,12 +43,7 @@ fun ExpandableEarthquakeCard(
 ) {
     var isExpanded by remember { mutableStateOf(false) }
 
-    val magnitudeColor = when {
-        earthquake.magnitude < 2.0 -> MaterialTheme.colorScheme.primary
-        earthquake.magnitude < 3.5 -> MaterialTheme.colorScheme.secondary
-        earthquake.magnitude < 5.0 -> MaterialTheme.colorScheme.tertiary
-        else -> MaterialTheme.colorScheme.error
-    }
+    val magnitudeColor = magnitudeHeatColor(earthquake.magnitude)
 
     Card(
         modifier = Modifier

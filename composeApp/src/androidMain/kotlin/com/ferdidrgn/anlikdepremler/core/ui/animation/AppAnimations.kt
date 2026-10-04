@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntSize
+import kotlinx.coroutines.delay
 
 object AppAnimations {
 
@@ -72,6 +73,28 @@ object AppAnimations {
                 )
             ) + fadeIn(),
             exit = slideOutVertically() + fadeOut()
+        ) {
+            content()
+        }
+    }
+
+    // 4. Index'e göre gecikmeli, kademeli (staggered) giriş animasyonu
+    @Composable
+    fun StaggeredEntrance(
+        index: Int,
+        modifier: Modifier = Modifier,
+        maxDelaySteps: Int = 8,
+        content: @Composable () -> Unit
+    ) {
+        var visible by remember { mutableStateOf(false) }
+        LaunchedEffect(Unit) {
+            delay(minOf(index, maxDelaySteps) * 70L)
+            visible = true
+        }
+        AnimatedVisibility(
+            visible = visible,
+            enter = fadeIn(tween(350)) + slideInVertically(tween(350)) { it / 4 },
+            modifier = modifier
         ) {
             content()
         }

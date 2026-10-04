@@ -27,42 +27,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.ferdidrgn.anlikdepremler.ui.theme.magnitudeHeatColor
 import kotlinx.coroutines.delay
 import kotlin.math.PI
 import kotlin.math.sin
 
 /**
- * The web dashboard's visual signature: a USGS-style magnitude heat scale and a seismograph
- * waveform motif, used instead of generic Material default colors/dots so the app reads as a
- * seismic monitoring tool rather than a stock SaaS dashboard template.
+ * The web dashboard's visual signature: the shared USGS-style magnitude heat scale
+ * ([magnitudeHeatColor]) plus a seismograph waveform motif, used instead of generic Material
+ * default colors/dots so the app reads as a seismic monitoring tool rather than a stock SaaS
+ * dashboard template.
  */
-
-private val MagnitudeStops = listOf(
-    0.0 to Color(0xFF14B8A6),  // teal - negligible
-    2.5 to Color(0xFFF2B300),  // amber - minor
-    4.0 to Color(0xFFF2780C),  // orange - moderate
-    6.0 to Color(0xFFDC2626)   // crimson - severe
-)
-
-/** Smooth gradient across the magnitude scale instead of four discrete bucket colors. */
-fun magnitudeHeatColor(magnitude: Double): Color {
-    val stops = MagnitudeStops
-    if (magnitude <= stops.first().first) return stops.first().second
-    if (magnitude >= stops.last().first) return stops.last().second
-
-    for (i in 0 until stops.size - 1) {
-        val (lowValue, lowColor) = stops[i]
-        val (highValue, highColor) = stops[i + 1]
-        if (magnitude in lowValue..highValue) {
-            val fraction = ((magnitude - lowValue) / (highValue - lowValue)).toFloat()
-            return lerp(lowColor, highColor, fraction)
-        }
-    }
-    return stops.last().second
-}
 
 /** An epicenter-style radar ping instead of a static dot for the "live" indicator. */
 @Composable

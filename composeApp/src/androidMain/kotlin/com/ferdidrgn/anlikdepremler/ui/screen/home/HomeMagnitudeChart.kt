@@ -25,6 +25,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ferdi.deprem.model.EarthquakeStatistics
 import com.ferdidrgn.anlikdepremler.R
+import com.ferdidrgn.anlikdepremler.ui.theme.magnitudeHeatColor
+import com.ferdidrgn.anlikdepremler.ui.theme.magnitudeRangeMidpoint
 
 @Composable
 fun MagnitudeDistributionChart(statistics: EarthquakeStatistics) {
@@ -68,12 +70,7 @@ fun MagnitudeDistributionChart(statistics: EarthquakeStatistics) {
             ) {
                 data.forEach { (range, count) ->
                     val percentage = (count.toFloat() / maxValue) * 100f
-                    val color = when (range) {
-                        "1-2" -> MaterialTheme.colorScheme.primary
-                        "2-3" -> MaterialTheme.colorScheme.secondary
-                        "3-4" -> MaterialTheme.colorScheme.tertiary
-                        else -> MaterialTheme.colorScheme.error
-                    }
+                    val color = magnitudeHeatColor(magnitudeRangeMidpoint(range))
 
                     Row(
                         modifier = Modifier.fillMaxWidth(),

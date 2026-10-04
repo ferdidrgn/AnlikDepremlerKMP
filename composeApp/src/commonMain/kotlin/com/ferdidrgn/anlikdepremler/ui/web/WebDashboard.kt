@@ -37,6 +37,7 @@ import com.ferdidrgn.anlikdepremler.resources.stat_today
 import com.ferdidrgn.anlikdepremler.resources.stat_week
 import com.ferdidrgn.anlikdepremler.ui.screen.HomeUiState
 import com.ferdidrgn.anlikdepremler.ui.screen.MainViewModel
+import com.ferdidrgn.anlikdepremler.ui.theme.magnitudeHeatColor
 import org.jetbrains.compose.resources.stringResource
 
 /** Width above which the desktop dashboard layout (sidebar + table) replaces the stacked one. */

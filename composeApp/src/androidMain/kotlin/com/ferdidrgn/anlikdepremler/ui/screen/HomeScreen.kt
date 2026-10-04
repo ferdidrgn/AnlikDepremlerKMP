@@ -94,13 +94,15 @@ fun HomeScreen(
         }
 
         // 1. Üst Başlık & Canlı Rozet
-        HeaderSection()
+        AppAnimations.StaggeredEntrance(index = 0) { HeaderSection() }
 
         // 2. Kaynak Seçici
-        CreativeSourceSelector(
-            selectedSource = uiState.selectedSource,
-            onSourceSelected = { viewModel.onSourceChanged(it) }
-        )
+        AppAnimations.StaggeredEntrance(index = 1) {
+            CreativeSourceSelector(
+                selectedSource = uiState.selectedSource,
+                onSourceSelected = { viewModel.onSourceChanged(it) }
+            )
+        }
 
         BannerAdView(
             modifier = Modifier
@@ -121,17 +123,17 @@ fun HomeScreen(
         Spacer(modifier = Modifier.height(8.dp))
 
         // 3. Hero Banner
-        HeroBannerSection()
+        AppAnimations.StaggeredEntrance(index = 2) { HeroBannerSection() }
 
         Spacer(modifier = Modifier.height(16.dp))
 
         // 4. Günün Özeti Kartları
-        DailySummarySection(statistics = uiState.statistics)
+        AppAnimations.StaggeredEntrance(index = 3) { DailySummarySection(statistics = uiState.statistics) }
 
         Spacer(modifier = Modifier.height(16.dp))
 
         // 5. İSTATİSTİKLER
-        StatisticsSection(statistics = uiState.statistics)
+        AppAnimations.StaggeredEntrance(index = 4) { StatisticsSection(statistics = uiState.statistics) }
 
         Spacer(modifier = Modifier.height(16.dp))
 

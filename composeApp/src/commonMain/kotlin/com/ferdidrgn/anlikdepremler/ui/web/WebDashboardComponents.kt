@@ -38,6 +38,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ferdi.deprem.model.Earthquake
 import com.ferdidrgn.anlikdepremler.data.remote.EarthquakeSource
+import com.ferdidrgn.anlikdepremler.ui.theme.magnitudeHeatColor
+import com.ferdidrgn.anlikdepremler.ui.theme.magnitudeRangeMidpoint
 
 @Composable
 fun WebBrandHeader(appName: String) {
@@ -259,7 +261,7 @@ fun WebMagnitudeMiniChart(distribution: Map<String, Int>) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         distribution.forEach { (range, count) ->
             val percentage = (count.toFloat() / maxValue) * 100f
-            val color = magnitudeHeatColor(rangeMidpoint(range))
+            val color = magnitudeHeatColor(magnitudeRangeMidpoint(range))
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text(range, style = MaterialTheme.typography.labelSmall, modifier = Modifier.width(32.dp))
                 WebAnimatedBar(percentage, color, Modifier.weight(1f).height(16.dp))
@@ -324,9 +326,3 @@ fun WebEarthquakeCardCompact(earthquake: Earthquake, onClick: () -> Unit) {
 
 /** String.format("%.1f", ...) isn't available outside the JVM; this is a common-code equivalent. */
 private fun formatDecimal(value: Double): String = (kotlin.math.round(value * 10) / 10.0).toString()
-
-/** Maps a magnitudeDistribution bucket key ("1-2", "4+", ...) to a representative magnitude. */
-private fun rangeMidpoint(range: String): Double {
-    val lowerBound = range.trimEnd('+').substringBefore('-').toDoubleOrNull() ?: 0.0
-    return if (range.endsWith('+')) lowerBound + 1.0 else lowerBound + 0.5
-}
