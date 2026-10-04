@@ -3,7 +3,7 @@ package com.ferdidrgn.anlikdepremler.ui.web
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -75,7 +75,12 @@ private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel) {
                 .padding(20.dp)
         ) {
             WebBrandHeader(stringResource(Res.string.header_title))
-            Spacer(modifier = Modifier.height(28.dp))
+            Spacer(modifier = Modifier.height(16.dp))
+            SeismicWaveform(
+                modifier = Modifier.fillMaxWidth().height(32.dp),
+                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
             Text(
                 "VERİ KAYNAĞI",
                 style = MaterialTheme.typography.labelSmall,
@@ -146,7 +151,12 @@ private fun MobileWebDashboard(uiState: HomeUiState, viewModel: MainViewModel) {
             .padding(20.dp)
     ) {
         WebBrandHeader(stringResource(Res.string.header_title))
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(12.dp))
+        SeismicWaveform(
+            modifier = Modifier.fillMaxWidth().height(28.dp),
+            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
 
         WebSourceList(selected = uiState.selectedSource, onSelected = viewModel::onSourceChanged)
         Spacer(modifier = Modifier.height(20.dp))
@@ -172,8 +182,10 @@ private fun MobileWebDashboard(uiState: HomeUiState, viewModel: MainViewModel) {
             LoadingState()
         } else {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                uiState.earthquakes.forEach { eq ->
-                    WebEarthquakeCardCompact(earthquake = eq, onClick = {})
+                uiState.earthquakes.forEachIndexed { index, eq ->
+                    StaggeredEntrance(index = index) {
+                        WebEarthquakeCardCompact(earthquake = eq, onClick = {})
+                    }
                 }
             }
         }
@@ -183,12 +195,19 @@ private fun MobileWebDashboard(uiState: HomeUiState, viewModel: MainViewModel) {
 @Composable
 private fun WebStatsGrid(uiState: HomeUiState) {
     val stats = uiState.statistics
+    val tiles = listOf(
+        Triple(stringResource(Res.string.stat_today), stats.totalToday.toString(), MaterialTheme.colorScheme.primary),
+        Triple(stringResource(Res.string.stat_week), stats.totalWeek.toString(), MaterialTheme.colorScheme.secondary),
+        Triple(stringResource(Res.string.stat_month), stats.totalMonth.toString(), MaterialTheme.colorScheme.tertiary),
+        Triple(stringResource(Res.string.stat_avg), formatMagnitude(stats.avgMagnitude), magnitudeHeatColor(stats.avgMagnitude)),
+        Triple(stringResource(Res.string.stat_max), formatMagnitude(stats.maxMagnitude), magnitudeHeatColor(stats.maxMagnitude))
+    )
     Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-        WebStatTile(stringResource(Res.string.stat_today), stats.totalToday.toString(), MaterialTheme.colorScheme.primary, Modifier.weight(1f))
-        WebStatTile(stringResource(Res.string.stat_week), stats.totalWeek.toString(), MaterialTheme.colorScheme.secondary, Modifier.weight(1f))
-        WebStatTile(stringResource(Res.string.stat_month), stats.totalMonth.toString(), MaterialTheme.colorScheme.tertiary, Modifier.weight(1f))
-        WebStatTile(stringResource(Res.string.stat_avg), formatMagnitude(stats.avgMagnitude), MaterialTheme.colorScheme.primary, Modifier.weight(1f))
-        WebStatTile(stringResource(Res.string.stat_max), formatMagnitude(stats.maxMagnitude), MaterialTheme.colorScheme.error, Modifier.weight(1f))
+        tiles.forEachIndexed { index, (label, value, accent) ->
+            StaggeredEntrance(index = index, modifier = Modifier.weight(1f)) {
+                WebStatTile(label, value, accent, Modifier.fillMaxWidth())
+            }
+        }
     }
 }
 
@@ -198,9 +217,13 @@ private fun EarthquakeTableBody(uiState: HomeUiState) {
         uiState.isLoading && uiState.earthquakes.isEmpty() -> LoadingState()
         uiState.earthquakes.isEmpty() -> EmptyState()
         else -> LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(uiState.earthquakes, key = { it.id }) { eq ->
-                WebEarthquakeRow(earthquake = eq, onClick = {})
-                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.2f))
+            itemsIndexed(uiState.earthquakes, key = { _, eq -> eq.id }) { index, eq ->
+                StaggeredEntrance(index = index) {
+                    Column {
+                        WebEarthquakeRow(earthquake = eq, onClick = {})
+                        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.2f))
+                    }
+                }
             }
         }
     }

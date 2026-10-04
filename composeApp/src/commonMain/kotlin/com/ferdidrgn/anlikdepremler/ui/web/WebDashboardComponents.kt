@@ -2,6 +2,7 @@ package com.ferdidrgn.anlikdepremler.ui.web
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animate
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,7 +12,6 @@ import androidx.compose.foundation.hoverable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Circle
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -65,13 +66,8 @@ fun WebBrandHeader(appName: String) {
 @Composable
 fun LiveBadge() {
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Icon(
-            Icons.Default.Circle,
-            contentDescription = null,
-            tint = Color(0xFF22C55E),
-            modifier = Modifier.size(8.dp)
-        )
-        Spacer(modifier = Modifier.width(4.dp))
+        PulsingLiveDot(color = Color(0xFF22C55E))
+        Spacer(modifier = Modifier.width(6.dp))
         Text(
             "Canlı veri",
             style = MaterialTheme.typography.labelSmall,
@@ -117,10 +113,16 @@ fun WebSourceList(
 fun WebStatTile(label: String, value: String, accent: Color, modifier: Modifier = Modifier) {
     val interactionSource = remember { MutableInteractionSource() }
     val isHovered by interactionSource.collectIsHoveredAsState()
+    val scale by animateFloatAsState(
+        targetValue = if (isHovered) 1.02f else 1f,
+        animationSpec = tween(180),
+        label = "statTileScale"
+    )
 
     Card(
         modifier = modifier
             .hoverable(interactionSource)
+            .graphicsLayer { scaleX = scale; scaleY = scale }
             .height(96.dp),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
@@ -197,12 +199,7 @@ fun WebEarthquakeRow(earthquake: Earthquake, onClick: () -> Unit) {
     val interactionSource = remember { MutableInteractionSource() }
     val isHovered by interactionSource.collectIsHoveredAsState()
 
-    val magnitudeColor = when {
-        earthquake.magnitude < 2.0 -> MaterialTheme.colorScheme.primary
-        earthquake.magnitude < 3.5 -> MaterialTheme.colorScheme.secondary
-        earthquake.magnitude < 5.0 -> MaterialTheme.colorScheme.tertiary
-        else -> MaterialTheme.colorScheme.error
-    }
+    val magnitudeColor = magnitudeHeatColor(earthquake.magnitude)
 
     Row(
         modifier = Modifier
@@ -262,12 +259,7 @@ fun WebMagnitudeMiniChart(distribution: Map<String, Int>) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         distribution.forEach { (range, count) ->
             val percentage = (count.toFloat() / maxValue) * 100f
-            val color = when (range) {
-                "1-2" -> MaterialTheme.colorScheme.primary
-                "2-3" -> MaterialTheme.colorScheme.secondary
-                "3-4" -> MaterialTheme.colorScheme.tertiary
-                else -> MaterialTheme.colorScheme.error
-            }
+            val color = magnitudeHeatColor(rangeMidpoint(range))
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text(range, style = MaterialTheme.typography.labelSmall, modifier = Modifier.width(32.dp))
                 WebAnimatedBar(percentage, color, Modifier.weight(1f).height(16.dp))
@@ -297,12 +289,7 @@ private fun WebAnimatedBar(percentage: Float, color: Color, modifier: Modifier) 
 /** Narrow-viewport equivalent of [WebEarthquakeRow] - the table's fixed-width columns don't fit a phone browser. */
 @Composable
 fun WebEarthquakeCardCompact(earthquake: Earthquake, onClick: () -> Unit) {
-    val magnitudeColor = when {
-        earthquake.magnitude < 2.0 -> MaterialTheme.colorScheme.primary
-        earthquake.magnitude < 3.5 -> MaterialTheme.colorScheme.secondary
-        earthquake.magnitude < 5.0 -> MaterialTheme.colorScheme.tertiary
-        else -> MaterialTheme.colorScheme.error
-    }
+    val magnitudeColor = magnitudeHeatColor(earthquake.magnitude)
 
     Card(
         modifier = Modifier.fillMaxWidth().clickable { onClick() },
@@ -337,3 +324,9 @@ fun WebEarthquakeCardCompact(earthquake: Earthquake, onClick: () -> Unit) {
 
 /** String.format("%.1f", ...) isn't available outside the JVM; this is a common-code equivalent. */
 private fun formatDecimal(value: Double): String = (kotlin.math.round(value * 10) / 10.0).toString()
+
+/** Maps a magnitudeDistribution bucket key ("1-2", "4+", ...) to a representative magnitude. */
+private fun rangeMidpoint(range: String): Double {
+    val lowerBound = range.trimEnd('+').substringBefore('-').toDoubleOrNull() ?: 0.0
+    return if (range.endsWith('+')) lowerBound + 1.0 else lowerBound + 0.5
+}
