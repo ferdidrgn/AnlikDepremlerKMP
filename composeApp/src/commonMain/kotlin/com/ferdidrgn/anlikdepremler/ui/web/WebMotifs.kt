@@ -34,6 +34,7 @@ import com.ferdidrgn.anlikdepremler.ui.theme.magnitudeHeatColor
 import kotlinx.coroutines.delay
 import kotlin.math.PI
 import kotlin.math.sin
+import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * The web dashboard's visual signature: the shared USGS-style magnitude heat scale
@@ -125,7 +126,7 @@ fun StaggeredEntrance(
 ) {
     var visible by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
-        delay(minOf(index, maxDelaySteps) * 55L)
+        delay((minOf(index, maxDelaySteps) * 55L).milliseconds)
         visible = true
     }
     AnimatedVisibility(
