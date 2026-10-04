@@ -152,27 +152,31 @@ fun HomeScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         // 7. DEPREM HARİTASI
-        MapPreviewCard()
+        AppAnimations.StaggeredEntrance(index = 5) { MapPreviewCard() }
 
         Spacer(modifier = Modifier.height(16.dp))
 
         // 8. Büyüklük Dağılım Grafiği
-        MagnitudeDistributionChart(statistics = uiState.statistics)
+        AppAnimations.StaggeredEntrance(index = 6) { MagnitudeDistributionChart(statistics = uiState.statistics) }
 
         Spacer(modifier = Modifier.height(16.dp))
 
         // 9. Bilgi & İpuçları Carousel
-        InformationTipsSliderSection()
+        AppAnimations.StaggeredEntrance(index = 7) { InformationTipsSliderSection() }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        HistoricalArchiveBannerCard(onClick = onHistoricalArchiveClick)
+        AppAnimations.StaggeredEntrance(index = 8) { HistoricalArchiveBannerCard(onClick = onHistoricalArchiveClick) }
 
         Spacer(modifier = Modifier.height(16.dp))
 
         // 10. Acil Durum Çantası Kontrolü
-        SectionTitle(title = stringResource(R.string.checklist_section_title))
-        QuickChecklistCard()
+        AppAnimations.StaggeredEntrance(index = 8) {
+            Column {
+                SectionTitle(title = stringResource(R.string.checklist_section_title))
+                QuickChecklistCard()
+            }
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 

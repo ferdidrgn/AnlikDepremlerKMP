@@ -1,5 +1,9 @@
 package com.ferdidrgn.anlikdepremler.ui.screen.home
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -9,12 +13,14 @@ import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,11 +30,28 @@ import com.ferdidrgn.anlikdepremler.R
 fun QuickChecklistCard() {
     var checkedState by remember { mutableStateOf(false) }
 
+    val containerColor by animateColorAsState(
+        targetValue = if (checkedState) {
+            MaterialTheme.colorScheme.primaryContainer
+        } else {
+            MaterialTheme.colorScheme.surfaceVariant
+        },
+        label = "checklistContainerColor"
+    )
+
+    val checkScale = remember { Animatable(1f) }
+    LaunchedEffect(checkedState) {
+        if (checkedState) {
+            checkScale.snapTo(0.7f)
+            checkScale.animateTo(1f, animationSpec = spring(dampingRatio = Spring.DampingRatioHighBouncy))
+        }
+    }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+        colors = CardDefaults.cardColors(containerColor = containerColor),
         shape = RoundedCornerShape(18.dp)
     ) {
         Row(
@@ -55,7 +78,8 @@ fun QuickChecklistCard() {
             Checkbox(
                 checked = checkedState,
                 onCheckedChange = { checkedState = it },
-                colors = CheckboxDefaults.colors(checkedColor = MaterialTheme.colorScheme.primary)
+                colors = CheckboxDefaults.colors(checkedColor = MaterialTheme.colorScheme.primary),
+                modifier = Modifier.scale(checkScale.value)
             )
         }
     }
