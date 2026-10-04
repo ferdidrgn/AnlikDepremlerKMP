@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import com.ferdidrgn.anlikdepremler.R
 import com.ferdidrgn.anlikdepremler.core.ads.BannerAdView
 import com.ferdidrgn.anlikdepremler.core.billing.launchCoffeeDonationFlow
+import com.ferdidrgn.anlikdepremler.core.ui.animation.AppAnimations
 import com.ferdidrgn.anlikdepremler.core.language.AppLanguage
 import com.ferdidrgn.anlikdepremler.core.util.ReviewHelper
 import com.ferdidrgn.anlikdepremler.ui.components.NativeAdCard
@@ -96,56 +97,64 @@ fun SettingsScreen(
         )
 
         // 1. TERCİHLER & GÖRÜNÜM
-        SettingsCategoryTitle(stringResource(R.string.category_preferences))
-        SettingsCardContainer {
-            ModernSettingsTile(
-                icon = Icons.Default.Language,
-                iconBgColor = Color(0xFF2196F3),
-                title = stringResource(R.string.select_language),
-                badgeText = "${AppLanguage.entries.size}",
-                valueText = "${currentLang.flag} ${currentLang.displayName}",
-                onClick = { showLanguageDialog = true }
-            )
-        }
+        AppAnimations.StaggeredEntrance(index = 0) {
+            Column {
+                SettingsCategoryTitle(stringResource(R.string.category_preferences))
+                SettingsCardContainer {
+                    ModernSettingsTile(
+                        icon = Icons.Default.Language,
+                        iconBgColor = Color(0xFF2196F3),
+                        title = stringResource(R.string.select_language),
+                        badgeText = "${AppLanguage.entries.size}",
+                        valueText = "${currentLang.flag} ${currentLang.displayName}",
+                        onClick = { showLanguageDialog = true }
+                    )
+                }
 
-        Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(12.dp))
 
-        ModernThemeSelectorCard(
-            currentTheme = currentTheme,
-            onThemeSelected = { newTheme ->
-                settingsViewModel.onThemeSelected(newTheme)
+                ModernThemeSelectorCard(
+                    currentTheme = currentTheme,
+                    onThemeSelected = { newTheme ->
+                        settingsViewModel.onThemeSelected(newTheme)
+                    }
+                )
             }
-        )
+        }
 
         Spacer(modifier = Modifier.height(20.dp))
 
         // 2. BİLDİRİM VE İZİNLER + ACİL DURUM İLETİŞİMİ
-        SettingsCategoryTitle(stringResource(R.string.category_notifications))
-        SettingsCardContainer {
-            ModernSettingsTile(
-                icon = Icons.Default.PhoneInTalk,
-                iconBgColor = Color(0xFFE53935),
-                title = stringResource(R.string.emergency_contact_phone),
-                subtitle = stringResource(R.string.emergency_contact_phone_sub),
-                valueText = if (emergencyPhone.isNotEmpty()) emergencyPhone else stringResource(R.string.not_set),
-                onClick = { showPhoneDialog = true }
-            )
-            DividerLine()
-            ModernSettingsTile(
-                icon = Icons.Default.Notifications,
-                iconBgColor = Color(0xFFFF9800),
-                title = stringResource(R.string.notification_settings),
-                subtitle = stringResource(R.string.notification_settings_sub),
-                onClick = { settingsViewModel.onNotificationSettingsClick() }
-            )
-            DividerLine()
-            ModernSettingsTile(
-                icon = Icons.Default.LocationOn,
-                iconBgColor = Color(0xFF4CAF50),
-                title = stringResource(R.string.location_permissions),
-                subtitle = stringResource(R.string.location_permissions_sub),
-                onClick = { settingsViewModel.onLocationSettingsClick() }
-            )
+        AppAnimations.StaggeredEntrance(index = 1) {
+            Column {
+                SettingsCategoryTitle(stringResource(R.string.category_notifications))
+                SettingsCardContainer {
+                    ModernSettingsTile(
+                        icon = Icons.Default.PhoneInTalk,
+                        iconBgColor = Color(0xFFE53935),
+                        title = stringResource(R.string.emergency_contact_phone),
+                        subtitle = stringResource(R.string.emergency_contact_phone_sub),
+                        valueText = if (emergencyPhone.isNotEmpty()) emergencyPhone else stringResource(R.string.not_set),
+                        onClick = { showPhoneDialog = true }
+                    )
+                    DividerLine()
+                    ModernSettingsTile(
+                        icon = Icons.Default.Notifications,
+                        iconBgColor = Color(0xFFFF9800),
+                        title = stringResource(R.string.notification_settings),
+                        subtitle = stringResource(R.string.notification_settings_sub),
+                        onClick = { settingsViewModel.onNotificationSettingsClick() }
+                    )
+                    DividerLine()
+                    ModernSettingsTile(
+                        icon = Icons.Default.LocationOn,
+                        iconBgColor = Color(0xFF4CAF50),
+                        title = stringResource(R.string.location_permissions),
+                        subtitle = stringResource(R.string.location_permissions_sub),
+                        onClick = { settingsViewModel.onLocationSettingsClick() }
+                    )
+                }
+            }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -155,61 +164,69 @@ fun SettingsScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         // 3. DESTEK VE İLETİŞİM
-        SettingsCategoryTitle(stringResource(R.string.category_support))
-        SettingsCardContainer {
-            ModernSettingsTile(
-                icon = Icons.Default.LocalCafe,
-                iconBgColor = Color(0xFF795548),
-                title = stringResource(R.string.buy_coffee),
-                subtitle = stringResource(R.string.buy_coffee_sub),
-                onClick = { settingsViewModel.onBuyCoffeeClick() }
-            )
-            DividerLine()
-            ModernSettingsTile(
-                icon = Icons.Default.Star,
-                iconBgColor = Color(0xFFFFC107),
-                title = stringResource(R.string.rate_app),
-                subtitle = stringResource(R.string.rate_app_sub),
-                onClick = { settingsViewModel.onRateAppClick() }
-            )
-            DividerLine()
-            ModernSettingsTile(
-                icon = Icons.Default.Share,
-                iconBgColor = Color(0xFF9C27B0),
-                title = stringResource(R.string.share_app),
-                subtitle = stringResource(R.string.share_app_sub),
-                onClick = { settingsViewModel.onShareAppClick() }
-            )
-            DividerLine()
-            ModernSettingsTile(
-                icon = Icons.Default.Email,
-                iconBgColor = Color(0xFF00BCD4),
-                title = stringResource(R.string.send_feedback),
-                subtitle = stringResource(R.string.send_feedback_sub),
-                onClick = { settingsViewModel.onFeedbackClick() }
-            )
+        AppAnimations.StaggeredEntrance(index = 2) {
+            Column {
+                SettingsCategoryTitle(stringResource(R.string.category_support))
+                SettingsCardContainer {
+                    ModernSettingsTile(
+                        icon = Icons.Default.LocalCafe,
+                        iconBgColor = Color(0xFF795548),
+                        title = stringResource(R.string.buy_coffee),
+                        subtitle = stringResource(R.string.buy_coffee_sub),
+                        onClick = { settingsViewModel.onBuyCoffeeClick() }
+                    )
+                    DividerLine()
+                    ModernSettingsTile(
+                        icon = Icons.Default.Star,
+                        iconBgColor = Color(0xFFFFC107),
+                        title = stringResource(R.string.rate_app),
+                        subtitle = stringResource(R.string.rate_app_sub),
+                        onClick = { settingsViewModel.onRateAppClick() }
+                    )
+                    DividerLine()
+                    ModernSettingsTile(
+                        icon = Icons.Default.Share,
+                        iconBgColor = Color(0xFF9C27B0),
+                        title = stringResource(R.string.share_app),
+                        subtitle = stringResource(R.string.share_app_sub),
+                        onClick = { settingsViewModel.onShareAppClick() }
+                    )
+                    DividerLine()
+                    ModernSettingsTile(
+                        icon = Icons.Default.Email,
+                        iconBgColor = Color(0xFF00BCD4),
+                        title = stringResource(R.string.send_feedback),
+                        subtitle = stringResource(R.string.send_feedback_sub),
+                        onClick = { settingsViewModel.onFeedbackClick() }
+                    )
+                }
+            }
         }
 
         Spacer(modifier = Modifier.height(20.dp))
 
         // 4. BİLGİ VE YASAL HAKLAR
-        SettingsCategoryTitle(stringResource(R.string.category_legal))
-        SettingsCardContainer {
-            ModernSettingsTile(
-                icon = Icons.Default.PrivacyTip,
-                iconBgColor = Color(0xFF607D8B),
-                title = stringResource(R.string.privacy_policy),
-                subtitle = stringResource(R.string.privacy_policy_sub),
-                onClick = { onOpenLegalDocument("privacy_policy") }
-            )
-            DividerLine()
-            ModernSettingsTile(
-                icon = Icons.Default.Gavel,
-                iconBgColor = Color(0xFF3F51B5),
-                title = stringResource(R.string.terms_conditions),
-                subtitle = stringResource(R.string.terms_conditions_sub),
-                onClick = { onOpenLegalDocument("terms_and_conditions") }
-            )
+        AppAnimations.StaggeredEntrance(index = 3) {
+            Column {
+                SettingsCategoryTitle(stringResource(R.string.category_legal))
+                SettingsCardContainer {
+                    ModernSettingsTile(
+                        icon = Icons.Default.PrivacyTip,
+                        iconBgColor = Color(0xFF607D8B),
+                        title = stringResource(R.string.privacy_policy),
+                        subtitle = stringResource(R.string.privacy_policy_sub),
+                        onClick = { onOpenLegalDocument("privacy_policy") }
+                    )
+                    DividerLine()
+                    ModernSettingsTile(
+                        icon = Icons.Default.Gavel,
+                        iconBgColor = Color(0xFF3F51B5),
+                        title = stringResource(R.string.terms_conditions),
+                        subtitle = stringResource(R.string.terms_conditions_sub),
+                        onClick = { onOpenLegalDocument("terms_and_conditions") }
+                    )
+                }
+            }
         }
 
         Spacer(modifier = Modifier.height(20.dp))

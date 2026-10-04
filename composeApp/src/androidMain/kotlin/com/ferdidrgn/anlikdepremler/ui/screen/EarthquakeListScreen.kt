@@ -35,6 +35,7 @@ import com.ferdidrgn.anlikdepremler.core.ui.animation.AppAnimations
 import com.ferdidrgn.anlikdepremler.core.ui.animation.AppAnimations.shimmer
 import com.ferdidrgn.anlikdepremler.data.remote.EarthquakeSource
 import com.ferdidrgn.anlikdepremler.ui.components.NativeAdCard
+import com.ferdidrgn.anlikdepremler.ui.theme.magnitudeHeatColor
 import com.ferdidrgn.anlikdepremler.ui.util.shouldShowAdAtIndex
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -301,12 +302,8 @@ fun EarthquakeCard(
     earthquake: Earthquake,
     onClick: () -> Unit
 ) {
-    val (magBgColor, magTextColor) = when {
-        earthquake.magnitude >= 5.0 -> Color(0xFFFFEBEE) to Color(0xFFD32F2F)
-        earthquake.magnitude >= 3.5 -> Color(0xFFFFF3E0) to Color(0xFFE65100)
-        earthquake.magnitude >= 2.0 -> Color(0xFFE8F5E9) to Color(0xFF2E7D32)
-        else -> Color(0xFFE3F2FD) to Color(0xFF1565C0)
-    }
+    val magTextColor = magnitudeHeatColor(earthquake.magnitude)
+    val magBgColor = magTextColor.copy(alpha = 0.14f)
 
     Card(
         modifier = Modifier

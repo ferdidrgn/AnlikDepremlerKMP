@@ -1,5 +1,9 @@
 package com.ferdidrgn.anlikdepremler.ui.screen
 
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -94,9 +99,16 @@ fun OnboardingScreen(
             state = pagerState,
             modifier = Modifier.fillMaxSize()
         ) { pageIndex ->
+            val pageOffset = ((pagerState.currentPage - pageIndex) + pagerState.currentPageOffsetFraction).coerceIn(-1f, 1f)
             OnboardingFullImagePage(
                 data = onboardingPagesList[pageIndex],
-                isLastPage = pageIndex == onboardingPagesList.size - 1
+                isLastPage = pageIndex == onboardingPagesList.size - 1,
+                modifier = Modifier.graphicsLayer {
+                    val scale = 1f - (kotlin.math.abs(pageOffset) * 0.08f)
+                    scaleX = scale
+                    scaleY = scale
+                    alpha = 1f - (kotlin.math.abs(pageOffset) * 0.35f)
+                }
             )
         }
 
@@ -149,10 +161,15 @@ fun OnboardingScreen(
             ) {
                 repeat(onboardingPagesList.size) { index ->
                     val isSelected = pagerState.currentPage == index
+                    val dotWidth by animateDpAsState(
+                        targetValue = if (isSelected) 28.dp else 8.dp,
+                        animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy),
+                        label = "dotWidth"
+                    )
                     Box(
                         modifier = Modifier
                             .height(8.dp)
-                            .width(if (isSelected) 28.dp else 8.dp)
+                            .width(dotWidth)
                             .clip(CircleShape)
                             .background(
                                 if (isSelected) Color.White else Color.White.copy(alpha = 0.4f)
@@ -176,11 +193,14 @@ fun OnboardingScreen(
                 shape = CircleShape,
                 modifier = Modifier.size(60.dp)
             ) {
-                Icon(
-                    imageVector = if (pagerState.currentPage == onboardingPagesList.size - 1) Icons.Default.Check else Icons.AutoMirrored.Filled.ArrowForward,
-                    contentDescription = stringResource(R.string.onboarding_next),
-                    modifier = Modifier.size(28.dp)
-                )
+                val isLastPage = pagerState.currentPage == onboardingPagesList.size - 1
+                Crossfade(targetState = isLastPage, label = "fabIcon") { lastPage ->
+                    Icon(
+                        imageVector = if (lastPage) Icons.Default.Check else Icons.AutoMirrored.Filled.ArrowForward,
+                        contentDescription = stringResource(R.string.onboarding_next),
+                        modifier = Modifier.size(28.dp)
+                    )
+                }
             }
         }
     }
@@ -189,7 +209,8 @@ fun OnboardingScreen(
 @Composable
 private fun OnboardingFullImagePage(
     data: OnboardingItemData,
-    isLastPage: Boolean
+    isLastPage: Boolean,
+    modifier: Modifier = Modifier
 ) {
     val titleRes = when (data.title) {
         "onboarding_title_1" -> R.string.onboarding_title_1
@@ -217,7 +238,7 @@ private fun OnboardingFullImagePage(
         else -> R.string.onboarding_float_sub_3
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = modifier.fillMaxSize()) {
         AsyncImage(
             model = data.imageUrl,
             contentDescription = null,

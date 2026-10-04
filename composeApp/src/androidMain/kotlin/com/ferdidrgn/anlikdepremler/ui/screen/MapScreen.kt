@@ -26,6 +26,8 @@ import androidx.compose.ui.unit.sp
 import com.ferdi.deprem.model.Earthquake
 import com.ferdidrgn.anlikdepremler.R
 import com.ferdidrgn.anlikdepremler.core.ads.BannerAdView
+import com.ferdidrgn.anlikdepremler.core.ui.animation.AppAnimations
+import com.ferdidrgn.anlikdepremler.ui.theme.magnitudeHeatColor
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -205,24 +207,26 @@ fun MapScreen(
                 itemsIndexed(
                     items = mapList,
                     key = { _, item -> item.id }
-                ) { _, eq ->
+                ) { index, eq ->
                     val isSelected = eq.id == selectedEarthquakeId
-                    MapEarthquakeCard(
-                        earthquake = eq,
-                        isSelected = isSelected,
-                        onClick = {
-                            selectedEarthquakeId = eq.id
-                            coroutineScope.launch {
-                                cameraPositionState.animate(
-                                    CameraUpdateFactory.newLatLngZoom(
-                                        LatLng(eq.latitude, eq.longitude),
-                                        9.5f
-                                    ),
-                                    durationMs = 600
-                                )
+                    AppAnimations.StaggeredEntrance(index = index, maxDelaySteps = 6) {
+                        MapEarthquakeCard(
+                            earthquake = eq,
+                            isSelected = isSelected,
+                            onClick = {
+                                selectedEarthquakeId = eq.id
+                                coroutineScope.launch {
+                                    cameraPositionState.animate(
+                                        CameraUpdateFactory.newLatLngZoom(
+                                            LatLng(eq.latitude, eq.longitude),
+                                            9.5f
+                                        ),
+                                        durationMs = 600
+                                    )
+                                }
                             }
-                        }
-                    )
+                        )
+                    }
                 }
             }
         }
@@ -234,11 +238,8 @@ fun ModernMapPin(
     magnitude: Double,
     isSelected: Boolean
 ) {
-    val (primaryColor, glowColor) = when {
-        magnitude >= 5.0 -> Color(0xFFEF4444) to Color(0xFFFCA5A5) // Kırmızı
-        magnitude >= 3.5 -> Color(0xFFF59E0B) to Color(0xFFFDE68A) // Turuncu
-        else -> Color(0xFF10B981) to Color(0xFFA7F3D0)             // Yeşil
-    }
+    val primaryColor = magnitudeHeatColor(magnitude)
+    val glowColor = primaryColor.copy(alpha = 0.55f)
 
     val pinScale by animateFloatAsState(
         targetValue = if (isSelected) 1.25f else 1.0f,
@@ -294,15 +295,18 @@ fun MapEarthquakeCard(
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
-    val magnitudeColor = when {
-        earthquake.magnitude >= 5.0 -> Color(0xFFD32F2F)
-        earthquake.magnitude >= 3.5 -> Color(0xFFE65100)
-        else -> Color(0xFF2E7D32)
-    }
+    val magnitudeColor = magnitudeHeatColor(earthquake.magnitude)
+
+    val cardScale by animateFloatAsState(
+        targetValue = if (isSelected) 1.03f else 1f,
+        animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy),
+        label = "mapCardScale"
+    )
 
     Card(
         modifier = Modifier
             .width(280.dp)
+            .scale(cardScale)
             .clickable { onClick() },
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(

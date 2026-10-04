@@ -1,5 +1,6 @@
 package com.ferdidrgn.anlikdepremler.ui.screen
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -143,13 +144,15 @@ private fun CategoryTabChip(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
+    val chipColor by animateColorAsState(
+        targetValue = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+        label = "archiveTabColor"
+    )
     Surface(
         modifier = modifier
             .clip(RoundedCornerShape(14.dp))
             .clickable { onClick() },
-        color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant.copy(
-            alpha = 0.5f
-        ),
+        color = chipColor,
         shape = RoundedCornerShape(14.dp)
     ) {
         Box(

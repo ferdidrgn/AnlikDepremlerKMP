@@ -28,7 +28,9 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.ferdi.deprem.model.Earthquake
 import com.ferdidrgn.anlikdepremler.R
+import com.ferdidrgn.anlikdepremler.core.ui.animation.AppAnimations
 import com.ferdidrgn.anlikdepremler.core.util.EmergencySmsHelper
+import com.ferdidrgn.anlikdepremler.ui.theme.magnitudeHeatColor
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
@@ -61,11 +63,7 @@ fun EarthquakeDetailScreen(
             }
         }
     }
-    val magnitudeColor = when {
-        earthquake.magnitude >= 5.0 -> Color(0xFFD32F2F)
-        earthquake.magnitude >= 3.5 -> Color(0xFFE65100)
-        else -> Color(0xFF2E7D32)
-    }
+    val magnitudeColor = magnitudeHeatColor(earthquake.magnitude)
 
     Column(
         modifier = Modifier
@@ -179,83 +177,89 @@ fun EarthquakeDetailScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             // 3. MODELDEKİ ALANLAR
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                DetailInfoTile(
-                    modifier = Modifier.weight(1f),
-                    title = stringResource(R.string.label_depth),
-                    value = "${earthquake.depth} km",
-                    icon = Icons.Default.Layers
-                )
-                DetailInfoTile(
-                    modifier = Modifier.weight(1f),
-                    title = stringResource(R.string.label_perceived_intensity),
-                    value = "Mercalli ${earthquake.intensity}",
-                    icon = Icons.Default.GraphicEq
-                )
-                DetailInfoTile(
-                    modifier = Modifier.weight(1f),
-                    title = stringResource(R.string.label_source),
-                    value = earthquake.source,
-                    icon = Icons.Default.Sensors
-                )
+            AppAnimations.StaggeredEntrance(index = 0) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    DetailInfoTile(
+                        modifier = Modifier.weight(1f),
+                        title = stringResource(R.string.label_depth),
+                        value = "${earthquake.depth} km",
+                        icon = Icons.Default.Layers
+                    )
+                    DetailInfoTile(
+                        modifier = Modifier.weight(1f),
+                        title = stringResource(R.string.label_perceived_intensity),
+                        value = "Mercalli ${earthquake.intensity}",
+                        icon = Icons.Default.GraphicEq
+                    )
+                    DetailInfoTile(
+                        modifier = Modifier.weight(1f),
+                        title = stringResource(R.string.label_source),
+                        value = earthquake.source,
+                        icon = Icons.Default.Sensors
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            SeismicImpactCard(
-                magnitude = earthquake.magnitude,
-                depth = earthquake.depth,
-                feltCount = 142, // Varsayılan/Firebase'den gelen sayı
-                onFeltClicked = {
-                    // "Ben de hissettim" butonuna basıldığında yapılacak işlem
-                }
-            )
+            AppAnimations.StaggeredEntrance(index = 1) {
+                SeismicImpactCard(
+                    magnitude = earthquake.magnitude,
+                    depth = earthquake.depth,
+                    feltCount = 142, // Varsayılan/Firebase'den gelen sayı
+                    onFeltClicked = {
+                        // "Ben de hissettim" butonuna basıldığında yapılacak işlem
+                    }
+                )
+            }
 
             // 4. HAYAT KURTARICI DÜDÜĞÜ
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(20.dp),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer)
-            ) {
-                Row(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
+            AppAnimations.StaggeredEntrance(index = 2) {
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(20.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer)
                 ) {
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            text = stringResource(R.string.whistle_title),
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onErrorContainer
-                        )
-                        Text(
-                            text = stringResource(R.string.whistle_desc),
-                            fontSize = 11.sp,
-                            color = MaterialTheme.colorScheme.onErrorContainer.copy(alpha = 0.8f)
-                        )
-                    }
-
-                    Button(
-                        onClick = {
-                            EmergencySmsHelper.sendEmergencySms(
-                                context = context,
-                                phoneNumber = "",
-                                latitude = earthquake.latitude,
-                                longitude = earthquake.longitude,
-                                isSafe = false
-                            )
-                        },
-                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
-                        shape = RoundedCornerShape(12.dp)
+                    Row(
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Icon(Icons.Default.Sms, contentDescription = null)
-                        Spacer(modifier = Modifier.width(6.dp))
-                        Text("Konumlu SMS Gönder")
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                text = stringResource(R.string.whistle_title),
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onErrorContainer
+                            )
+                            Text(
+                                text = stringResource(R.string.whistle_desc),
+                                fontSize = 11.sp,
+                                color = MaterialTheme.colorScheme.onErrorContainer.copy(alpha = 0.8f)
+                            )
+                        }
+
+                        Button(
+                            onClick = {
+                                EmergencySmsHelper.sendEmergencySms(
+                                    context = context,
+                                    phoneNumber = "",
+                                    latitude = earthquake.latitude,
+                                    longitude = earthquake.longitude,
+                                    isSafe = false
+                                )
+                            },
+                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
+                            shape = RoundedCornerShape(12.dp)
+                        ) {
+                            Icon(Icons.Default.Sms, contentDescription = null)
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text("Konumlu SMS Gönder")
+                        }
                     }
                 }
             }
@@ -263,14 +267,16 @@ fun EarthquakeDetailScreen(
             Spacer(modifier = Modifier.height(14.dp))
 
             // 5. PAYLAŞ BUTONU
-            OutlinedButton(
-                onClick = { shareEarthquakeDetail(context, earthquake) },
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(16.dp)
-            ) {
-                Icon(Icons.Default.Share, contentDescription = null)
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(stringResource(R.string.share_earthquake_info))
+            AppAnimations.StaggeredEntrance(index = 3) {
+                OutlinedButton(
+                    onClick = { shareEarthquakeDetail(context, earthquake) },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(16.dp)
+                ) {
+                    Icon(Icons.Default.Share, contentDescription = null)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(stringResource(R.string.share_earthquake_info))
+                }
             }
         }
     }
