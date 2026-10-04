@@ -34,6 +34,7 @@ import com.ferdidrgn.anlikdepremler.R
 import com.ferdidrgn.anlikdepremler.core.ui.animation.AppAnimations
 import com.ferdidrgn.anlikdepremler.core.ui.animation.AppAnimations.shimmer
 import com.ferdidrgn.anlikdepremler.data.remote.EarthquakeSource
+import com.ferdidrgn.anlikdepremler.ui.components.ErrorRetryBanner
 import com.ferdidrgn.anlikdepremler.ui.components.NativeAdCard
 import com.ferdidrgn.anlikdepremler.ui.theme.magnitudeHeatColor
 import com.ferdidrgn.anlikdepremler.ui.util.shouldShowAdAtIndex
@@ -138,6 +139,15 @@ fun EarthquakeListScreen(
         )
 
         Spacer(modifier = Modifier.height(10.dp))
+
+        // 🎯 VERİ YÜKLEME HATASI BİLDİRİMİ
+        if (uiState.errorMessage != null && uiState.rawEarthquakes.isEmpty()) {
+            ErrorRetryBanner(
+                onRetryClick = { viewModel.loadEarthquakes() },
+                horizontalInset = 0.dp
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+        }
 
         // 2. VERİ KAYNAĞI SEÇİCİ (KANDİLLİ, AFAD, EMSC)
         LazyRow(

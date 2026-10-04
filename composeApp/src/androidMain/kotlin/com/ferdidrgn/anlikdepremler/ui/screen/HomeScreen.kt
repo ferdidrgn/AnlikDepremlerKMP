@@ -26,6 +26,7 @@ import com.ferdidrgn.anlikdepremler.R
 import com.ferdidrgn.anlikdepremler.core.ads.BannerAdView
 import com.ferdidrgn.anlikdepremler.core.ui.animation.AppAnimations
 import com.ferdidrgn.anlikdepremler.core.ui.animation.AppAnimations.shimmer
+import com.ferdidrgn.anlikdepremler.ui.components.ErrorRetryBanner
 import com.ferdidrgn.anlikdepremler.ui.components.NativeAdCard
 import com.ferdidrgn.anlikdepremler.ui.components.NearbyEarthquakeAlertCard
 import com.ferdidrgn.anlikdepremler.ui.components.RequestAppPermissions
@@ -91,6 +92,12 @@ fun HomeScreen(
                 onSafeClicked = { viewModel.dismissNearbyAlert() },
                 onNeedHelpClicked = { viewModel.dismissNearbyAlert() }
             )
+        }
+
+        // 🎯 VERİ YÜKLEME HATASI BİLDİRİMİ
+        if (uiState.errorMessage != null && uiState.rawEarthquakes.isEmpty()) {
+            ErrorRetryBanner(onRetryClick = { viewModel.loadEarthquakes() })
+            Spacer(modifier = Modifier.height(12.dp))
         }
 
         // 1. Üst Başlık & Canlı Rozet

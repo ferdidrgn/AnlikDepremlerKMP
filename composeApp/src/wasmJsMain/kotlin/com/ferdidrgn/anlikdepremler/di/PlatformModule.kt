@@ -6,6 +6,8 @@ import com.ferdidrgn.anlikdepremler.core.datastore.PREFERENCES_DATASTORE_FILE_NA
 import com.ferdidrgn.anlikdepremler.core.datastore.createDataStore
 import com.ferdidrgn.anlikdepremler.core.network.NetworkMonitor
 import com.ferdidrgn.anlikdepremler.core.network.WasmNetworkMonitor
+import com.ferdidrgn.anlikdepremler.core.notification.NearbyEarthquakeNotifier
+import com.ferdidrgn.anlikdepremler.core.notification.NoOpNearbyEarthquakeNotifier
 import com.ferdidrgn.anlikdepremler.core.util.LocationTracker
 import com.ferdidrgn.anlikdepremler.core.util.WasmLocationTracker
 import org.koin.core.module.Module
@@ -26,4 +28,5 @@ actual fun platformModule(): Module = module {
     }
     single<LocationTracker> { WasmLocationTracker() }
     single<NetworkMonitor> { WasmNetworkMonitor() }
+    single<NearbyEarthquakeNotifier> { NoOpNearbyEarthquakeNotifier() }
 }

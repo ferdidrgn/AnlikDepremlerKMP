@@ -17,6 +17,7 @@ class PreferencesManager(
     private val SELECTED_LANGUAGE_KEY = stringPreferencesKey("selected_language")
 
     private val EMERGENCY_PHONE_KEY = stringPreferencesKey("emergency_phone_number")
+    private val NEARBY_NOTIFICATIONS_ENABLED_KEY = booleanPreferencesKey("nearby_notifications_enabled")
 
     // --- DEPREM VERİ KAYNAĞI ---
     val selectedSource: Flow<String> = dataStore.data.map { prefs ->
@@ -71,5 +72,14 @@ class PreferencesManager(
         dataStore.edit { prefs ->
             prefs[EMERGENCY_PHONE_KEY] = phoneNumber
         }
+    }
+
+    // --- YAKIN DEPREM BİLDİRİMLERİ (AÇIK/KAPALI) ---
+    val nearbyNotificationsEnabled: Flow<Boolean> = dataStore.data.map { prefs ->
+        prefs[NEARBY_NOTIFICATIONS_ENABLED_KEY] ?: true
+    }
+
+    suspend fun saveNearbyNotificationsEnabled(enabled: Boolean) {
+        dataStore.edit { prefs -> prefs[NEARBY_NOTIFICATIONS_ENABLED_KEY] = enabled }
     }
 }

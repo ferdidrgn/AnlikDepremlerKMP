@@ -75,8 +75,9 @@ class EarthquakeRepository(
                 }
                 emit(list)
             } catch (e: Exception) {
-                e.printStackTrace()
-                emit(emptyList())
+                // Surfaced to the UI via MainViewModel.loadEarthquakes()'s .catch{} - swallowing
+                // this into an empty list used to hide real network/parsing failures entirely.
+                throw e
             }
         }
 }

@@ -9,5 +9,5 @@ import org.koin.dsl.module
  * one instance for the lifetime of the browser tab is exactly what a single-page app needs.
  */
 val wasmAppModule = module {
-    single { MainViewModel(get(), get(), get(), get(), get(), get(), get()) }
+    single { MainViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
 }

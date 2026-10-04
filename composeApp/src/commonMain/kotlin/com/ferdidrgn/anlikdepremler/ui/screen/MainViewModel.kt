@@ -6,6 +6,7 @@ import com.ferdi.deprem.model.Earthquake
 import com.ferdi.deprem.model.EarthquakeStatistics
 import com.ferdidrgn.anlikdepremler.core.datastore.PreferencesManager
 import com.ferdidrgn.anlikdepremler.core.network.NetworkMonitor
+import com.ferdidrgn.anlikdepremler.core.notification.NearbyEarthquakeNotifier
 import com.ferdidrgn.anlikdepremler.core.util.LocationTracker
 import com.ferdidrgn.anlikdepremler.core.util.LocationUtils
 import com.ferdidrgn.anlikdepremler.core.util.UserLocationResult
@@ -14,9 +15,12 @@ import com.ferdidrgn.anlikdepremler.domain.usecase.*
 import com.ferdidrgn.anlikdepremler.domain.util.filterByTimeSpan
 import com.ferdidrgn.anlikdepremler.ui.theme.AppThemeMode
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 
 data class HomeUiState(
     val isLoading: Boolean = false,
@@ -50,13 +54,18 @@ class MainViewModel(
     private val getUserPreferencesUseCase: GetUserPreferencesUseCase,
     private val preferencesManager: PreferencesManager,
     private val networkMonitor: NetworkMonitor,
-    private val locationTracker: LocationTracker
+    private val locationTracker: LocationTracker,
+    private val nearbyEarthquakeNotifier: NearbyEarthquakeNotifier
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
     private val _locationQueryState = MutableStateFlow("")
+
+    /** The last earthquake id a system notification was already posted for - avoids re-firing
+     *  one on every auto-refresh poll while it's still the nearest qualifying quake. */
+    private var lastNotifiedEarthquakeId: String? = null
 
     val isOnboardingCompleted = preferencesManager.isOnboardingCompleted
         .catch { emit(false) }
@@ -77,6 +86,18 @@ class MainViewModel(
         observeUserPreferences()
         observeEmergencyPhone()
         setupDebouncedSearch()
+        startAutoRefresh()
+    }
+
+    /** Nothing was re-fetching earthquake data once the first load finished - this keeps the
+     *  list "live" instead of only ever updating on a source change or search. */
+    private fun startAutoRefresh() {
+        viewModelScope.launch {
+            while (isActive) {
+                delay(60.seconds)
+                loadEarthquakes()
+            }
+        }
     }
 
     private fun observeEmergencyPhone() {
@@ -117,15 +138,31 @@ class MainViewModel(
     }
 
     private fun checkNearbyEarthquakes(userLoc: UserLocationResult) {
-        val criticalEarthquake = _uiState.value.rawEarthquakes.firstOrNull { eq ->
-            eq.magnitude >= 4.0 && LocationUtils.calculateDistanceInKm(
-                userLat = userLoc.latitude,
-                userLng = userLoc.longitude,
-                eqLat = eq.latitude,
-                eqLng = eq.longitude
-            ) <= 100.0
+        val nearest = _uiState.value.rawEarthquakes
+            .asSequence()
+            .filter { it.magnitude >= 4.0 }
+            .map { eq ->
+                eq to LocationUtils.calculateDistanceInKm(
+                    userLat = userLoc.latitude,
+                    userLng = userLoc.longitude,
+                    eqLat = eq.latitude,
+                    eqLng = eq.longitude
+                )
+            }
+            .filter { (_, distanceKm) -> distanceKm <= 100.0 }
+            .minByOrNull { (_, distanceKm) -> distanceKm }
+
+        _uiState.update { it.copy(nearbyAlertEarthquake = nearest?.first) }
+
+        val (earthquake, distanceKm) = nearest ?: return
+        if (earthquake.id == lastNotifiedEarthquakeId) return
+
+        viewModelScope.launch {
+            if (preferencesManager.nearbyNotificationsEnabled.first()) {
+                nearbyEarthquakeNotifier.notifyNearbyEarthquake(earthquake, distanceKm)
+                lastNotifiedEarthquakeId = earthquake.id
+            }
         }
-        _uiState.update { it.copy(nearbyAlertEarthquake = criticalEarthquake) }
     }
 
     fun dismissNearbyAlert() {

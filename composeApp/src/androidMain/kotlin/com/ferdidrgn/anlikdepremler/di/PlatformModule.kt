@@ -6,6 +6,8 @@ import com.ferdidrgn.anlikdepremler.core.datastore.PREFERENCES_DATASTORE_FILE_NA
 import com.ferdidrgn.anlikdepremler.core.datastore.createDataStore
 import com.ferdidrgn.anlikdepremler.core.network.AndroidNetworkMonitor
 import com.ferdidrgn.anlikdepremler.core.network.NetworkMonitor
+import com.ferdidrgn.anlikdepremler.core.notification.AndroidNearbyEarthquakeNotifier
+import com.ferdidrgn.anlikdepremler.core.notification.NearbyEarthquakeNotifier
 import com.ferdidrgn.anlikdepremler.core.util.AndroidLocationTracker
 import com.ferdidrgn.anlikdepremler.core.util.LocationTracker
 import org.koin.android.ext.koin.androidContext
@@ -20,4 +22,5 @@ actual fun platformModule(): Module = module {
     }
     single<LocationTracker> { AndroidLocationTracker(androidContext()) }
     single<NetworkMonitor> { AndroidNetworkMonitor(androidContext()) }
+    single<NearbyEarthquakeNotifier> { AndroidNearbyEarthquakeNotifier(androidContext()) }
 }

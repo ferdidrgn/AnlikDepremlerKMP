@@ -39,6 +39,7 @@ import com.ferdidrgn.anlikdepremler.core.ui.animation.AppAnimations
 import com.ferdidrgn.anlikdepremler.core.language.AppLanguage
 import com.ferdidrgn.anlikdepremler.core.util.ReviewHelper
 import com.ferdidrgn.anlikdepremler.ui.components.NativeAdCard
+import com.ferdidrgn.anlikdepremler.ui.screen.settings.ModernSettingsSwitchTile
 import com.ferdidrgn.anlikdepremler.ui.screen.settings.ModernSettingsTile
 import com.ferdidrgn.anlikdepremler.ui.screen.settings.ModernThemeSelectorCard
 import com.ferdidrgn.anlikdepremler.ui.screen.settings.SettingsCardContainer
@@ -62,6 +63,7 @@ fun SettingsScreen(
     val currentLang by settingsViewModel.currentLanguage.collectAsState()
     val currentTheme by settingsViewModel.currentTheme.collectAsState()
     val emergencyPhone by settingsViewModel.emergencyPhoneNumber.collectAsState()
+    val nearbyNotificationsEnabled by settingsViewModel.nearbyNotificationsEnabled.collectAsState()
 
     var showLanguageDialog by remember { mutableStateOf(false) }
     var showPhoneDialog by remember { mutableStateOf(false) }
@@ -152,6 +154,15 @@ fun SettingsScreen(
                         title = stringResource(R.string.location_permissions),
                         subtitle = stringResource(R.string.location_permissions_sub),
                         onClick = { settingsViewModel.onLocationSettingsClick() }
+                    )
+                    DividerLine()
+                    ModernSettingsSwitchTile(
+                        icon = Icons.Default.Notifications,
+                        iconBgColor = Color(0xFFE91E63),
+                        title = stringResource(R.string.nearby_notifications_title),
+                        subtitle = stringResource(R.string.nearby_notifications_sub),
+                        checked = nearbyNotificationsEnabled,
+                        onCheckedChange = { settingsViewModel.onNearbyNotificationsToggled(it) }
                     )
                 }
             }

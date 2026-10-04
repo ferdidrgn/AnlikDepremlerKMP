@@ -42,6 +42,10 @@ class SettingsViewModel(
     val emergencyPhoneNumber: StateFlow<String> = preferencesManager.emergencyPhoneNumber
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), "")
 
+    // --- YAKIN DEPREM BİLDİRİMLERİ AÇIK/KAPALI STATE'İ ---
+    val nearbyNotificationsEnabled: StateFlow<Boolean> = preferencesManager.nearbyNotificationsEnabled
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
+
     private val _eventFlow = MutableSharedFlow<SettingsEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
@@ -49,6 +53,13 @@ class SettingsViewModel(
     fun saveEmergencyPhone(phoneNumber: String) {
         viewModelScope.launch {
             preferencesManager.saveEmergencyPhoneNumber(phoneNumber)
+        }
+    }
+
+    // 📌 Yakın Deprem Bildirimlerini Açar/Kapatır
+    fun onNearbyNotificationsToggled(enabled: Boolean) {
+        viewModelScope.launch {
+            preferencesManager.saveNearbyNotificationsEnabled(enabled)
         }
     }
 

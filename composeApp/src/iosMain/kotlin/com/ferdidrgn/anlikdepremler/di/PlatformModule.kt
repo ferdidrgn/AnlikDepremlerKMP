@@ -6,6 +6,8 @@ import com.ferdidrgn.anlikdepremler.core.datastore.PREFERENCES_DATASTORE_FILE_NA
 import com.ferdidrgn.anlikdepremler.core.datastore.createDataStore
 import com.ferdidrgn.anlikdepremler.core.network.IosNetworkMonitor
 import com.ferdidrgn.anlikdepremler.core.network.NetworkMonitor
+import com.ferdidrgn.anlikdepremler.core.notification.NearbyEarthquakeNotifier
+import com.ferdidrgn.anlikdepremler.core.notification.NoOpNearbyEarthquakeNotifier
 import com.ferdidrgn.anlikdepremler.core.util.IosLocationTracker
 import com.ferdidrgn.anlikdepremler.core.util.LocationTracker
 import kotlinx.cinterop.ExperimentalForeignApi
@@ -31,4 +33,5 @@ actual fun platformModule(): Module = module {
     }
     single<LocationTracker> { IosLocationTracker() }
     single<NetworkMonitor> { IosNetworkMonitor() }
+    single<NearbyEarthquakeNotifier> { NoOpNearbyEarthquakeNotifier() }
 }

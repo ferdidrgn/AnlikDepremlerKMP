@@ -9,7 +9,7 @@ import org.koin.dsl.module
 val androidAppModule = module {
     single { AdManager() }
 
-    viewModel { MainViewModel(get(), get(), get(), get(), get(), get(), get()) }
+    viewModel { MainViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
     viewModel { SettingsViewModel(get()) }
 }
 
