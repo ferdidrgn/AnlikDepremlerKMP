@@ -42,6 +42,7 @@ import com.ferdidrgn.anlikdepremler.ui.components.NativeAdCard
 import com.ferdidrgn.anlikdepremler.ui.screen.settings.ModernSettingsSwitchTile
 import com.ferdidrgn.anlikdepremler.ui.screen.settings.ModernSettingsTile
 import com.ferdidrgn.anlikdepremler.ui.screen.settings.ModernThemeSelectorCard
+import com.ferdidrgn.anlikdepremler.ui.screen.settings.NotificationFilterCard
 import com.ferdidrgn.anlikdepremler.ui.screen.settings.SettingsCardContainer
 import com.ferdidrgn.anlikdepremler.ui.screen.settings.SettingsCategoryTitle
 import com.ferdidrgn.anlikdepremler.ui.screen.settings.DividerLine
@@ -65,6 +66,11 @@ fun SettingsScreen(
     val emergencyPhone by settingsViewModel.emergencyPhoneNumber.collectAsState()
     val nearbyNotificationsEnabled by settingsViewModel.nearbyNotificationsEnabled.collectAsState()
     val voiceAlertsEnabled by settingsViewModel.voiceAlertsEnabled.collectAsState()
+    val minMagnitudeThreshold by settingsViewModel.minMagnitudeThreshold.collectAsState()
+    val maxDistanceKm by settingsViewModel.maxDistanceKm.collectAsState()
+    val quietHoursEnabled by settingsViewModel.quietHoursEnabled.collectAsState()
+    val quietHoursStartHour by settingsViewModel.quietHoursStartHour.collectAsState()
+    val quietHoursEndHour by settingsViewModel.quietHoursEndHour.collectAsState()
 
     var showLanguageDialog by remember { mutableStateOf(false) }
     var showPhoneDialog by remember { mutableStateOf(false) }
@@ -175,6 +181,21 @@ fun SettingsScreen(
                         onCheckedChange = { settingsViewModel.onVoiceAlertsToggled(it) }
                     )
                 }
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                NotificationFilterCard(
+                    minMagnitude = minMagnitudeThreshold,
+                    onMinMagnitudeChange = { settingsViewModel.onMinMagnitudeChanged(it) },
+                    maxDistanceKm = maxDistanceKm,
+                    onMaxDistanceChange = { settingsViewModel.onMaxDistanceChanged(it) },
+                    quietHoursEnabled = quietHoursEnabled,
+                    onQuietHoursToggle = { settingsViewModel.onQuietHoursToggled(it) },
+                    quietHoursStartHour = quietHoursStartHour,
+                    onQuietHoursStartChange = { settingsViewModel.onQuietHoursStartChanged(it) },
+                    quietHoursEndHour = quietHoursEndHour,
+                    onQuietHoursEndChange = { settingsViewModel.onQuietHoursEndChanged(it) }
+                )
             }
         }
 

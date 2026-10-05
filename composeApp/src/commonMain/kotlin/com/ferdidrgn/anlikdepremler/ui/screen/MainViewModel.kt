@@ -19,6 +19,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
 
@@ -160,10 +163,13 @@ class MainViewModel(
         }
     }
 
-    private fun checkNearbyEarthquakes(userLoc: UserLocationResult) {
+    private suspend fun checkNearbyEarthquakes(userLoc: UserLocationResult) {
+        val minMagnitude = preferencesManager.minMagnitudeThreshold.first().toDouble()
+        val maxDistanceKm = preferencesManager.maxDistanceKm.first().toDouble()
+
         val nearest = _uiState.value.rawEarthquakes
             .asSequence()
-            .filter { it.magnitude >= 4.0 }
+            .filter { it.magnitude >= minMagnitude }
             .map { eq ->
                 eq to LocationUtils.calculateDistanceInKm(
                     userLat = userLoc.latitude,
@@ -172,7 +178,7 @@ class MainViewModel(
                     eqLng = eq.longitude
                 )
             }
-            .filter { (_, distanceKm) -> distanceKm <= 100.0 }
+            .filter { (_, distanceKm) -> distanceKm <= maxDistanceKm }
             .minByOrNull { (_, distanceKm) -> distanceKm }
 
         _uiState.update { it.copy(nearbyAlertEarthquake = nearest?.first) }
@@ -180,11 +186,27 @@ class MainViewModel(
         val (earthquake, distanceKm) = nearest ?: return
         if (earthquake.id == lastNotifiedEarthquakeId) return
 
-        viewModelScope.launch {
-            if (preferencesManager.nearbyNotificationsEnabled.first()) {
-                nearbyEarthquakeNotifier.notifyNearbyEarthquake(earthquake, distanceKm)
-                lastNotifiedEarthquakeId = earthquake.id
-            }
+        if (preferencesManager.nearbyNotificationsEnabled.first() && !isWithinQuietHours()) {
+            nearbyEarthquakeNotifier.notifyNearbyEarthquake(earthquake, distanceKm)
+            lastNotifiedEarthquakeId = earthquake.id
+        }
+    }
+
+    /** Nearby-earthquake notifications are suppressed inside this local-time window - the
+     *  in-app banner (nearbyAlertEarthquake) still updates either way, only the system
+     *  notification/TTS announcement is held back. */
+    private suspend fun isWithinQuietHours(): Boolean {
+        if (!preferencesManager.quietHoursEnabled.first()) return false
+
+        val startHour = preferencesManager.quietHoursStartHour.first()
+        val endHour = preferencesManager.quietHoursEndHour.first()
+        val currentHour = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).hour
+
+        return if (startHour <= endHour) {
+            currentHour in startHour until endHour
+        } else {
+            // Window wraps past midnight, e.g. 22 -> 7
+            currentHour >= startHour || currentHour < endHour
         }
     }
 

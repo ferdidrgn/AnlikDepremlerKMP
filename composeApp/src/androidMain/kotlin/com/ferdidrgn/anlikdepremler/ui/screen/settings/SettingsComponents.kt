@@ -18,13 +18,16 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -292,4 +295,119 @@ fun DividerLine() {
         color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f),
         modifier = Modifier.padding(start = 68.dp)
     )
+}
+
+/**
+ * Lets the user tune the on-device nearby-earthquake check instead of the hardcoded
+ * magnitude>=4.0/distance<=100km thresholds, plus a quiet-hours window that holds back the
+ * system notification/voice announcement (the in-app banner still updates either way).
+ * Sliders track a local value while dragging and only persist via onValueChangeFinished, so
+ * scrubbing doesn't spam DataStore writes.
+ */
+@Composable
+fun NotificationFilterCard(
+    minMagnitude: Float,
+    onMinMagnitudeChange: (Float) -> Unit,
+    maxDistanceKm: Float,
+    onMaxDistanceChange: (Float) -> Unit,
+    quietHoursEnabled: Boolean,
+    onQuietHoursToggle: (Boolean) -> Unit,
+    quietHoursStartHour: Int,
+    onQuietHoursStartChange: (Int) -> Unit,
+    quietHoursEndHour: Int,
+    onQuietHoursEndChange: (Int) -> Unit
+) {
+    var magnitudeSlider by remember(minMagnitude) { mutableFloatStateOf(minMagnitude) }
+    var distanceSlider by remember(maxDistanceKm) { mutableFloatStateOf(maxDistanceKm) }
+    var startHourSlider by remember(quietHoursStartHour) { mutableFloatStateOf(quietHoursStartHour.toFloat()) }
+    var endHourSlider by remember(quietHoursEndHour) { mutableFloatStateOf(quietHoursEndHour.toFloat()) }
+
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(22.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(
+                text = stringResource(R.string.filter_min_magnitude, magnitudeSlider),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Slider(
+                value = magnitudeSlider,
+                onValueChange = { magnitudeSlider = it },
+                onValueChangeFinished = { onMinMagnitudeChange(magnitudeSlider) },
+                valueRange = 2.5f..6.0f,
+                steps = 6
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Text(
+                text = stringResource(R.string.filter_max_distance, distanceSlider.toInt()),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Slider(
+                value = distanceSlider,
+                onValueChange = { distanceSlider = it },
+                onValueChangeFinished = { onMaxDistanceChange(distanceSlider) },
+                valueRange = 25f..300f,
+                steps = 10
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+            DividerLine()
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = stringResource(R.string.filter_quiet_hours_title),
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Switch(
+                    checked = quietHoursEnabled,
+                    onCheckedChange = onQuietHoursToggle,
+                    colors = SwitchDefaults.colors(checkedTrackColor = MaterialTheme.colorScheme.primary)
+                )
+            }
+
+            if (quietHoursEnabled) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = stringResource(R.string.filter_quiet_hours_start, startHourSlider.toInt()),
+                    fontSize = 12.sp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Slider(
+                    value = startHourSlider,
+                    onValueChange = { startHourSlider = it },
+                    onValueChangeFinished = { onQuietHoursStartChange(startHourSlider.toInt()) },
+                    valueRange = 0f..23f,
+                    steps = 22
+                )
+                Text(
+                    text = stringResource(R.string.filter_quiet_hours_end, endHourSlider.toInt()),
+                    fontSize = 12.sp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Slider(
+                    value = endHourSlider,
+                    onValueChange = { endHourSlider = it },
+                    onValueChangeFinished = { onQuietHoursEndChange(endHourSlider.toInt()) },
+                    valueRange = 0f..23f,
+                    steps = 22
+                )
+            }
+        }
+    }
 }

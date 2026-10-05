@@ -146,6 +146,11 @@
     <string name="nearby_notifications_sub">Konumunuza yakın bir deprem olduğunda anında bildirim alın</string>
     <string name="voice_alerts_title">Sesli Uyarı</string>
     <string name="voice_alerts_sub">Deprem bildirimleri geldiğinde telefon sesli olarak okusun</string>
+    <string name="filter_min_magnitude">%1$.1f ve üzeri depremlerde bildir</string>
+    <string name="filter_max_distance">%1$d km içindeki depremlerde bildir</string>
+    <string name="filter_quiet_hours_title">Sessiz Saatler</string>
+    <string name="filter_quiet_hours_start">Başlangıç: %1$02d:00</string>
+    <string name="filter_quiet_hours_end">Bitiş: %1$02d:00</string>
     <string name="data_load_error">Veriler yüklenemedi, bağlantınızı kontrol edin.</string>
 
     <string name="category_support">DESTEK &amp; TOPLULUK</string>

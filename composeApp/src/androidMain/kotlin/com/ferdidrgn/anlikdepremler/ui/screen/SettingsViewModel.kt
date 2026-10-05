@@ -50,6 +50,22 @@ class SettingsViewModel(
     val voiceAlertsEnabled: StateFlow<Boolean> = preferencesManager.voiceAlertsEnabled
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
+    // --- BİLDİRİM FİLTRELERİ STATE'LERİ ---
+    val minMagnitudeThreshold: StateFlow<Float> = preferencesManager.minMagnitudeThreshold
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 4.0f)
+
+    val maxDistanceKm: StateFlow<Float> = preferencesManager.maxDistanceKm
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 100.0f)
+
+    val quietHoursEnabled: StateFlow<Boolean> = preferencesManager.quietHoursEnabled
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+
+    val quietHoursStartHour: StateFlow<Int> = preferencesManager.quietHoursStartHour
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 22)
+
+    val quietHoursEndHour: StateFlow<Int> = preferencesManager.quietHoursEndHour
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 7)
+
     private val _eventFlow = MutableSharedFlow<SettingsEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
@@ -71,6 +87,37 @@ class SettingsViewModel(
     fun onVoiceAlertsToggled(enabled: Boolean) {
         viewModelScope.launch {
             preferencesManager.saveVoiceAlertsEnabled(enabled)
+        }
+    }
+
+    // 📌 Bildirim Filtreleri
+    fun onMinMagnitudeChanged(value: Float) {
+        viewModelScope.launch {
+            preferencesManager.saveMinMagnitudeThreshold(value)
+        }
+    }
+
+    fun onMaxDistanceChanged(value: Float) {
+        viewModelScope.launch {
+            preferencesManager.saveMaxDistanceKm(value)
+        }
+    }
+
+    fun onQuietHoursToggled(enabled: Boolean) {
+        viewModelScope.launch {
+            preferencesManager.saveQuietHoursEnabled(enabled)
+        }
+    }
+
+    fun onQuietHoursStartChanged(hour: Int) {
+        viewModelScope.launch {
+            preferencesManager.saveQuietHoursStartHour(hour)
+        }
+    }
+
+    fun onQuietHoursEndChanged(hour: Int) {
+        viewModelScope.launch {
+            preferencesManager.saveQuietHoursEndHour(hour)
         }
     }
 
