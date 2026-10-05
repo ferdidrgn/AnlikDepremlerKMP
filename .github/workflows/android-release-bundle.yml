@@ -1,7 +1,10 @@
 name: Android Release Bundle
 
 # Builds the Android App Bundle (.aab) automatically on every push to main, and on demand.
-# Needs a few repo secrets to actually succeed - see the "Required secrets" note below.
+# Needs a few repo secrets to actually succeed and produce a Play Console upload-ready bundle:
+# GOOGLE_SERVICES_JSON, RELEASE_KEYSTORE_BASE64, RELEASE_KEYSTORE_PASSWORD, RELEASE_KEY_ALIAS,
+# RELEASE_KEY_PASSWORD - see the "Decode release keystore" and "Write google-services.json"
+# steps below for where each is used.
 on:
   push:
     branches: [ main ]
@@ -69,10 +72,28 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      # NOTE: the release buildType currently reuses the auto-generated debug keystore
-      # (see composeApp/build.gradle.kts), so this .aab is NOT Play Console upload-ready.
-      # Swap in a real release signingConfig + keystore secrets before shipping to production.
+      # Decodes the real release keystore from a base64 repo secret. If RELEASE_KEYSTORE_BASE64
+      # isn't set, this step still succeeds (empty file) and build.gradle.kts's releaseKeystorePath
+      # check falls back to debug signing - so the build never hard-fails over a missing keystore,
+      # it just produces a non-upload-ready .aab until the secret is added.
+      - name: Decode release keystore
+        env:
+          RELEASE_KEYSTORE_BASE64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "$RELEASE_KEYSTORE_BASE64" ]; then
+            echo "$RELEASE_KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/release.keystore"
+            echo "RELEASE_KEYSTORE_PATH=$RUNNER_TEMP/release.keystore" >> "$GITHUB_ENV"
+          fi
+
+      # Required secrets for a Play Console upload-ready .aab: RELEASE_KEYSTORE_BASE64 (the
+      # .jks file, base64-encoded), RELEASE_KEYSTORE_PASSWORD, RELEASE_KEY_ALIAS,
+      # RELEASE_KEY_PASSWORD - must be the SAME keystore/alias used for any previously
+      # published build, or Play Console will reject the upload as a signature mismatch.
       - name: Build release App Bundle
+        env:
+          RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
         run: ./gradlew :composeApp:bundleRelease --no-daemon
 
       - name: Upload App Bundle artifact

@@ -22,6 +22,14 @@ val localProperties = Properties().apply {
 fun secret(key: String, default: String = ""): String =
     localProperties.getProperty(key, default)
 
+// Release signing: env var first (CI secrets), falls back to local.properties (local dev).
+// Left blank, the release build stays debug-signed - see the signingConfigs/buildTypes.release
+// blocks below - so a clean checkout still builds without a keystore on hand.
+fun releaseSigningProp(key: String): String =
+    System.getenv(key) ?: localProperties.getProperty(key, "")
+
+val releaseKeystorePath = releaseSigningProp("RELEASE_KEYSTORE_PATH")
+
 kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
@@ -168,6 +176,17 @@ android {
         abi.enableSplit = true
     }
 
+    signingConfigs {
+        create("release") {
+            if (releaseKeystorePath.isNotBlank()) {
+                storeFile = file(releaseKeystorePath)
+                storePassword = releaseSigningProp("RELEASE_KEYSTORE_PASSWORD")
+                keyAlias = releaseSigningProp("RELEASE_KEY_ALIAS")
+                keyPassword = releaseSigningProp("RELEASE_KEY_PASSWORD")
+            }
+        }
+    }
+
     buildTypes {
         debug {
             isMinifyEnabled = false
@@ -180,7 +199,11 @@ android {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = if (releaseKeystorePath.isNotBlank()) {
+                signingConfigs.getByName("release")
+            } else {
+                signingConfigs.getByName("debug")
+            }
 
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
