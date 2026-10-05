@@ -15,6 +15,16 @@ plugins {
     id("com.github.triplet.play")
 }
 
+// nodejs.org has been returning 403 Forbidden to GitHub Actions' IP ranges when Kotlin/JS tries
+// to download its own managed Node.js runtime there - not something a retry fixes. On CI
+// (actions/setup-node already puts a working "node" on PATH), skip that download and use the
+// pre-installed one instead; local dev machines are untouched since $CI isn't set there.
+if (System.getenv("CI") == "true") {
+    project.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin> {
+        project.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec>().download = false
+    }
+}
+
 val localProperties = Properties().apply {
     val file = rootProject.file("local.properties")
     if (file.exists()) load(FileInputStream(file))

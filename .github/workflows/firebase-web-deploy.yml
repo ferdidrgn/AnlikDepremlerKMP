@@ -30,6 +30,15 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      # nodejs.org has been returning 403 to GitHub Actions' IPs when Kotlin/JS tries to
+      # download its own Node.js runtime from there. Installing Node here (via GitHub's own
+      # infra, not nodejs.org directly) and setting CI's build.gradle.kts to skip that download
+      # (download = false when $CI is set) avoids it entirely.
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
       - name: Cache Gradle
         uses: actions/cache@v4
         with:
