@@ -2,10 +2,12 @@ package com.ferdidrgn.anlikdepremler.core.data
 
 import android.content.Context
 import androidx.core.content.edit
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import java.util.Date
 import java.util.UUID
 
 /**
@@ -13,8 +15,10 @@ import java.util.UUID
  * backend: each viewer heartbeats its own tiny presence doc every HEARTBEAT_INTERVAL_MILLIS
  * while the detail screen is open, and the live count is "how many of those docs were touched in
  * the last PRESENCE_WINDOW_MILLIS" - computed client-side on read, since there's no Cloud
- * Function to expire stale docs server-side. A doc left behind by a killed app just ages out of
- * every other client's window and stops being counted; it's harmless litter, not a real bug.
+ * Function to do this server-side. A doc left behind by a killed app ages out of every other
+ * client's window immediately (stops being counted), and out of the database itself within
+ * VIEWER_DOC_TTL_MILLIS via Firestore's native TTL policy on the "expiresAt" field (configured in
+ * the Firebase Console, not in code) - no Cloud Function needed for that either.
  */
 class EventPresenceRepository(private val context: Context) {
 
@@ -38,13 +42,23 @@ class EventPresenceRepository(private val context: Context) {
     }
 
     /** Best-effort, fire-and-forget - a missed heartbeat just means this device ages out of
-     *  other viewers' counts a little early, and the next one 15s later fixes it. */
+     *  other viewers' counts a little early, and the next one 15s later fixes it. Also writes
+     *  "expiresAt" a few minutes into the future so Firestore's TTL policy (configured in the
+     *  Firebase Console) actually deletes the doc if the app is killed mid-session instead of
+     *  leaving it behind forever - the client-side PRESENCE_WINDOW_MILLIS filter above already
+     *  hides it from live counts, but TTL is what removes the litter from the database itself. */
     fun heartbeat(earthquakeId: String) {
+        val expiresAt = Timestamp(Date(System.currentTimeMillis() + VIEWER_DOC_TTL_MILLIS))
         firestore.collection(COLLECTION)
             .document(earthquakeId)
             .collection(SUBCOLLECTION)
             .document(deviceId)
-            .set(mapOf("lastSeenMillis" to System.currentTimeMillis()))
+            .set(
+                mapOf(
+                    "lastSeenMillis" to System.currentTimeMillis(),
+                    "expiresAt" to expiresAt
+                )
+            )
     }
 
     private fun getOrCreateDeviceId(): String {
@@ -62,5 +76,6 @@ class EventPresenceRepository(private val context: Context) {
         private const val COLLECTION = "felt_reports"
         private const val SUBCOLLECTION = "viewers"
         private const val PRESENCE_WINDOW_MILLIS = 60_000L
+        private const val VIEWER_DOC_TTL_MILLIS = 10 * 60_000L
     }
 }

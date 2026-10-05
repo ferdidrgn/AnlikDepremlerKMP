@@ -17,12 +17,10 @@ import kotlin.coroutines.resumeWithException
  * Firestore's free Spark-tier quota - no Cloud Function, no backend of our own. Mirrors the
  * direct-client-write pattern FcmTokenManager already uses against the "devices" collection.
  *
- * Note: this needs the Firestore security rules (managed in the Firebase Console, not in this
- * repo) to allow reads/writes on "felt_reports". If reports silently fail, add a rule like:
- *   match /felt_reports/{earthquakeId} {
- *     allow read: if true;
- *     allow write: if request.resource.data.keys().hasOnly(['count']);
- *   }
+ * Note: this needs Firestore security rules (managed in the Firebase Console, not deployed
+ * automatically from this repo) to allow reads/writes on "felt_reports" - see /firestore.rules
+ * at the repo root for the exact rules covering this collection plus its comments/viewers
+ * subcollections.
  */
 class FeltReportRepository {
 

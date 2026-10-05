@@ -1,0 +1,71 @@
+rules_version = '2';
+
+// Security rules for the Firestore collections this app writes to directly from the client
+// (no Cloud Functions / Admin SDK backend - everything here runs on the free Spark plan).
+// Paste this file's contents into Firebase Console -> Firestore Database -> Rules, or deploy it
+// with `firebase deploy --only firestore:rules` if this project is linked locally.
+//
+// There is no Firebase Auth in this app - every device writes anonymously using a random
+// UUID generated once and stored in SharedPreferences ("device_id"). These rules can't verify
+// *who* is writing, only *what shape* the data is, so they focus on preventing malformed or
+// oversized writes rather than per-user ownership.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // One aggregate doc per earthquake: { count: <int> }. Anyone can read the live "felt it"
+    // count; writes are only allowed if they touch nothing but the count field.
+    match /felt_reports/{earthquakeId} {
+      allow read: if true;
+      allow create, update: if request.resource.data.keys().hasOnly(['count'])
+        && request.resource.data.count is int;
+      allow delete: if false;
+
+      // Eyewitness comments, auto-ID docs under each earthquake's report.
+      match /comments/{commentId} {
+        allow read: if true;
+        allow create: if request.resource.data.keys().hasOnly(['text', 'timestampMillis', 'reported'])
+          && request.resource.data.text is string
+          && request.resource.data.text.size() > 0
+          && request.resource.data.text.size() <= 300
+          && request.resource.data.timestampMillis is int
+          && request.resource.data.reported == false;
+        // reportComment() only ever flips "reported" to true for manual moderation review -
+        // nothing else about a comment can be changed after it's created, and it can't be undone
+        // client-side (stops a bad-faith reporter from un-flagging someone else's flag).
+        allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reported'])
+          && request.resource.data.reported == true;
+        allow delete: if false;
+      }
+
+      // Live-viewer presence heartbeats, one doc per device per earthquake.
+      // TTL policy (Console -> Firestore -> TTL) on "expiresAt" deletes these automatically a
+      // few minutes after the last heartbeat - see EventPresenceRepository.kt.
+      match /viewers/{deviceId} {
+        allow read: if true;
+        allow write: if request.resource.data.keys().hasOnly(['lastSeenMillis', 'expiresAt'])
+          && request.resource.data.lastSeenMillis is int
+          && request.resource.data.expiresAt is timestamp;
+        allow delete: if false;
+      }
+    }
+
+    // FCM push-token registry, one doc per device. Never readable by clients (just FCM tokens -
+    // no reason any device needs to read another's). TTL policy on "expiresAt" cleans up
+    // uninstalled/abandoned devices - see FcmTokenManager.kt.
+    match /devices/{deviceId} {
+      allow read: if false;
+      allow write: if request.resource.data.keys().hasOnly(
+          ['fcmToken', 'deviceId', 'deviceModel', 'osVersion', 'lastActive', 'expiresAt']
+        )
+        && request.resource.data.fcmToken is string
+        && request.resource.data.lastActive is timestamp
+        && request.resource.data.expiresAt is timestamp;
+      allow delete: if false;
+    }
+
+    // Deny everything else by default.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
