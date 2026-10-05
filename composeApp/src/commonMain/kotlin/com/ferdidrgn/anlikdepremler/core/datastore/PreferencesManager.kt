@@ -45,6 +45,7 @@ class PreferencesManager(
     private val SHAKE_SENSITIVITY_KEY = floatPreferencesKey("shake_sensitivity")
     private val EARTHQUAKE_JOURNAL_JSON_KEY = stringPreferencesKey("earthquake_journal_json")
     private val ADS_FREE_UNTIL_MILLIS_KEY = longPreferencesKey("ads_free_until_millis")
+    private val COMPLETED_CHECKLIST_ITEMS_KEY = stringSetPreferencesKey("completed_checklist_items")
     private val FELT_REPORTED_EARTHQUAKE_IDS_KEY = stringSetPreferencesKey("felt_reported_earthquake_ids")
 
     // --- DEPREM VERİ KAYNAĞI ---
@@ -248,5 +249,17 @@ class PreferencesManager(
         val newDate = baseInstant.toLocalDateTime(timeZone).date.plus(6, DateTimeUnit.MONTH)
         val newUntilMillis = newDate.atStartOfDayIn(timeZone).toEpochMilliseconds()
         dataStore.edit { prefs -> prefs[ADS_FREE_UNTIL_MILLIS_KEY] = newUntilMillis }
+    }
+
+    // --- ACİL DURUM ÇANTASI KONTROL LİSTESİ - tamamlanan öğelerin kaydı ---
+    val completedChecklistItems: Flow<Set<String>> = dataStore.data.map { prefs ->
+        prefs[COMPLETED_CHECKLIST_ITEMS_KEY] ?: emptySet()
+    }
+
+    suspend fun setChecklistItemCompleted(itemId: String, completed: Boolean) {
+        dataStore.edit { prefs ->
+            val current = prefs[COMPLETED_CHECKLIST_ITEMS_KEY] ?: emptySet()
+            prefs[COMPLETED_CHECKLIST_ITEMS_KEY] = if (completed) current + itemId else current - itemId
+        }
     }
 }

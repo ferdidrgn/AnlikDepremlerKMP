@@ -88,6 +88,18 @@
     <string name="checklist_section_title">🎒 Acil Durum Çantası Kontrolü</string>
     <string name="checklist_item_food_title">Su ve Konserve Gıda Hazır mı?</string>
     <string name="checklist_item_food_desc">En az 3 günlük stok önerilir.</string>
+    <string name="checklist_item_flashlight_title">El Feneri ve Yedek Pil</string>
+    <string name="checklist_item_flashlight_desc">Elektrik kesintisinde aydınlatma şart.</string>
+    <string name="checklist_item_firstaid_title">İlk Yardım Çantası</string>
+    <string name="checklist_item_firstaid_desc">Yara bandı, antiseptik, ağrı kesici bulunsun.</string>
+    <string name="checklist_item_documents_title">Önemli Belgeler</string>
+    <string name="checklist_item_documents_desc">Kimlik, tapu, sigorta fotokopileri su geçirmez poşette.</string>
+    <string name="checklist_item_powerbank_title">Şarjlı Powerbank</string>
+    <string name="checklist_item_powerbank_desc">Telefonunuzu şarj edebilmeniz hayati önem taşır.</string>
+    <string name="checklist_item_whistle_title">Düdük</string>
+    <string name="checklist_item_whistle_desc">Enkaz altında sesinizi duyurmanın en kolay yolu.</string>
+    <string name="checklist_progress">%1$d/%2$d tamamlandı</string>
+    <string name="checklist_complete_badge">🏆 Çantanız hazır!</string>
 
     <string name="filter_1h">1 Saat</string>
     <string name="filter_6h">6 Saat</string>
