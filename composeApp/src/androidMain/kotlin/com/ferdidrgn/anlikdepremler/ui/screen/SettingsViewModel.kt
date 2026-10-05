@@ -86,6 +86,10 @@ class SettingsViewModel(
     val adsFreeUntilMillis: StateFlow<Long> = preferencesManager.adsFreeUntilMillis
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0L)
 
+    // --- HAFTALIK DEPREM ÖZETİ STATE'İ ---
+    val weeklyDigestEnabled: StateFlow<Boolean> = preferencesManager.weeklyDigestEnabled
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+
     private val _eventFlow = MutableSharedFlow<SettingsEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
@@ -244,6 +248,12 @@ class SettingsViewModel(
     fun onRemoveAdsClick() {
         viewModelScope.launch {
             _eventFlow.emit(SettingsEvent.RemoveAds)
+        }
+    }
+
+    fun onWeeklyDigestToggled(enabled: Boolean) {
+        viewModelScope.launch {
+            preferencesManager.saveWeeklyDigestEnabled(enabled)
         }
     }
 }

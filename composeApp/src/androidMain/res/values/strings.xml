@@ -190,6 +190,10 @@
     <string name="remove_ads_sub">Tek seferlik satın alma ile 6 ay boyunca reklamsız kullanın</string>
     <string name="remove_ads_active_sub">Aktif - %1$d gün kaldı</string>
     <string name="ads_removed_thanks">Teşekkürler! 6 ay boyunca reklamsız kullanabilirsiniz.</string>
+    <string name="weekly_digest_settings_title">Haftalık Özet</string>
+    <string name="weekly_digest_settings_sub">Her hafta genel deprem aktivitesi özetini bildirimle alın</string>
+    <string name="weekly_digest_title">📊 Haftalık Deprem Özeti</string>
+    <string name="weekly_digest_body">Bu hafta %1$d deprem kaydedildi. En büyüğü %2$s\'de %3$.1f büyüklüğünde.</string>
     <string name="data_load_error">Veriler yüklenemedi, bağlantınızı kontrol edin.</string>
 
     <string name="category_support">DESTEK &amp; TOPLULUK</string>

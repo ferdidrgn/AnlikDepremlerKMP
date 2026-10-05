@@ -46,6 +46,7 @@ class PreferencesManager(
     private val EARTHQUAKE_JOURNAL_JSON_KEY = stringPreferencesKey("earthquake_journal_json")
     private val ADS_FREE_UNTIL_MILLIS_KEY = longPreferencesKey("ads_free_until_millis")
     private val COMPLETED_CHECKLIST_ITEMS_KEY = stringSetPreferencesKey("completed_checklist_items")
+    private val WEEKLY_DIGEST_ENABLED_KEY = booleanPreferencesKey("weekly_digest_enabled")
     private val FELT_REPORTED_EARTHQUAKE_IDS_KEY = stringSetPreferencesKey("felt_reported_earthquake_ids")
 
     // --- DEPREM VERİ KAYNAĞI ---
@@ -261,5 +262,14 @@ class PreferencesManager(
             val current = prefs[COMPLETED_CHECKLIST_ITEMS_KEY] ?: emptySet()
             prefs[COMPLETED_CHECKLIST_ITEMS_KEY] = if (completed) current + itemId else current - itemId
         }
+    }
+
+    // --- HAFTALIK DEPREM ÖZETİ BİLDİRİMİ (varsayılan kapalı) ---
+    val weeklyDigestEnabled: Flow<Boolean> = dataStore.data.map { prefs ->
+        prefs[WEEKLY_DIGEST_ENABLED_KEY] ?: false
+    }
+
+    suspend fun saveWeeklyDigestEnabled(enabled: Boolean) {
+        dataStore.edit { prefs -> prefs[WEEKLY_DIGEST_ENABLED_KEY] = enabled }
     }
 }

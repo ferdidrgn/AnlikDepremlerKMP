@@ -9,6 +9,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Block
+import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.LocalCafe
@@ -45,6 +46,7 @@ import com.ferdidrgn.anlikdepremler.core.datastore.PreferencesManager
 import com.ferdidrgn.anlikdepremler.core.ui.animation.AppAnimations
 import com.ferdidrgn.anlikdepremler.core.language.AppLanguage
 import com.ferdidrgn.anlikdepremler.core.util.ReviewHelper
+import com.ferdidrgn.anlikdepremler.core.worker.WeeklyDigestScheduler
 import com.ferdidrgn.anlikdepremler.ui.components.NativeAdCard
 import com.ferdidrgn.anlikdepremler.ui.screen.settings.ModernSettingsSwitchTile
 import com.ferdidrgn.anlikdepremler.ui.screen.settings.ModernSettingsTile
@@ -85,6 +87,7 @@ fun SettingsScreen(
     val quietHoursEndHour by settingsViewModel.quietHoursEndHour.collectAsState()
     val savedLocations by settingsViewModel.savedLocations.collectAsState()
     val adsFreeUntilMillis by settingsViewModel.adsFreeUntilMillis.collectAsState()
+    val weeklyDigestEnabled by settingsViewModel.weeklyDigestEnabled.collectAsState()
     val isAdsFree = adsFreeUntilMillis > System.currentTimeMillis()
     val adsFreeDaysLeft = ((adsFreeUntilMillis - System.currentTimeMillis()) / 86_400_000L).coerceAtLeast(0)
     val shakeDetectionEnabled by settingsViewModel.shakeDetectionEnabled.collectAsState()
@@ -218,6 +221,22 @@ fun SettingsScreen(
                         subtitle = stringResource(R.string.voice_alerts_sub),
                         checked = voiceAlertsEnabled,
                         onCheckedChange = { settingsViewModel.onVoiceAlertsToggled(it) }
+                    )
+                    DividerLine()
+                    ModernSettingsSwitchTile(
+                        icon = Icons.Default.CalendarMonth,
+                        iconBgColor = Color(0xFF3F51B5),
+                        title = stringResource(R.string.weekly_digest_settings_title),
+                        subtitle = stringResource(R.string.weekly_digest_settings_sub),
+                        checked = weeklyDigestEnabled,
+                        onCheckedChange = { enabled ->
+                            settingsViewModel.onWeeklyDigestToggled(enabled)
+                            if (enabled) {
+                                WeeklyDigestScheduler.enable(context)
+                            } else {
+                                WeeklyDigestScheduler.disable(context)
+                            }
+                        }
                     )
                 }
 
