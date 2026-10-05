@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.ferdi.deprem.model.Earthquake
 import com.ferdidrgn.anlikdepremler.R
+import com.ferdidrgn.anlikdepremler.core.data.EarthquakeCommentRepository
 import com.ferdidrgn.anlikdepremler.core.data.FeltReportRepository
 import com.ferdidrgn.anlikdepremler.core.datastore.PreferencesManager
 import com.ferdidrgn.anlikdepremler.core.share.shareEarthquakeAsImageCard
@@ -276,6 +277,110 @@ fun EarthquakeDetailScreen(
                     Icon(Icons.Default.Share, contentDescription = null)
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(stringResource(R.string.share_earthquake_info))
+                }
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // 6. GÖZ ŞAHİTLİĞİ YORUMLARI
+            AppAnimations.StaggeredEntrance(index = 4) {
+                EyewitnessCommentsSection(earthquakeId = earthquake.id)
+            }
+        }
+    }
+}
+
+@Composable
+private fun EyewitnessCommentsSection(earthquakeId: String) {
+    val repository: EarthquakeCommentRepository = koinInject()
+    val coroutineScope = rememberCoroutineScope()
+    val comments by repository.observeComments(earthquakeId).collectAsState(initial = emptyList())
+    var commentInput by remember { mutableStateOf("") }
+    var reportedThisSession by remember { mutableStateOf(setOf<String>()) }
+
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(
+                text = stringResource(R.string.comments_title),
+                style = MaterialTheme.typography.titleLarge,
+                fontSize = 15.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                OutlinedTextField(
+                    value = commentInput,
+                    onValueChange = {
+                        if (it.length <= EarthquakeCommentRepository.MAX_COMMENT_LENGTH) commentInput = it
+                    },
+                    placeholder = { Text(stringResource(R.string.comments_input_hint), fontSize = 12.sp) },
+                    singleLine = true,
+                    shape = RoundedCornerShape(14.dp),
+                    modifier = Modifier.weight(1f)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                IconButton(
+                    onClick = {
+                        val text = commentInput.trim()
+                        if (text.isNotEmpty()) {
+                            commentInput = ""
+                            coroutineScope.launch { repository.submitComment(earthquakeId, text) }
+                        }
+                    }
+                ) {
+                    Icon(Icons.Default.Send, contentDescription = stringResource(R.string.comments_send))
+                }
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            if (comments.isEmpty()) {
+                Text(
+                    text = stringResource(R.string.comments_empty),
+                    fontSize = 12.sp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            } else {
+                comments.forEach { comment ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp),
+                        verticalAlignment = Alignment.Top
+                    ) {
+                        Text(
+                            text = comment.text,
+                            fontSize = 13.sp,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.weight(1f)
+                        )
+                        IconButton(
+                            onClick = {
+                                reportedThisSession = reportedThisSession + comment.id
+                                coroutineScope.launch { repository.reportComment(earthquakeId, comment.id) }
+                            },
+                            modifier = Modifier.size(28.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Flag,
+                                contentDescription = stringResource(R.string.comments_report),
+                                tint = if (comment.id in reportedThisSession) {
+                                    MaterialTheme.colorScheme.error
+                                } else {
+                                    MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+                                },
+                                modifier = Modifier.size(16.dp)
+                            )
+                        }
+                    }
+                    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.2f))
                 }
             }
         }

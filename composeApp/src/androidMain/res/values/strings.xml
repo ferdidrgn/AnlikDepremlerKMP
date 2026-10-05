@@ -159,6 +159,11 @@
     <string name="saved_locations_dialog_desc">Ev, iş veya yakınınızdakilerin bulunduğu bir yeri ekleyin - buraya yakın bir deprem olduğunda da bildirim alırsınız.</string>
     <string name="saved_locations_dialog_hint">Örn: Kadıköy, İstanbul</string>
     <string name="saved_locations_not_found">Bu konum bulunamadı, lütfen farklı yazın.</string>
+    <string name="comments_title">Görgü Şahitleri</string>
+    <string name="comments_input_hint">Ne hissettiniz? Bir şey yazın…</string>
+    <string name="comments_send">Gönder</string>
+    <string name="comments_empty">Henüz yorum yok. İlk yorumu siz yazın.</string>
+    <string name="comments_report">Şikayet Et</string>
     <string name="data_load_error">Veriler yüklenemedi, bağlantınızı kontrol edin.</string>
 
     <string name="category_support">DESTEK &amp; TOPLULUK</string>
