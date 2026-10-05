@@ -165,6 +165,11 @@
     <string name="comments_empty">Henüz yorum yok. İlk yorumu siz yazın.</string>
     <string name="comments_report">Şikayet Et</string>
     <string name="comments_viewer_count">👀 %1$d kişi şu an inceliyor</string>
+    <string name="category_experimental">DENEYSEL ÖZELLİKLER</string>
+    <string name="shake_detection_title">Sarsıntı Algılama</string>
+    <string name="shake_detection_sub">Telefonunuzun ivmeölçeriyle şiddetli sarsıntı algılayıp uyarı gösterir</string>
+    <string name="shake_detection_sensitivity">Hassasiyet</string>
+    <string name="shake_detection_disclaimer">⚠️ Bu özellik deneyseldir ve resmi bir deprem bildirimi değildir. Telefonu düşürmek veya sert sarsıntılar yanlış alarm verebilir.</string>
     <string name="data_load_error">Veriler yüklenemedi, bağlantınızı kontrol edin.</string>
 
     <string name="category_support">DESTEK &amp; TOPLULUK</string>

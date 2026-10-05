@@ -13,11 +13,14 @@ import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.LocalCafe
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.PhoneAndroid
 import androidx.compose.material.icons.filled.PhoneInTalk
 import androidx.compose.material.icons.filled.PrivacyTip
 import androidx.compose.material.icons.filled.Security
+import androidx.compose.material.icons.filled.Sensors
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Gavel
 import androidx.compose.material3.*
@@ -74,6 +77,9 @@ fun SettingsScreen(
     val quietHoursStartHour by settingsViewModel.quietHoursStartHour.collectAsState()
     val quietHoursEndHour by settingsViewModel.quietHoursEndHour.collectAsState()
     val savedLocations by settingsViewModel.savedLocations.collectAsState()
+    val shakeDetectionEnabled by settingsViewModel.shakeDetectionEnabled.collectAsState()
+    val shakeSensitivity by settingsViewModel.shakeSensitivity.collectAsState()
+    var shakeSensitivitySlider by remember(shakeSensitivity) { mutableFloatStateOf(shakeSensitivity) }
     val coroutineScope = rememberCoroutineScope()
 
     var showLanguageDialog by remember { mutableStateOf(false) }
@@ -290,6 +296,50 @@ fun SettingsScreen(
                         subtitle = stringResource(R.string.terms_conditions_sub),
                         onClick = { onOpenLegalDocument("terms_and_conditions") }
                     )
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        // 5. DENEYSEL ÖZELLİKLER
+        AppAnimations.StaggeredEntrance(index = 4) {
+            Column {
+                SettingsCategoryTitle(stringResource(R.string.category_experimental))
+                SettingsCardContainer {
+                    ModernSettingsSwitchTile(
+                        icon = Icons.Default.Sensors,
+                        iconBgColor = Color(0xFF8D6E63),
+                        title = stringResource(R.string.shake_detection_title),
+                        subtitle = stringResource(R.string.shake_detection_sub),
+                        checked = shakeDetectionEnabled,
+                        onCheckedChange = { settingsViewModel.onShakeDetectionToggled(it) }
+                    )
+                    if (shakeDetectionEnabled) {
+                        DividerLine()
+                        Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)) {
+                            Text(
+                                text = stringResource(R.string.shake_detection_sensitivity),
+                                fontSize = 13.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                            Slider(
+                                value = shakeSensitivitySlider,
+                                onValueChange = { shakeSensitivitySlider = it },
+                                onValueChangeFinished = {
+                                    settingsViewModel.onShakeSensitivityChanged(shakeSensitivitySlider)
+                                },
+                                valueRange = 2.0f..3.5f,
+                                steps = 2
+                            )
+                            Text(
+                                text = stringResource(R.string.shake_detection_disclaimer),
+                                fontSize = 11.sp,
+                                color = MaterialTheme.colorScheme.error
+                            )
+                        }
+                    }
                 }
             }
         }

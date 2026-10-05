@@ -74,6 +74,13 @@ class SettingsViewModel(
     val savedLocations: StateFlow<List<SavedLocation>> = preferencesManager.savedLocations
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
+    // --- SARSINTI ALGILAMA (deneysel) STATE'İ ---
+    val shakeDetectionEnabled: StateFlow<Boolean> = preferencesManager.shakeDetectionEnabled
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+
+    val shakeSensitivity: StateFlow<Float> = preferencesManager.shakeSensitivity
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 2.7f)
+
     private val _eventFlow = MutableSharedFlow<SettingsEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
@@ -149,6 +156,19 @@ class SettingsViewModel(
         viewModelScope.launch {
             val current = preferencesManager.savedLocations.first()
             preferencesManager.saveSavedLocations(current.filterNot { it.id == id })
+        }
+    }
+
+    // 📌 Deneysel Sarsıntı Algılamayı Açar/Kapatır
+    fun onShakeDetectionToggled(enabled: Boolean) {
+        viewModelScope.launch {
+            preferencesManager.saveShakeDetectionEnabled(enabled)
+        }
+    }
+
+    fun onShakeSensitivityChanged(value: Float) {
+        viewModelScope.launch {
+            preferencesManager.saveShakeSensitivity(value)
         }
     }
 

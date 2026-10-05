@@ -19,7 +19,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -36,8 +39,11 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.ferdidrgn.anlikdepremler.core.ads.AdManager
+import com.ferdidrgn.anlikdepremler.core.datastore.PreferencesManager
 import com.ferdidrgn.anlikdepremler.core.navigation.DeepLinkHelper
+import com.ferdidrgn.anlikdepremler.core.sensor.ShakeDetector
 import com.ferdidrgn.anlikdepremler.ui.components.CustomBottomNavigationBar
+import com.ferdidrgn.anlikdepremler.ui.components.DropCoverHoldOverlay
 import com.ferdidrgn.anlikdepremler.ui.components.OfflineBanner
 import com.ferdidrgn.anlikdepremler.ui.screen.EarthquakeDetailScreen
 import com.ferdidrgn.anlikdepremler.ui.screen.EarthquakeListScreen
@@ -48,6 +54,7 @@ import com.ferdidrgn.anlikdepremler.ui.screen.MainViewModel
 import com.ferdidrgn.anlikdepremler.ui.screen.MapScreen
 import com.ferdidrgn.anlikdepremler.ui.screen.SettingsScreen
 import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.koinInject
 
 @Composable
 fun AppNavigation(
@@ -73,6 +80,26 @@ fun AppNavigation(
         }
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
+
+    // Deneysel, cihaz üstü (backend'siz) sarsıntı algılama - sadece uygulama önplandayken
+    // çalışır, kullanıcı Ayarlar'dan açtıysa. MK Earthquake Monitor'daki tek-telefon eşik
+    // yöntemiyle aynı mantık; yanlış alarm verebilir, bu yüzden varsayılan kapalı.
+    val preferencesManager: PreferencesManager = koinInject()
+    val shakeDetectionEnabled by preferencesManager.shakeDetectionEnabled.collectAsState(initial = false)
+    val shakeSensitivity by preferencesManager.shakeSensitivity.collectAsState(initial = ShakeDetector.SENSITIVITY_MEDIUM)
+    var shakeTriggered by remember { mutableStateOf(false) }
+
+    DisposableEffect(shakeDetectionEnabled, shakeSensitivity) {
+        if (!shakeDetectionEnabled) return@DisposableEffect onDispose {}
+
+        val detector = ShakeDetector(context, shakeSensitivity)
+        detector.start { shakeTriggered = true }
+        onDispose { detector.stop() }
+    }
+
+    if (shakeTriggered) {
+        DropCoverHoldOverlay(onDismiss = { shakeTriggered = false })
     }
 
     Scaffold(

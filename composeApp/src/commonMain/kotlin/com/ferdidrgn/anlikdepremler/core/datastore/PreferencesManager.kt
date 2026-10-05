@@ -32,6 +32,8 @@ class PreferencesManager(
     private val QUIET_HOURS_START_HOUR_KEY = intPreferencesKey("quiet_hours_start_hour")
     private val QUIET_HOURS_END_HOUR_KEY = intPreferencesKey("quiet_hours_end_hour")
     private val SAVED_LOCATIONS_JSON_KEY = stringPreferencesKey("saved_locations_json")
+    private val SHAKE_DETECTION_ENABLED_KEY = booleanPreferencesKey("shake_detection_enabled")
+    private val SHAKE_SENSITIVITY_KEY = floatPreferencesKey("shake_sensitivity")
     private val FELT_REPORTED_EARTHQUAKE_IDS_KEY = stringSetPreferencesKey("felt_reported_earthquake_ids")
 
     // --- DEPREM VERİ KAYNAĞI ---
@@ -175,5 +177,24 @@ class PreferencesManager(
             val current = prefs[FELT_REPORTED_EARTHQUAKE_IDS_KEY] ?: emptySet()
             prefs[FELT_REPORTED_EARTHQUAKE_IDS_KEY] = current + earthquakeId
         }
+    }
+
+    // --- SARSINTI ALGILAMA (deneysel, cihaz ivmeölçeri ile, varsayılan kapalı) ---
+    val shakeDetectionEnabled: Flow<Boolean> = dataStore.data.map { prefs ->
+        prefs[SHAKE_DETECTION_ENABLED_KEY] ?: false
+    }
+
+    suspend fun saveShakeDetectionEnabled(enabled: Boolean) {
+        dataStore.edit { prefs -> prefs[SHAKE_DETECTION_ENABLED_KEY] = enabled }
+    }
+
+    /** G-force multiplier threshold - lower is more sensitive (more false positives from normal
+     *  handling), higher means only a genuinely violent shake triggers it. */
+    val shakeSensitivity: Flow<Float> = dataStore.data.map { prefs ->
+        prefs[SHAKE_SENSITIVITY_KEY] ?: 2.7f
+    }
+
+    suspend fun saveShakeSensitivity(value: Float) {
+        dataStore.edit { prefs -> prefs[SHAKE_SENSITIVITY_KEY] = value }
     }
 }
