@@ -12,6 +12,7 @@ plugins {
     alias(libs.plugins.kotlinxSerialization)
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    id("com.github.triplet.play")
 }
 
 val localProperties = Properties().apply {
@@ -239,4 +240,15 @@ compose {
     resources {
         packageOfResClass = "com.ferdidrgn.anlikdepremler.resources"
     }
+}
+
+// Gradle Play Publisher: uploads the signed .aab straight to Play Console. Only wired up for
+// CI - local dev never needs this. The credentials path comes from a CI-only env var (written
+// from the PLAY_STORE_SERVICE_ACCOUNT_JSON secret); when it's unset (local builds, or before
+// that secret is added), it just points at a file that doesn't exist, which is harmless unless
+// you actually run a `publish*` task.
+play {
+    serviceAccountCredentials.set(file(releaseSigningProp("PLAY_STORE_SERVICE_ACCOUNT_JSON_PATH").ifBlank { "play-service-account-missing.json" }))
+    track.set("internal")
+    defaultToAppBundles.set(true)
 }

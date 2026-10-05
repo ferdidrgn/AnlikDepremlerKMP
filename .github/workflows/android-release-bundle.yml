@@ -4,7 +4,9 @@ name: Android Release Bundle
 # Needs a few repo secrets to actually succeed and produce a Play Console upload-ready bundle:
 # GOOGLE_SERVICES_JSON, RELEASE_KEYSTORE_BASE64, RELEASE_KEYSTORE_PASSWORD, RELEASE_KEY_ALIAS,
 # RELEASE_KEY_PASSWORD - see the "Decode release keystore" and "Write google-services.json"
-# steps below for where each is used.
+# steps below for where each is used. One more secret, PLAY_STORE_SERVICE_ACCOUNT_JSON, is
+# optional: when set, the bundle is also auto-published to Play Console's internal testing
+# track (see "Publish to Play Console" below); when unset, that step is skipped entirely.
 on:
   push:
     branches: [ main ]
@@ -102,3 +104,32 @@ jobs:
           name: anlikdepremler-release-aab
           path: composeApp/build/outputs/bundle/release/*.aab
           if-no-files-found: error
+
+      # Uploads the already-built .aab straight to Play Console's "internal" testing track via
+      # Gradle Play Publisher (see the play{} block in composeApp/build.gradle.kts). Skipped
+      # entirely while PLAY_STORE_SERVICE_ACCOUNT_JSON isn't set, so this is a no-op until that
+      # secret is added - see the "Play Console → API access" setup for how to get it.
+      - name: Check Play Store service account secret
+        id: play_creds
+        run: |
+          if [ -n "${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}" ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Write Play Store service account key
+        if: steps.play_creds.outputs.present == 'true'
+        env:
+          PLAY_STORE_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
+        run: |
+          echo "$PLAY_STORE_SERVICE_ACCOUNT_JSON" > "$RUNNER_TEMP/play-service-account.json"
+          echo "PLAY_STORE_SERVICE_ACCOUNT_JSON_PATH=$RUNNER_TEMP/play-service-account.json" >> "$GITHUB_ENV"
+
+      - name: Publish to Play Console (internal track)
+        if: steps.play_creds.outputs.present == 'true'
+        env:
+          RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+        run: ./gradlew :composeApp:publishReleaseBundle --no-daemon
