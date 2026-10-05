@@ -1,7 +1,5 @@
 package com.ferdidrgn.anlikdepremler.ui.screen
 
-import android.content.Context
-import android.content.Intent
 import android.media.AudioManager
 import android.media.ToneGenerator
 import androidx.compose.foundation.background
@@ -28,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.ferdi.deprem.model.Earthquake
 import com.ferdidrgn.anlikdepremler.R
+import com.ferdidrgn.anlikdepremler.core.share.shareEarthquakeAsImageCard
 import com.ferdidrgn.anlikdepremler.core.ui.animation.AppAnimations
 import com.ferdidrgn.anlikdepremler.core.util.EmergencySmsHelper
 import com.ferdidrgn.anlikdepremler.ui.theme.magnitudeHeatColor
@@ -269,7 +268,7 @@ fun EarthquakeDetailScreen(
             // 5. PAYLAŞ BUTONU
             AppAnimations.StaggeredEntrance(index = 3) {
                 OutlinedButton(
-                    onClick = { shareEarthquakeDetail(context, earthquake) },
+                    onClick = { shareEarthquakeAsImageCard(context, earthquake) },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp)
                 ) {
@@ -421,26 +420,3 @@ fun SeismicImpactCard(
     }
 }
 
-private fun shareEarthquakeDetail(context: Context, earthquake: Earthquake) {
-    val text = context.getString(
-        R.string.share_template,
-        earthquake.location,
-        earthquake.region,
-        earthquake.magnitude,
-        earthquake.depth,
-        earthquake.date,
-        earthquake.time,
-        earthquake.id
-    )
-
-    val intent = Intent(Intent.ACTION_SEND).apply {
-        putExtra(Intent.EXTRA_TEXT, text)
-        type = "text/plain"
-    }
-    context.startActivity(
-        Intent.createChooser(
-            intent,
-            context.getString(R.string.share_earthquake_info)
-        )
-    )
-}
