@@ -85,6 +85,18 @@
             </intent-filter>
         </service>
 
+        <!-- 🏠 1b. ANA EKRAN WIDGET'I: son depremi gösteren Glance widget'ı -->
+        <receiver
+            android:name=".core.widget.EarthquakeWidgetReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/earthquake_widget_info" />
+        </receiver>
+
         <!-- 👈 2. ÇAKIŞMAYI ÇÖZEN ÖZEL PROPERTY EKLEMESİ -->
         <property
             android:name="android.adservices.AD_SERVICES_CONFIG"

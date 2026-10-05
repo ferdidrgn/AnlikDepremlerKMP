@@ -117,6 +117,8 @@ kotlin {
 
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
+
+            implementation("androidx.glance:glance-appwidget:1.1.1")
         }
 
         iosMain.dependencies {
