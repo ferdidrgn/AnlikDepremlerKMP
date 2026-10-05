@@ -27,6 +27,7 @@ import coil.compose.AsyncImage
 import com.ferdi.deprem.model.Earthquake
 import com.ferdidrgn.anlikdepremler.R
 import com.ferdidrgn.anlikdepremler.core.data.EarthquakeCommentRepository
+import com.ferdidrgn.anlikdepremler.core.data.EventPresenceRepository
 import com.ferdidrgn.anlikdepremler.core.data.FeltReportRepository
 import com.ferdidrgn.anlikdepremler.core.datastore.PreferencesManager
 import com.ferdidrgn.anlikdepremler.core.share.shareEarthquakeAsImageCard
@@ -36,6 +37,7 @@ import com.ferdidrgn.anlikdepremler.ui.theme.magnitudeHeatColor
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 
@@ -293,10 +295,19 @@ fun EarthquakeDetailScreen(
 @Composable
 private fun EyewitnessCommentsSection(earthquakeId: String) {
     val repository: EarthquakeCommentRepository = koinInject()
+    val presenceRepository: EventPresenceRepository = koinInject()
     val coroutineScope = rememberCoroutineScope()
     val comments by repository.observeComments(earthquakeId).collectAsState(initial = emptyList())
+    val viewerCount by presenceRepository.observeViewerCount(earthquakeId).collectAsState(initial = 0)
     var commentInput by remember { mutableStateOf("") }
     var reportedThisSession by remember { mutableStateOf(setOf<String>()) }
+
+    LaunchedEffect(earthquakeId) {
+        while (true) {
+            presenceRepository.heartbeat(earthquakeId)
+            delay(EventPresenceRepository.HEARTBEAT_INTERVAL_MILLIS)
+        }
+    }
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -304,13 +315,27 @@ private fun EyewitnessCommentsSection(earthquakeId: String) {
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = stringResource(R.string.comments_title),
-                style = MaterialTheme.typography.titleLarge,
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = stringResource(R.string.comments_title),
+                    style = MaterialTheme.typography.titleLarge,
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                if (viewerCount > 0) {
+                    Text(
+                        text = stringResource(R.string.comments_viewer_count, viewerCount),
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
 
             Spacer(modifier = Modifier.height(10.dp))
 

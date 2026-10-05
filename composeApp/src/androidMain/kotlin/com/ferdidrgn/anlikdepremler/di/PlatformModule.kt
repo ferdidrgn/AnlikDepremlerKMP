@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import com.ferdidrgn.anlikdepremler.core.datastore.PREFERENCES_DATASTORE_FILE_NAME
 import com.ferdidrgn.anlikdepremler.core.datastore.createDataStore
 import com.ferdidrgn.anlikdepremler.core.data.EarthquakeCommentRepository
+import com.ferdidrgn.anlikdepremler.core.data.EventPresenceRepository
 import com.ferdidrgn.anlikdepremler.core.data.FeltReportRepository
 import com.ferdidrgn.anlikdepremler.core.network.AndroidNetworkMonitor
 import com.ferdidrgn.anlikdepremler.core.network.NetworkMonitor
@@ -28,5 +29,6 @@ actual fun platformModule(): Module = module {
     single { EarthquakeVoiceAnnouncer(androidContext()) }
     single { FeltReportRepository() }
     single { EarthquakeCommentRepository() }
+    single { EventPresenceRepository(androidContext()) }
     single<NearbyEarthquakeNotifier> { AndroidNearbyEarthquakeNotifier(androidContext(), get(), get()) }
 }
