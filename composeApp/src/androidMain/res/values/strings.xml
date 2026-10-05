@@ -174,6 +174,10 @@
     <string name="journal_entry_sub">Hissettiğinizi işaretlediğiniz depremlerin kişisel kaydı</string>
     <string name="journal_title">Deprem Günlüğüm</string>
     <string name="journal_empty">Henüz bir deprem işaretlemediniz. Bir deprem detayında "Ben de Hissettim" butonuna bastığınızda burada görünecek.</string>
+    <string name="remove_ads_title">Reklamları Kaldır (6 Ay)</string>
+    <string name="remove_ads_sub">Tek seferlik satın alma ile 6 ay boyunca reklamsız kullanın</string>
+    <string name="remove_ads_active_sub">Aktif - %1$d gün kaldı</string>
+    <string name="ads_removed_thanks">Teşekkürler! 6 ay boyunca reklamsız kullanabilirsiniz.</string>
     <string name="data_load_error">Veriler yüklenemedi, bağlantınızı kontrol edin.</string>
 
     <string name="category_support">DESTEK &amp; TOPLULUK</string>

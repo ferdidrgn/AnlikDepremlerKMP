@@ -6,12 +6,20 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import com.ferdidrgn.anlikdepremler.core.util.EarthquakeJournalEntry
 import com.ferdidrgn.anlikdepremler.core.util.SavedLocation
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.datetime.Clock
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.atStartOfDayIn
+import kotlinx.datetime.plus
+import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -36,6 +44,7 @@ class PreferencesManager(
     private val SHAKE_DETECTION_ENABLED_KEY = booleanPreferencesKey("shake_detection_enabled")
     private val SHAKE_SENSITIVITY_KEY = floatPreferencesKey("shake_sensitivity")
     private val EARTHQUAKE_JOURNAL_JSON_KEY = stringPreferencesKey("earthquake_journal_json")
+    private val ADS_FREE_UNTIL_MILLIS_KEY = longPreferencesKey("ads_free_until_millis")
     private val FELT_REPORTED_EARTHQUAKE_IDS_KEY = stringSetPreferencesKey("felt_reported_earthquake_ids")
 
     // --- DEPREM VERİ KAYNAĞI ---
@@ -218,5 +227,26 @@ class PreferencesManager(
             if (current.any { it.earthquakeId == entry.earthquakeId }) return@edit
             prefs[EARTHQUAKE_JOURNAL_JSON_KEY] = Json.encodeToString(current + entry)
         }
+    }
+
+    // --- REKLAMSIZ DÖNEM (6 aylık "Reklamları Kaldır" satın alımıyla) ---
+    val adsFreeUntilMillis: Flow<Long> = dataStore.data.map { prefs ->
+        prefs[ADS_FREE_UNTIL_MILLIS_KEY] ?: 0L
+    }
+
+    /** Extends from the later of (now, current expiry) by 6 calendar months, so repurchasing
+     *  before the current period ends stacks on top of it instead of resetting the clock. */
+    suspend fun extendAdsFreeBySixMonths() {
+        val now = Clock.System.now()
+        val currentUntilMillis = adsFreeUntilMillis.first()
+        val baseInstant = if (currentUntilMillis > now.toEpochMilliseconds()) {
+            Instant.fromEpochMilliseconds(currentUntilMillis)
+        } else {
+            now
+        }
+        val timeZone = TimeZone.currentSystemDefault()
+        val newDate = baseInstant.toLocalDateTime(timeZone).date.plus(6, DateTimeUnit.MONTH)
+        val newUntilMillis = newDate.atStartOfDayIn(timeZone).toEpochMilliseconds()
+        dataStore.edit { prefs -> prefs[ADS_FREE_UNTIL_MILLIS_KEY] = newUntilMillis }
     }
 }

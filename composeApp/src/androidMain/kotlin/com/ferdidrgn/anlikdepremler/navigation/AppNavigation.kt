@@ -87,6 +87,8 @@ fun AppNavigation(
     // çalışır, kullanıcı Ayarlar'dan açtıysa. MK Earthquake Monitor'daki tek-telefon eşik
     // yöntemiyle aynı mantık; yanlış alarm verebilir, bu yüzden varsayılan kapalı.
     val preferencesManager: PreferencesManager = koinInject()
+    val adsFreeUntilMillis by preferencesManager.adsFreeUntilMillis.collectAsState(initial = 0L)
+    val isAdsFree = adsFreeUntilMillis > System.currentTimeMillis()
     val shakeDetectionEnabled by preferencesManager.shakeDetectionEnabled.collectAsState(initial = false)
     val shakeSensitivity by preferencesManager.shakeSensitivity.collectAsState(initial = ShakeDetector.SENSITIVITY_MEDIUM)
     var shakeTriggered by remember { mutableStateOf(false) }
@@ -142,7 +144,7 @@ fun AppNavigation(
                     viewModel = mainViewModel,
                     onEarthquakeClick = { selectedEq ->
                         val activity = context.findActivity()
-                        if (activity != null) {
+                        if (activity != null && !isAdsFree) {
                             adManager.showInterstitial(activity) {
                                 navController.navigate("detail/${selectedEq.id}")
                             }
@@ -165,7 +167,7 @@ fun AppNavigation(
                     viewModel = mainViewModel,
                     onEarthquakeClick = { selectedEq ->
                         val activity = context.findActivity()
-                        if (activity != null)
+                        if (activity != null && !isAdsFree)
                             adManager.showInterstitial(activity) {
                                 navController.navigate("detail/${selectedEq.id}")
                             }

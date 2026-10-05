@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -12,11 +14,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ferdidrgn.anlikdepremler.R
 import com.ferdidrgn.anlikdepremler.core.ads.BannerAdView
+import com.ferdidrgn.anlikdepremler.core.datastore.PreferencesManager
+import org.koin.compose.koinInject
 
 @Composable
 fun NativeAdCard(
     modifier: Modifier = Modifier
 ) {
+    val preferencesManager: PreferencesManager = koinInject()
+    val adsFreeUntilMillis by preferencesManager.adsFreeUntilMillis.collectAsState(initial = 0L)
+    if (adsFreeUntilMillis > System.currentTimeMillis()) return
+
     Card(
         modifier = modifier
             .fillMaxWidth()

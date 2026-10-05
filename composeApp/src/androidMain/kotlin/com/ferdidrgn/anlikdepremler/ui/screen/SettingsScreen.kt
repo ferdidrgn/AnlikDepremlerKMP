@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Block
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.LocalCafe
@@ -39,6 +40,8 @@ import androidx.compose.ui.unit.sp
 import com.ferdidrgn.anlikdepremler.R
 import com.ferdidrgn.anlikdepremler.core.ads.BannerAdView
 import com.ferdidrgn.anlikdepremler.core.billing.launchCoffeeDonationFlow
+import com.ferdidrgn.anlikdepremler.core.billing.launchRemoveAdsPurchaseFlow
+import com.ferdidrgn.anlikdepremler.core.datastore.PreferencesManager
 import com.ferdidrgn.anlikdepremler.core.ui.animation.AppAnimations
 import com.ferdidrgn.anlikdepremler.core.language.AppLanguage
 import com.ferdidrgn.anlikdepremler.core.util.ReviewHelper
@@ -59,6 +62,7 @@ import com.ferdidrgn.anlikdepremler.ui.screen.settings.shareApp
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.koinInject
 
 @Composable
 fun SettingsScreen(
@@ -67,6 +71,7 @@ fun SettingsScreen(
     onOpenJournal: () -> Unit = {}
 ) {
     val context = LocalContext.current
+    val preferencesManager: PreferencesManager = koinInject()
 
     val currentLang by settingsViewModel.currentLanguage.collectAsState()
     val currentTheme by settingsViewModel.currentTheme.collectAsState()
@@ -79,6 +84,9 @@ fun SettingsScreen(
     val quietHoursStartHour by settingsViewModel.quietHoursStartHour.collectAsState()
     val quietHoursEndHour by settingsViewModel.quietHoursEndHour.collectAsState()
     val savedLocations by settingsViewModel.savedLocations.collectAsState()
+    val adsFreeUntilMillis by settingsViewModel.adsFreeUntilMillis.collectAsState()
+    val isAdsFree = adsFreeUntilMillis > System.currentTimeMillis()
+    val adsFreeDaysLeft = ((adsFreeUntilMillis - System.currentTimeMillis()) / 86_400_000L).coerceAtLeast(0)
     val shakeDetectionEnabled by settingsViewModel.shakeDetectionEnabled.collectAsState()
     val shakeSensitivity by settingsViewModel.shakeSensitivity.collectAsState()
     var shakeSensitivitySlider by remember(shakeSensitivity) { mutableFloatStateOf(shakeSensitivity) }
@@ -99,6 +107,7 @@ fun SettingsScreen(
                 is SettingsEvent.ShareApp -> shareApp(context)
                 is SettingsEvent.NavigateToWeb -> openWebPage(context, event.url)
                 is SettingsEvent.BuyCoffee -> launchCoffeeDonationFlow(context, event.productId)
+                is SettingsEvent.RemoveAds -> launchRemoveAdsPurchaseFlow(context, preferencesManager)
             }
         }
     }
@@ -249,6 +258,18 @@ fun SettingsScreen(
             Column {
                 SettingsCategoryTitle(stringResource(R.string.category_support))
                 SettingsCardContainer {
+                    ModernSettingsTile(
+                        icon = Icons.Default.Block,
+                        iconBgColor = Color(0xFFEF4444),
+                        title = stringResource(R.string.remove_ads_title),
+                        subtitle = if (isAdsFree) {
+                            stringResource(R.string.remove_ads_active_sub, adsFreeDaysLeft)
+                        } else {
+                            stringResource(R.string.remove_ads_sub)
+                        },
+                        onClick = { settingsViewModel.onRemoveAdsClick() }
+                    )
+                    DividerLine()
                     ModernSettingsTile(
                         icon = Icons.Default.LocalCafe,
                         iconBgColor = Color(0xFF795548),

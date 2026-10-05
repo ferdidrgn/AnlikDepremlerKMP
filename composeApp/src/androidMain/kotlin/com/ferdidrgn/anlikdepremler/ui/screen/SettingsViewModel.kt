@@ -22,6 +22,7 @@ sealed interface SettingsEvent {
     object ShareApp : SettingsEvent
     data class NavigateToWeb(val url: String) : SettingsEvent
     data class BuyCoffee(val productId: String) : SettingsEvent
+    object RemoveAds : SettingsEvent
 }
 
 class SettingsViewModel(
@@ -80,6 +81,10 @@ class SettingsViewModel(
 
     val shakeSensitivity: StateFlow<Float> = preferencesManager.shakeSensitivity
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 2.7f)
+
+    // --- REKLAMSIZ DÖNEM (6 aylık satın alma) STATE'İ ---
+    val adsFreeUntilMillis: StateFlow<Long> = preferencesManager.adsFreeUntilMillis
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0L)
 
     private val _eventFlow = MutableSharedFlow<SettingsEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
@@ -233,6 +238,12 @@ class SettingsViewModel(
     fun onBuyCoffeeClick() {
         viewModelScope.launch {
             _eventFlow.emit(SettingsEvent.BuyCoffee("donation_small"))
+        }
+    }
+
+    fun onRemoveAdsClick() {
+        viewModelScope.launch {
+            _eventFlow.emit(SettingsEvent.RemoveAds)
         }
     }
 }
