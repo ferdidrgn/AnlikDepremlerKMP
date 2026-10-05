@@ -4,6 +4,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.ferdidrgn.anlikdepremler.core.datastore.PREFERENCES_DATASTORE_FILE_NAME
 import com.ferdidrgn.anlikdepremler.core.datastore.createDataStore
+import com.ferdidrgn.anlikdepremler.core.data.FeltReportRepository
 import com.ferdidrgn.anlikdepremler.core.network.AndroidNetworkMonitor
 import com.ferdidrgn.anlikdepremler.core.network.NetworkMonitor
 import com.ferdidrgn.anlikdepremler.core.notification.AndroidNearbyEarthquakeNotifier
@@ -24,5 +25,6 @@ actual fun platformModule(): Module = module {
     single<LocationTracker> { AndroidLocationTracker(androidContext()) }
     single<NetworkMonitor> { AndroidNetworkMonitor(androidContext()) }
     single { EarthquakeVoiceAnnouncer(androidContext()) }
+    single { FeltReportRepository() }
     single<NearbyEarthquakeNotifier> { AndroidNearbyEarthquakeNotifier(androidContext(), get(), get()) }
 }

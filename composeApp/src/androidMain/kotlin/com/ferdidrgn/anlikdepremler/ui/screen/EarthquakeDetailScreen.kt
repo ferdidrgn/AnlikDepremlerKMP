@@ -26,6 +26,8 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.ferdi.deprem.model.Earthquake
 import com.ferdidrgn.anlikdepremler.R
+import com.ferdidrgn.anlikdepremler.core.data.FeltReportRepository
+import com.ferdidrgn.anlikdepremler.core.datastore.PreferencesManager
 import com.ferdidrgn.anlikdepremler.core.share.shareEarthquakeAsImageCard
 import com.ferdidrgn.anlikdepremler.core.ui.animation.AppAnimations
 import com.ferdidrgn.anlikdepremler.core.util.EmergencySmsHelper
@@ -33,6 +35,8 @@ import com.ferdidrgn.anlikdepremler.ui.theme.magnitudeHeatColor
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
+import kotlinx.coroutines.launch
+import org.koin.compose.koinInject
 
 @Composable
 fun EarthquakeDetailScreen(
@@ -206,12 +210,9 @@ fun EarthquakeDetailScreen(
 
             AppAnimations.StaggeredEntrance(index = 1) {
                 SeismicImpactCard(
+                    earthquakeId = earthquake.id,
                     magnitude = earthquake.magnitude,
-                    depth = earthquake.depth,
-                    feltCount = 142, // Varsayılan/Firebase'den gelen sayı
-                    onFeltClicked = {
-                        // "Ben de hissettim" butonuna basıldığında yapılacak işlem
-                    }
+                    depth = earthquake.depth
                 )
             }
 
@@ -312,13 +313,17 @@ private fun DetailInfoTile(
 
 @Composable
 fun SeismicImpactCard(
+    earthquakeId: String,
     magnitude: Double,
-    depth: Double,
-    feltCount: Int,
-    onFeltClicked: () -> Unit
+    depth: Double
 ) {
-    var hasUserFelt by remember { mutableStateOf(false) }
-    var currentFeltCount by remember { mutableIntStateOf(feltCount) }
+    val repository: FeltReportRepository = koinInject()
+    val preferencesManager: PreferencesManager = koinInject()
+    val coroutineScope = rememberCoroutineScope()
+
+    val currentFeltCount by repository.observeFeltCount(earthquakeId).collectAsState(initial = 0L)
+    val feltReportedIds by preferencesManager.feltReportedEarthquakeIds.collectAsState(initial = emptySet())
+    val hasUserFelt = earthquakeId in feltReportedIds
 
     // 🎯 REMEMBER SARMALI İLE STATE DERLEYİCİ HATASI ÇÖZÜLDÜ
     val mmiText = remember(magnitude, depth) {
@@ -365,9 +370,10 @@ fun SeismicImpactCard(
                 Button(
                     onClick = {
                         if (!hasUserFelt) {
-                            hasUserFelt = true
-                            currentFeltCount++
-                            onFeltClicked()
+                            coroutineScope.launch {
+                                preferencesManager.markEarthquakeAsFelt(earthquakeId)
+                                repository.submitFeltReport(earthquakeId)
+                            }
                         }
                     },
                     colors = ButtonDefaults.buttonColors(

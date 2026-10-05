@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.stringSetPreferencesKey
 import com.ferdidrgn.anlikdepremler.core.util.SavedLocation
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -31,6 +32,7 @@ class PreferencesManager(
     private val QUIET_HOURS_START_HOUR_KEY = intPreferencesKey("quiet_hours_start_hour")
     private val QUIET_HOURS_END_HOUR_KEY = intPreferencesKey("quiet_hours_end_hour")
     private val SAVED_LOCATIONS_JSON_KEY = stringPreferencesKey("saved_locations_json")
+    private val FELT_REPORTED_EARTHQUAKE_IDS_KEY = stringSetPreferencesKey("felt_reported_earthquake_ids")
 
     // --- DEPREM VERİ KAYNAĞI ---
     val selectedSource: Flow<String> = dataStore.data.map { prefs ->
@@ -160,5 +162,18 @@ class PreferencesManager(
 
     suspend fun saveSavedLocations(locations: List<SavedLocation>) {
         dataStore.edit { prefs -> prefs[SAVED_LOCATIONS_JSON_KEY] = Json.encodeToString(locations) }
+    }
+
+    // --- "HİSSETTİM" RAPORU VERİLMİŞ DEPREM ID'LERİ - cihaz bazlı tekrar oy vermeyi engeller ---
+    // (Firestore'daki gerçek sayaç herkese açık/anonim; bu sadece "bu cihaz zaten oy verdi mi" kaydı)
+    val feltReportedEarthquakeIds: Flow<Set<String>> = dataStore.data.map { prefs ->
+        prefs[FELT_REPORTED_EARTHQUAKE_IDS_KEY] ?: emptySet()
+    }
+
+    suspend fun markEarthquakeAsFelt(earthquakeId: String) {
+        dataStore.edit { prefs ->
+            val current = prefs[FELT_REPORTED_EARTHQUAKE_IDS_KEY] ?: emptySet()
+            prefs[FELT_REPORTED_EARTHQUAKE_IDS_KEY] = current + earthquakeId
+        }
     }
 }
