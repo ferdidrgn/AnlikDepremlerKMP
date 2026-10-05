@@ -1,0 +1,83 @@
+name: Android Release Bundle
+
+# Builds the Android App Bundle (.aab) automatically on every push to main, and on demand.
+# Needs a few repo secrets to actually succeed - see the "Required secrets" note below.
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'composeApp/**'
+      - 'gradle/**'
+      - 'build.gradle.kts'
+      - 'settings.gradle.kts'
+      - '.github/workflows/android-release-bundle.yml'
+  workflow_dispatch: {}
+
+jobs:
+  build-bundle:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
+
+      # google-services.json is intentionally gitignored (Firebase config) - write it from a
+      # repo secret instead. Required secret: GOOGLE_SERVICES_JSON (the full file content).
+      - name: Write google-services.json
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: echo "$GOOGLE_SERVICES_JSON" > composeApp/google-services.json
+
+      # local.properties is also gitignored - build.gradle.kts reads AdMob/location API keys
+      # from it via secret(). Missing AdMob secrets just build with blank ad unit IDs (ads won't
+      # show, build still succeeds); a missing GOOGLE_SERVICES_JSON secret fails the build.
+      - name: Write local.properties
+        env:
+          API_KEY_ADMOB: ${{ secrets.API_KEY_ADMOB }}
+          API_KEY_LOCATION: ${{ secrets.API_KEY_LOCATION }}
+          ADMOB_APP_OPEN_ID: ${{ secrets.ADMOB_APP_OPEN_ID }}
+          ADMOB_BANNER_ID: ${{ secrets.ADMOB_BANNER_ID }}
+          ADMOB_INTERSTITIAL_ID: ${{ secrets.ADMOB_INTERSTITIAL_ID }}
+          ADMOB_NATIVE_ID: ${{ secrets.ADMOB_NATIVE_ID }}
+          ADMOB_REWARDED_ID: ${{ secrets.ADMOB_REWARDED_ID }}
+        run: |
+          cat <<EOF > local.properties
+          API_KEY_ADMOB=$API_KEY_ADMOB
+          API_KEY_LOCATION=$API_KEY_LOCATION
+          ADMOB_APP_OPEN_ID=$ADMOB_APP_OPEN_ID
+          ADMOB_BANNER_ID=$ADMOB_BANNER_ID
+          ADMOB_INTERSTITIAL_ID=$ADMOB_INTERSTITIAL_ID
+          ADMOB_NATIVE_ID=$ADMOB_NATIVE_ID
+          ADMOB_REWARDED_ID=$ADMOB_REWARDED_ID
+          EOF
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      # NOTE: the release buildType currently reuses the auto-generated debug keystore
+      # (see composeApp/build.gradle.kts), so this .aab is NOT Play Console upload-ready.
+      # Swap in a real release signingConfig + keystore secrets before shipping to production.
+      - name: Build release App Bundle
+        run: ./gradlew :composeApp:bundleRelease --no-daemon
+
+      - name: Upload App Bundle artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: anlikdepremler-release-aab
+          path: composeApp/build/outputs/bundle/release/*.aab
+          if-no-files-found: error
