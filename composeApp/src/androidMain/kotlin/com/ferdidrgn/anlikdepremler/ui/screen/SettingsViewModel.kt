@@ -14,6 +14,7 @@ sealed interface SettingsEvent {
     data class SendEmail(val email: String) : SettingsEvent
     object OpenNotificationSettings : SettingsEvent
     object OpenLocationSettings : SettingsEvent
+    object OpenEarthquakeAlertsSettings : SettingsEvent
     object RequestReview : SettingsEvent
     object ShareApp : SettingsEvent
     data class NavigateToWeb(val url: String) : SettingsEvent
@@ -146,6 +147,14 @@ class SettingsViewModel(
     fun onLocationSettingsClick() {
         viewModelScope.launch {
             _eventFlow.emit(SettingsEvent.OpenLocationSettings)
+        }
+    }
+
+    // 📌 Android'in kendi deprem uyarı sistemi (Ayarlar > Konum > Gelişmiş altında) - bedava,
+    // bizim hiçbir şey yapmamıza gerek yok, kullanıcıyı açmaya yönlendiriyoruz.
+    fun onEarthquakeAlertsInfoClick() {
+        viewModelScope.launch {
+            _eventFlow.emit(SettingsEvent.OpenEarthquakeAlertsSettings)
         }
     }
 

@@ -81,6 +81,7 @@ fun SettingsScreen(
                 is SettingsEvent.SendEmail -> sendEmailIntent(context, event.email)
                 is SettingsEvent.OpenNotificationSettings -> openNotificationSettings(context)
                 is SettingsEvent.OpenLocationSettings -> openLocationSettings(context)
+                is SettingsEvent.OpenEarthquakeAlertsSettings -> openLocationSettings(context)
                 is SettingsEvent.RequestReview -> ReviewHelper.launchInAppReview(context)
                 is SettingsEvent.ShareApp -> shareApp(context)
                 is SettingsEvent.NavigateToWeb -> openWebPage(context, event.url)
@@ -161,6 +162,14 @@ fun SettingsScreen(
                         title = stringResource(R.string.location_permissions),
                         subtitle = stringResource(R.string.location_permissions_sub),
                         onClick = { settingsViewModel.onLocationSettingsClick() }
+                    )
+                    DividerLine()
+                    ModernSettingsTile(
+                        icon = Icons.Default.PhoneAndroid,
+                        iconBgColor = Color(0xFF3F51B5),
+                        title = stringResource(R.string.earthquake_alerts_info_title),
+                        subtitle = stringResource(R.string.earthquake_alerts_info_sub),
+                        onClick = { settingsViewModel.onEarthquakeAlertsInfoClick() }
                     )
                     DividerLine()
                     ModernSettingsSwitchTile(

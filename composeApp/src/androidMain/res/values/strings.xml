@@ -151,6 +151,8 @@
     <string name="filter_quiet_hours_title">Sessiz Saatler</string>
     <string name="filter_quiet_hours_start">Başlangıç: %1$02d:00</string>
     <string name="filter_quiet_hours_end">Bitiş: %1$02d:00</string>
+    <string name="earthquake_alerts_info_title">Android Deprem Uyarıları</string>
+    <string name="earthquake_alerts_info_sub">Cihazınızın yerleşik deprem uyarı sistemini açmak için dokunun (Ayarlar &gt; Konum)</string>
     <string name="data_load_error">Veriler yüklenemedi, bağlantınızı kontrol edin.</string>
 
     <string name="category_support">DESTEK &amp; TOPLULUK</string>
