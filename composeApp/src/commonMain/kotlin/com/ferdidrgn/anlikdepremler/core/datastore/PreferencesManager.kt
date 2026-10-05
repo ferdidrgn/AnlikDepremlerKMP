@@ -12,6 +12,7 @@ import androidx.datastore.preferences.core.stringSetPreferencesKey
 import com.ferdidrgn.anlikdepremler.core.util.EarthquakeJournalEntry
 import com.ferdidrgn.anlikdepremler.core.util.SavedLocation
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit

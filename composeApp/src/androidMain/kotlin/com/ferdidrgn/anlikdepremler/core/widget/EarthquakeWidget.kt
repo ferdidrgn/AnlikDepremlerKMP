@@ -51,6 +51,10 @@ class EarthquakeWidget : GlanceAppWidget(), KoinComponent {
     }
 }
 
+/** The widget always renders on its own fixed dark background regardless of system theme, so
+ *  every color is "fixed" - day and night are just the same value. */
+private fun fixedColor(color: Color) = ColorProvider(day = color, night = color)
+
 @Composable
 private fun WidgetContent(earthquake: Earthquake?) {
     Box(
@@ -63,25 +67,25 @@ private fun WidgetContent(earthquake: Earthquake?) {
         if (earthquake == null) {
             Text(
                 text = "Veri yok",
-                style = TextStyle(color = ColorProvider(Color.White), fontSize = 13.sp)
+                style = TextStyle(color = fixedColor(Color.White), fontSize = 13.sp)
             )
         } else {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
                     text = "${String.format(Locale.US, "%.1f", earthquake.magnitude)} Mw",
                     style = TextStyle(
-                        color = ColorProvider(Color(magnitudeHeatColor(earthquake.magnitude).toArgb())),
+                        color = fixedColor(Color(magnitudeHeatColor(earthquake.magnitude).toArgb())),
                         fontSize = 26.sp,
                         fontWeight = FontWeight.Bold
                     )
                 )
                 Text(
                     text = earthquake.location,
-                    style = TextStyle(color = ColorProvider(Color.White), fontSize = 13.sp)
+                    style = TextStyle(color = fixedColor(Color.White), fontSize = 13.sp)
                 )
                 Text(
                     text = "${earthquake.date} ${earthquake.time}",
-                    style = TextStyle(color = ColorProvider(Color(0xFF94A3B8)), fontSize = 11.sp)
+                    style = TextStyle(color = fixedColor(Color(0xFF94A3B8)), fontSize = 11.sp)
                 )
             }
         }
