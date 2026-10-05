@@ -32,6 +32,7 @@ import com.ferdidrgn.anlikdepremler.core.data.FeltReportRepository
 import com.ferdidrgn.anlikdepremler.core.datastore.PreferencesManager
 import com.ferdidrgn.anlikdepremler.core.share.shareEarthquakeAsImageCard
 import com.ferdidrgn.anlikdepremler.core.ui.animation.AppAnimations
+import com.ferdidrgn.anlikdepremler.core.util.EarthquakeJournalEntry
 import com.ferdidrgn.anlikdepremler.core.util.EmergencySmsHelper
 import com.ferdidrgn.anlikdepremler.ui.theme.magnitudeHeatColor
 import com.google.android.gms.maps.model.CameraPosition
@@ -214,6 +215,10 @@ fun EarthquakeDetailScreen(
             AppAnimations.StaggeredEntrance(index = 1) {
                 SeismicImpactCard(
                     earthquakeId = earthquake.id,
+                    location = earthquake.location,
+                    region = earthquake.region,
+                    date = earthquake.date,
+                    time = earthquake.time,
                     magnitude = earthquake.magnitude,
                     depth = earthquake.depth
                 )
@@ -444,6 +449,10 @@ private fun DetailInfoTile(
 @Composable
 fun SeismicImpactCard(
     earthquakeId: String,
+    location: String,
+    region: String,
+    date: String,
+    time: String,
     magnitude: Double,
     depth: Double
 ) {
@@ -502,6 +511,17 @@ fun SeismicImpactCard(
                         if (!hasUserFelt) {
                             coroutineScope.launch {
                                 preferencesManager.markEarthquakeAsFelt(earthquakeId)
+                                preferencesManager.addJournalEntry(
+                                    EarthquakeJournalEntry(
+                                        earthquakeId = earthquakeId,
+                                        location = location,
+                                        region = region,
+                                        magnitude = magnitude,
+                                        date = date,
+                                        time = time,
+                                        markedAtMillis = System.currentTimeMillis()
+                                    )
+                                )
                                 repository.submitFeltReport(earthquakeId)
                             }
                         }

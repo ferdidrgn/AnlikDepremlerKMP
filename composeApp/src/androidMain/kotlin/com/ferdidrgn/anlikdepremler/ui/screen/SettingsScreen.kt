@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.LocalCafe
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.PhoneAndroid
 import androidx.compose.material.icons.filled.PhoneInTalk
@@ -62,7 +63,8 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun SettingsScreen(
     settingsViewModel: SettingsViewModel = koinViewModel(),
-    onOpenLegalDocument: (String) -> Unit = {}
+    onOpenLegalDocument: (String) -> Unit = {},
+    onOpenJournal: () -> Unit = {}
 ) {
     val context = LocalContext.current
 
@@ -129,6 +131,14 @@ fun SettingsScreen(
                         badgeText = "${AppLanguage.entries.size}",
                         valueText = "${currentLang.flag} ${currentLang.displayName}",
                         onClick = { showLanguageDialog = true }
+                    )
+                    DividerLine()
+                    ModernSettingsTile(
+                        icon = Icons.Default.MenuBook,
+                        iconBgColor = Color(0xFF6D4C41),
+                        title = stringResource(R.string.journal_entry_title),
+                        subtitle = stringResource(R.string.journal_entry_sub),
+                        onClick = onOpenJournal
                     )
                 }
 

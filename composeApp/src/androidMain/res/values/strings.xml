@@ -170,6 +170,10 @@
     <string name="shake_detection_sub">Telefonunuzun ivmeölçeriyle şiddetli sarsıntı algılayıp uyarı gösterir</string>
     <string name="shake_detection_sensitivity">Hassasiyet</string>
     <string name="shake_detection_disclaimer">⚠️ Bu özellik deneyseldir ve resmi bir deprem bildirimi değildir. Telefonu düşürmek veya sert sarsıntılar yanlış alarm verebilir.</string>
+    <string name="journal_entry_title">Deprem Günlüğüm</string>
+    <string name="journal_entry_sub">Hissettiğinizi işaretlediğiniz depremlerin kişisel kaydı</string>
+    <string name="journal_title">Deprem Günlüğüm</string>
+    <string name="journal_empty">Henüz bir deprem işaretlemediniz. Bir deprem detayında "Ben de Hissettim" butonuna bastığınızda burada görünecek.</string>
     <string name="data_load_error">Veriler yüklenemedi, bağlantınızı kontrol edin.</string>
 
     <string name="category_support">DESTEK &amp; TOPLULUK</string>

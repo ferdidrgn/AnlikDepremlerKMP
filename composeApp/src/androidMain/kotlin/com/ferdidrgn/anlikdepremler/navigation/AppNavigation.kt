@@ -46,6 +46,7 @@ import com.ferdidrgn.anlikdepremler.ui.components.CustomBottomNavigationBar
 import com.ferdidrgn.anlikdepremler.ui.components.DropCoverHoldOverlay
 import com.ferdidrgn.anlikdepremler.ui.components.OfflineBanner
 import com.ferdidrgn.anlikdepremler.ui.screen.EarthquakeDetailScreen
+import com.ferdidrgn.anlikdepremler.ui.screen.EarthquakeJournalScreen
 import com.ferdidrgn.anlikdepremler.ui.screen.EarthquakeListScreen
 import com.ferdidrgn.anlikdepremler.ui.screen.HistoricalArchiveScreen
 import com.ferdidrgn.anlikdepremler.ui.screen.HomeScreen
@@ -192,8 +193,15 @@ fun AppNavigation(
                     settingsViewModel = koinViewModel(),
                     onOpenLegalDocument = { docType ->
                         navController.navigate("legal/$docType")
+                    },
+                    onOpenJournal = {
+                        navController.navigate("earthquake_journal")
                     }
                 )
+            }
+
+            composable("earthquake_journal") {
+                EarthquakeJournalScreen(onBackClick = { navController.popBackStack() })
             }
 
             // 5. DEPREM DETAY EKRANI

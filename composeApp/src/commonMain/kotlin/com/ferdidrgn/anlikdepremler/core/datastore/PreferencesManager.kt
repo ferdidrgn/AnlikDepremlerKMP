@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
+import com.ferdidrgn.anlikdepremler.core.util.EarthquakeJournalEntry
 import com.ferdidrgn.anlikdepremler.core.util.SavedLocation
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -34,6 +35,7 @@ class PreferencesManager(
     private val SAVED_LOCATIONS_JSON_KEY = stringPreferencesKey("saved_locations_json")
     private val SHAKE_DETECTION_ENABLED_KEY = booleanPreferencesKey("shake_detection_enabled")
     private val SHAKE_SENSITIVITY_KEY = floatPreferencesKey("shake_sensitivity")
+    private val EARTHQUAKE_JOURNAL_JSON_KEY = stringPreferencesKey("earthquake_journal_json")
     private val FELT_REPORTED_EARTHQUAKE_IDS_KEY = stringSetPreferencesKey("felt_reported_earthquake_ids")
 
     // --- DEPREM VERİ KAYNAĞI ---
@@ -196,5 +198,25 @@ class PreferencesManager(
 
     suspend fun saveShakeSensitivity(value: Float) {
         dataStore.edit { prefs -> prefs[SHAKE_SENSITIVITY_KEY] = value }
+    }
+
+    // --- DEPREM GÜNLÜĞÜ - "hissettim" işaretlenen depremlerin kişisel, sadece cihazda kaydı ---
+    val earthquakeJournal: Flow<List<EarthquakeJournalEntry>> = dataStore.data.map { prefs ->
+        val json = prefs[EARTHQUAKE_JOURNAL_JSON_KEY]
+        if (json == null) {
+            emptyList()
+        } else {
+            runCatching { Json.decodeFromString<List<EarthquakeJournalEntry>>(json) }.getOrDefault(emptyList())
+        }
+    }
+
+    suspend fun addJournalEntry(entry: EarthquakeJournalEntry) {
+        dataStore.edit { prefs ->
+            val current = prefs[EARTHQUAKE_JOURNAL_JSON_KEY]
+                ?.let { runCatching { Json.decodeFromString<List<EarthquakeJournalEntry>>(it) }.getOrDefault(emptyList()) }
+                ?: emptyList()
+            if (current.any { it.earthquakeId == entry.earthquakeId }) return@edit
+            prefs[EARTHQUAKE_JOURNAL_JSON_KEY] = Json.encodeToString(current + entry)
+        }
     }
 }
