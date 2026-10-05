@@ -43,6 +43,7 @@ import com.ferdidrgn.anlikdepremler.ui.screen.settings.ModernSettingsSwitchTile
 import com.ferdidrgn.anlikdepremler.ui.screen.settings.ModernSettingsTile
 import com.ferdidrgn.anlikdepremler.ui.screen.settings.ModernThemeSelectorCard
 import com.ferdidrgn.anlikdepremler.ui.screen.settings.NotificationFilterCard
+import com.ferdidrgn.anlikdepremler.ui.screen.settings.SavedLocationsCard
 import com.ferdidrgn.anlikdepremler.ui.screen.settings.SettingsCardContainer
 import com.ferdidrgn.anlikdepremler.ui.screen.settings.SettingsCategoryTitle
 import com.ferdidrgn.anlikdepremler.ui.screen.settings.DividerLine
@@ -52,6 +53,7 @@ import com.ferdidrgn.anlikdepremler.ui.screen.settings.openWebPage
 import com.ferdidrgn.anlikdepremler.ui.screen.settings.sendEmailIntent
 import com.ferdidrgn.anlikdepremler.ui.screen.settings.shareApp
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -71,9 +73,12 @@ fun SettingsScreen(
     val quietHoursEnabled by settingsViewModel.quietHoursEnabled.collectAsState()
     val quietHoursStartHour by settingsViewModel.quietHoursStartHour.collectAsState()
     val quietHoursEndHour by settingsViewModel.quietHoursEndHour.collectAsState()
+    val savedLocations by settingsViewModel.savedLocations.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
 
     var showLanguageDialog by remember { mutableStateOf(false) }
     var showPhoneDialog by remember { mutableStateOf(false) }
+    var showAddLocationDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         settingsViewModel.eventFlow.collectLatest { event ->
@@ -204,6 +209,15 @@ fun SettingsScreen(
                     onQuietHoursStartChange = { settingsViewModel.onQuietHoursStartChanged(it) },
                     quietHoursEndHour = quietHoursEndHour,
                     onQuietHoursEndChange = { settingsViewModel.onQuietHoursEndChanged(it) }
+                )
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                SavedLocationsCard(
+                    locations = savedLocations,
+                    maxLocations = SettingsViewModel.MAX_SAVED_LOCATIONS,
+                    onAddClick = { showAddLocationDialog = true },
+                    onRemoveClick = { settingsViewModel.removeSavedLocation(it) }
                 )
             }
         }
@@ -420,6 +434,82 @@ fun SettingsScreen(
             confirmButton = {},
             dismissButton = {
                 TextButton(onClick = { showLanguageDialog = false }) {
+                    Text(stringResource(R.string.cancel))
+                }
+            }
+        )
+    }
+
+    // 📍 KONUM EKLEME DİYALOĞU
+    if (showAddLocationDialog) {
+        var locationNameInput by remember { mutableStateOf("") }
+        var isGeocoding by remember { mutableStateOf(false) }
+        var showNotFoundError by remember { mutableStateOf(false) }
+
+        AlertDialog(
+            onDismissRequest = { showAddLocationDialog = false },
+            title = {
+                Text(
+                    text = stringResource(R.string.saved_locations_dialog_title),
+                    fontWeight = FontWeight.Bold
+                )
+            },
+            text = {
+                Column {
+                    Text(
+                        text = stringResource(R.string.saved_locations_dialog_desc),
+                        fontSize = 12.sp,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                    OutlinedTextField(
+                        value = locationNameInput,
+                        onValueChange = {
+                            locationNameInput = it
+                            showNotFoundError = false
+                        },
+                        placeholder = { Text(stringResource(R.string.saved_locations_dialog_hint)) },
+                        singleLine = true,
+                        enabled = !isGeocoding,
+                        shape = RoundedCornerShape(14.dp),
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    if (showNotFoundError) {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = stringResource(R.string.saved_locations_not_found),
+                            fontSize = 12.sp,
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
+                    if (isGeocoding) {
+                        Spacer(modifier = Modifier.height(12.dp))
+                        LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+                    }
+                }
+            },
+            confirmButton = {
+                Button(
+                    enabled = locationNameInput.isNotBlank() && !isGeocoding,
+                    onClick = {
+                        isGeocoding = true
+                        coroutineScope.launch {
+                            val success = settingsViewModel.addSavedLocation(context, locationNameInput)
+                            isGeocoding = false
+                            if (success) {
+                                showAddLocationDialog = false
+                            } else {
+                                showNotFoundError = true
+                            }
+                        }
+                    },
+                    shape = RoundedCornerShape(10.dp)
+                ) {
+                    Text(stringResource(R.string.save))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showAddLocationDialog = false }) {
                     Text(stringResource(R.string.cancel))
                 }
             }

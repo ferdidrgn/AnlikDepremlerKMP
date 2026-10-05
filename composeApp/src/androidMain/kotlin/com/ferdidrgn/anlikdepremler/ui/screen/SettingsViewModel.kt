@@ -6,9 +6,12 @@ import androidx.lifecycle.viewModelScope
 import com.ferdidrgn.anlikdepremler.core.datastore.PreferencesManager
 import com.ferdidrgn.anlikdepremler.core.language.AppLanguage
 import com.ferdidrgn.anlikdepremler.core.util.LocaleUtils
+import com.ferdidrgn.anlikdepremler.core.util.SavedLocation
+import com.ferdidrgn.anlikdepremler.core.util.geocodeLocationName
 import com.ferdidrgn.anlikdepremler.ui.theme.AppThemeMode
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.util.UUID
 
 sealed interface SettingsEvent {
     data class SendEmail(val email: String) : SettingsEvent
@@ -67,6 +70,10 @@ class SettingsViewModel(
     val quietHoursEndHour: StateFlow<Int> = preferencesManager.quietHoursEndHour
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 7)
 
+    // --- KAYITLI KONUMLAR (ev/iş/aile) STATE'İ ---
+    val savedLocations: StateFlow<List<SavedLocation>> = preferencesManager.savedLocations
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
     private val _eventFlow = MutableSharedFlow<SettingsEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
@@ -120,6 +127,33 @@ class SettingsViewModel(
         viewModelScope.launch {
             preferencesManager.saveQuietHoursEndHour(hour)
         }
+    }
+
+    // 📌 Kayıtlı Konum Ekler - metni koordinata çevirir (geocode), başarısız/limit dolu ise false döner
+    suspend fun addSavedLocation(context: Context, name: String): Boolean {
+        val current = preferencesManager.savedLocations.first()
+        if (current.size >= MAX_SAVED_LOCATIONS) return false
+
+        val coordinates = geocodeLocationName(context, name) ?: return false
+        val newLocation = SavedLocation(
+            id = UUID.randomUUID().toString(),
+            name = name,
+            latitude = coordinates.first,
+            longitude = coordinates.second
+        )
+        preferencesManager.saveSavedLocations(current + newLocation)
+        return true
+    }
+
+    fun removeSavedLocation(id: String) {
+        viewModelScope.launch {
+            val current = preferencesManager.savedLocations.first()
+            preferencesManager.saveSavedLocations(current.filterNot { it.id == id })
+        }
+    }
+
+    companion object {
+        const val MAX_SAVED_LOCATIONS = 4
     }
 
     // 📌 Dil Seçimi (Arayüzü Anında Yeniler)

@@ -166,19 +166,29 @@ class MainViewModel(
     private suspend fun checkNearbyEarthquakes(userLoc: UserLocationResult) {
         val minMagnitude = preferencesManager.minMagnitudeThreshold.first().toDouble()
         val maxDistanceKm = preferencesManager.maxDistanceKm.first().toDouble()
+        val savedLocations = preferencesManager.savedLocations.first()
+
+        // Checks the live GPS fix plus every saved location (home/work/family) - an earthquake
+        // counts as "nearby" if it's close to ANY of them, using whichever is closest.
+        val checkPoints = buildList {
+            add(userLoc.latitude to userLoc.longitude)
+            savedLocations.forEach { add(it.latitude to it.longitude) }
+        }
 
         val nearest = _uiState.value.rawEarthquakes
             .asSequence()
             .filter { it.magnitude >= minMagnitude }
-            .map { eq ->
-                eq to LocationUtils.calculateDistanceInKm(
-                    userLat = userLoc.latitude,
-                    userLng = userLoc.longitude,
-                    eqLat = eq.latitude,
-                    eqLng = eq.longitude
-                )
+            .mapNotNull { eq ->
+                val closestDistanceKm = checkPoints.minOf { (lat, lng) ->
+                    LocationUtils.calculateDistanceInKm(
+                        userLat = lat,
+                        userLng = lng,
+                        eqLat = eq.latitude,
+                        eqLng = eq.longitude
+                    )
+                }
+                if (closestDistanceKm <= maxDistanceKm) eq to closestDistanceKm else null
             }
-            .filter { (_, distanceKm) -> distanceKm <= maxDistanceKm }
             .minByOrNull { (_, distanceKm) -> distanceKm }
 
         _uiState.update { it.copy(nearbyAlertEarthquake = nearest?.first) }

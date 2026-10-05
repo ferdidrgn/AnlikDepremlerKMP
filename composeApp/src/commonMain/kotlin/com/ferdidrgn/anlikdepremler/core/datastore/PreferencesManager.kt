@@ -7,8 +7,12 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.ferdidrgn.anlikdepremler.core.util.SavedLocation
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 class PreferencesManager(
     private val dataStore: DataStore<Preferences>
@@ -26,6 +30,7 @@ class PreferencesManager(
     private val QUIET_HOURS_ENABLED_KEY = booleanPreferencesKey("quiet_hours_enabled")
     private val QUIET_HOURS_START_HOUR_KEY = intPreferencesKey("quiet_hours_start_hour")
     private val QUIET_HOURS_END_HOUR_KEY = intPreferencesKey("quiet_hours_end_hour")
+    private val SAVED_LOCATIONS_JSON_KEY = stringPreferencesKey("saved_locations_json")
 
     // --- DEPREM VERİ KAYNAĞI ---
     val selectedSource: Flow<String> = dataStore.data.map { prefs ->
@@ -141,5 +146,19 @@ class PreferencesManager(
 
     suspend fun saveQuietHoursEndHour(hour: Int) {
         dataStore.edit { prefs -> prefs[QUIET_HOURS_END_HOUR_KEY] = hour }
+    }
+
+    // --- KAYITLI KONUMLAR (ev/iş/aile) - nearby-deprem kontrolü GPS'e ek olarak bunları da tarar ---
+    val savedLocations: Flow<List<SavedLocation>> = dataStore.data.map { prefs ->
+        val json = prefs[SAVED_LOCATIONS_JSON_KEY]
+        if (json == null) {
+            emptyList()
+        } else {
+            runCatching { Json.decodeFromString<List<SavedLocation>>(json) }.getOrDefault(emptyList())
+        }
+    }
+
+    suspend fun saveSavedLocations(locations: List<SavedLocation>) {
+        dataStore.edit { prefs -> prefs[SAVED_LOCATIONS_JSON_KEY] = Json.encodeToString(locations) }
     }
 }
