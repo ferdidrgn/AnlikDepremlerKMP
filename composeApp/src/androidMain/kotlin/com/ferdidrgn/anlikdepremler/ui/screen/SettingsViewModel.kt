@@ -23,6 +23,7 @@ sealed interface SettingsEvent {
     data class NavigateToWeb(val url: String) : SettingsEvent
     data class BuyCoffee(val productId: String) : SettingsEvent
     object RemoveAds : SettingsEvent
+    object WatchAdForExtraSlot : SettingsEvent
 }
 
 class SettingsViewModel(
@@ -90,6 +91,14 @@ class SettingsViewModel(
     val weeklyDigestEnabled: StateFlow<Boolean> = preferencesManager.weeklyDigestEnabled
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
+    // --- ÖDÜLLÜ REKLAM İLE KAZANILAN EK KAYITLI KONUM HAKKI STATE'İ ---
+    val extraSavedLocationSlots: StateFlow<Int> = preferencesManager.extraSavedLocationSlots
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
+
+    val maxSavedLocations: StateFlow<Int> = extraSavedLocationSlots.map { extra ->
+        MAX_SAVED_LOCATIONS + extra
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), MAX_SAVED_LOCATIONS)
+
     private val _eventFlow = MutableSharedFlow<SettingsEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
@@ -148,7 +157,7 @@ class SettingsViewModel(
     // 📌 Kayıtlı Konum Ekler - metni koordinata çevirir (geocode), başarısız/limit dolu ise false döner
     suspend fun addSavedLocation(context: Context, name: String): Boolean {
         val current = preferencesManager.savedLocations.first()
-        if (current.size >= MAX_SAVED_LOCATIONS) return false
+        if (current.size >= maxSavedLocations.value) return false
 
         val coordinates = geocodeLocationName(context, name) ?: return false
         val newLocation = SavedLocation(
@@ -254,6 +263,18 @@ class SettingsViewModel(
     fun onWeeklyDigestToggled(enabled: Boolean) {
         viewModelScope.launch {
             preferencesManager.saveWeeklyDigestEnabled(enabled)
+        }
+    }
+
+    fun onWatchAdForExtraSlotClick() {
+        viewModelScope.launch {
+            _eventFlow.emit(SettingsEvent.WatchAdForExtraSlot)
+        }
+    }
+
+    fun grantExtraSavedLocationSlot() {
+        viewModelScope.launch {
+            preferencesManager.grantExtraSavedLocationSlot()
         }
     }
 }

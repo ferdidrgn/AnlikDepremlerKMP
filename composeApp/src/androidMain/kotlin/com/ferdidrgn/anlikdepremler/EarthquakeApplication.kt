@@ -2,6 +2,7 @@ package com.ferdidrgn.anlikdepremler
 
 import android.app.Application
 import com.ferdidrgn.anlikdepremler.core.ads.AdManager
+import com.ferdidrgn.anlikdepremler.core.ads.RewardedAdManager
 import com.ferdidrgn.anlikdepremler.core.notification.FcmTokenManager
 import com.ferdidrgn.anlikdepremler.di.androidPlatformModules
 import com.google.firebase.FirebaseApp
@@ -28,6 +29,9 @@ class EarthquakeApplication : Application() {
 
             val adManager: AdManager = get()
             adManager.initialize(this)
+
+            val rewardedAdManager: RewardedAdManager = get()
+            rewardedAdManager.load(this)
         } catch (e: Exception) {
             e.printStackTrace()
         }

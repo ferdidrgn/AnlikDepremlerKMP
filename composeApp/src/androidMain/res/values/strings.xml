@@ -167,6 +167,7 @@
     <string name="earthquake_alerts_info_sub">Cihazınızın yerleşik deprem uyarı sistemini açmak için dokunun (Ayarlar &gt; Konum)</string>
     <string name="saved_locations_title">Kayıtlı Konumlar (%1$d/%2$d)</string>
     <string name="saved_locations_add">Konum Ekle</string>
+    <string name="saved_locations_watch_ad_for_slot">Reklam İzleyerek +1 Konum Hakkı Kazan</string>
     <string name="saved_locations_dialog_title">Konum Ekle</string>
     <string name="saved_locations_dialog_desc">Ev, iş veya yakınınızdakilerin bulunduğu bir yeri ekleyin - buraya yakın bir deprem olduğunda da bildirim alırsınız.</string>
     <string name="saved_locations_dialog_hint">Örn: Kadıköy, İstanbul</string>

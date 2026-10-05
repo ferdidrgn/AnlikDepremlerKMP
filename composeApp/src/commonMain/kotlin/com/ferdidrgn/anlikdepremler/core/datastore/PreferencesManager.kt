@@ -48,6 +48,7 @@ class PreferencesManager(
     private val COMPLETED_CHECKLIST_ITEMS_KEY = stringSetPreferencesKey("completed_checklist_items")
     private val WEEKLY_DIGEST_ENABLED_KEY = booleanPreferencesKey("weekly_digest_enabled")
     private val FELT_REPORTED_EARTHQUAKE_IDS_KEY = stringSetPreferencesKey("felt_reported_earthquake_ids")
+    private val EXTRA_SAVED_LOCATION_SLOTS_KEY = intPreferencesKey("extra_saved_location_slots")
 
     // --- DEPREM VERİ KAYNAĞI ---
     val selectedSource: Flow<String> = dataStore.data.map { prefs ->
@@ -271,5 +272,17 @@ class PreferencesManager(
 
     suspend fun saveWeeklyDigestEnabled(enabled: Boolean) {
         dataStore.edit { prefs -> prefs[WEEKLY_DIGEST_ENABLED_KEY] = enabled }
+    }
+
+    // --- ÖDÜLLÜ REKLAM İLE KAZANILAN EK KAYITLI KONUM HAKKI ---
+    val extraSavedLocationSlots: Flow<Int> = dataStore.data.map { prefs ->
+        prefs[EXTRA_SAVED_LOCATION_SLOTS_KEY] ?: 0
+    }
+
+    suspend fun grantExtraSavedLocationSlot() {
+        dataStore.edit { prefs ->
+            val current = prefs[EXTRA_SAVED_LOCATION_SLOTS_KEY] ?: 0
+            prefs[EXTRA_SAVED_LOCATION_SLOTS_KEY] = current + 1
+        }
     }
 }

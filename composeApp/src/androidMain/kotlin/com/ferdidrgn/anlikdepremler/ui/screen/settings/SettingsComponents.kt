@@ -16,6 +16,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.PlayCircle
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -427,7 +428,9 @@ fun SavedLocationsCard(
     locations: List<SavedLocation>,
     maxLocations: Int,
     onAddClick: () -> Unit,
-    onRemoveClick: (String) -> Unit
+    onRemoveClick: (String) -> Unit,
+    isRewardedAdReady: Boolean = false,
+    onWatchAdForSlotClick: (() -> Unit)? = null
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -486,6 +489,16 @@ fun SavedLocationsCard(
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(stringResource(R.string.saved_locations_add))
+                }
+            } else if (onWatchAdForSlotClick != null) {
+                TextButton(onClick = onWatchAdForSlotClick, enabled = isRewardedAdReady) {
+                    Icon(
+                        imageVector = Icons.Default.PlayCircle,
+                        contentDescription = null,
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text(stringResource(R.string.saved_locations_watch_ad_for_slot))
                 }
             }
         }

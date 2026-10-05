@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ferdidrgn.anlikdepremler.R
 import com.ferdidrgn.anlikdepremler.core.ads.BannerAdView
+import com.ferdidrgn.anlikdepremler.core.ads.RewardedAdManager
 import com.ferdidrgn.anlikdepremler.core.billing.launchCoffeeDonationFlow
 import com.ferdidrgn.anlikdepremler.core.billing.launchRemoveAdsPurchaseFlow
 import com.ferdidrgn.anlikdepremler.core.datastore.PreferencesManager
@@ -74,6 +75,8 @@ fun SettingsScreen(
 ) {
     val context = LocalContext.current
     val preferencesManager: PreferencesManager = koinInject()
+    val rewardedAdManager: RewardedAdManager = koinInject()
+    var isRewardedAdReady by remember { mutableStateOf(rewardedAdManager.isReady) }
 
     val currentLang by settingsViewModel.currentLanguage.collectAsState()
     val currentTheme by settingsViewModel.currentTheme.collectAsState()
@@ -86,6 +89,7 @@ fun SettingsScreen(
     val quietHoursStartHour by settingsViewModel.quietHoursStartHour.collectAsState()
     val quietHoursEndHour by settingsViewModel.quietHoursEndHour.collectAsState()
     val savedLocations by settingsViewModel.savedLocations.collectAsState()
+    val maxSavedLocations by settingsViewModel.maxSavedLocations.collectAsState()
     val adsFreeUntilMillis by settingsViewModel.adsFreeUntilMillis.collectAsState()
     val weeklyDigestEnabled by settingsViewModel.weeklyDigestEnabled.collectAsState()
     val isAdsFree = adsFreeUntilMillis > System.currentTimeMillis()
@@ -100,6 +104,13 @@ fun SettingsScreen(
     var showAddLocationDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
+        while (true) {
+            isRewardedAdReady = rewardedAdManager.isReady
+            kotlinx.coroutines.delay(2000)
+        }
+    }
+
+    LaunchedEffect(Unit) {
         settingsViewModel.eventFlow.collectLatest { event ->
             when (event) {
                 is SettingsEvent.SendEmail -> sendEmailIntent(context, event.email)
@@ -111,6 +122,16 @@ fun SettingsScreen(
                 is SettingsEvent.NavigateToWeb -> openWebPage(context, event.url)
                 is SettingsEvent.BuyCoffee -> launchCoffeeDonationFlow(context, event.productId)
                 is SettingsEvent.RemoveAds -> launchRemoveAdsPurchaseFlow(context, preferencesManager)
+                is SettingsEvent.WatchAdForExtraSlot -> {
+                    val activity = context as? android.app.Activity
+                    if (activity != null) {
+                        rewardedAdManager.show(
+                            activity = activity,
+                            onEarned = { settingsViewModel.grantExtraSavedLocationSlot() },
+                            onDismissed = { isRewardedAdReady = rewardedAdManager.isReady }
+                        )
+                    }
+                }
             }
         }
     }
@@ -259,9 +280,11 @@ fun SettingsScreen(
 
                 SavedLocationsCard(
                     locations = savedLocations,
-                    maxLocations = SettingsViewModel.MAX_SAVED_LOCATIONS,
+                    maxLocations = maxSavedLocations,
                     onAddClick = { showAddLocationDialog = true },
-                    onRemoveClick = { settingsViewModel.removeSavedLocation(it) }
+                    onRemoveClick = { settingsViewModel.removeSavedLocation(it) },
+                    isRewardedAdReady = isRewardedAdReady,
+                    onWatchAdForSlotClick = { settingsViewModel.onWatchAdForExtraSlotClick() }
                 )
             }
         }

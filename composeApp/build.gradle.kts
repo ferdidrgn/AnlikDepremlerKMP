@@ -175,6 +175,7 @@ android {
             buildConfigField("String", "ADMOB_BANNER_ID", "\"ca-app-pub-3940256099942544/6300978111\"")
             buildConfigField("String", "ADMOB_INTERSTITIAL_ID", "\"ca-app-pub-3940256099942544/1033173712\"")
             buildConfigField("String", "ADMOB_NATIVE_ID", "\"ca-app-pub-3940256099942544/2247696110\"")
+            buildConfigField("String", "ADMOB_REWARDED_ID", "\"ca-app-pub-3940256099942544/5224354917\"")
         }
         release {
             isMinifyEnabled = true
@@ -190,11 +191,13 @@ android {
             val bannerId = secret("ADMOB_BANNER_ID")
             val interstitialId = secret("ADMOB_INTERSTITIAL_ID")
             val nativeId = secret("ADMOB_NATIVE_ID")
+            val rewardedId = secret("ADMOB_REWARDED_ID")
 
             buildConfigField("String", "ADMOB_APP_OPEN_ID", "\"$appOpenId\"")
             buildConfigField("String", "ADMOB_BANNER_ID", "\"$bannerId\"")
             buildConfigField("String", "ADMOB_INTERSTITIAL_ID", "\"$interstitialId\"")
             buildConfigField("String", "ADMOB_NATIVE_ID", "\"$nativeId\"")
+            buildConfigField("String", "ADMOB_REWARDED_ID", "\"$rewardedId\"")
         }
     }
 
