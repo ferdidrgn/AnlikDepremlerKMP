@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
@@ -19,7 +20,7 @@ import androidx.glance.layout.padding
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
-import androidx.glance.unit.ColorProvider
+import androidx.glance.color.ColorProvider
 import com.ferdi.deprem.model.Earthquake
 import com.ferdidrgn.anlikdepremler.data.remote.EarthquakeSource
 import com.ferdidrgn.anlikdepremler.data.repository.EarthquakeRepository
@@ -27,6 +28,7 @@ import com.ferdidrgn.anlikdepremler.ui.theme.magnitudeHeatColor
 import kotlinx.coroutines.flow.first
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import java.util.Locale
 
 /**
  * Home-screen widget showing the most recent earthquake. Deliberately self-contained: it fetches
@@ -66,7 +68,7 @@ private fun WidgetContent(earthquake: Earthquake?) {
         } else {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
-                    text = "${String.format("%.1f", earthquake.magnitude)} Mw",
+                    text = "${String.format(Locale.US, "%.1f", earthquake.magnitude)} Mw",
                     style = TextStyle(
                         color = ColorProvider(Color(magnitudeHeatColor(earthquake.magnitude).toArgb())),
                         fontSize = 26.sp,
