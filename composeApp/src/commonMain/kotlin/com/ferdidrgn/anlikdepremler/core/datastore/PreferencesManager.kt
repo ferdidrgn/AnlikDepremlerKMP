@@ -18,6 +18,7 @@ class PreferencesManager(
 
     private val EMERGENCY_PHONE_KEY = stringPreferencesKey("emergency_phone_number")
     private val NEARBY_NOTIFICATIONS_ENABLED_KEY = booleanPreferencesKey("nearby_notifications_enabled")
+    private val VOICE_ALERTS_ENABLED_KEY = booleanPreferencesKey("voice_alerts_enabled")
 
     // --- DEPREM VERİ KAYNAĞI ---
     val selectedSource: Flow<String> = dataStore.data.map { prefs ->
@@ -81,5 +82,14 @@ class PreferencesManager(
 
     suspend fun saveNearbyNotificationsEnabled(enabled: Boolean) {
         dataStore.edit { prefs -> prefs[NEARBY_NOTIFICATIONS_ENABLED_KEY] = enabled }
+    }
+
+    // --- SESLİ UYARI (TTS) AÇIK/KAPALI - varsayılan kapalı, beklenmedik sesli anonsu tercihe bırakır ---
+    val voiceAlertsEnabled: Flow<Boolean> = dataStore.data.map { prefs ->
+        prefs[VOICE_ALERTS_ENABLED_KEY] ?: false
+    }
+
+    suspend fun saveVoiceAlertsEnabled(enabled: Boolean) {
+        dataStore.edit { prefs -> prefs[VOICE_ALERTS_ENABLED_KEY] = enabled }
     }
 }

@@ -46,6 +46,10 @@ class SettingsViewModel(
     val nearbyNotificationsEnabled: StateFlow<Boolean> = preferencesManager.nearbyNotificationsEnabled
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
 
+    // --- SESLİ UYARI (TTS) AÇIK/KAPALI STATE'İ ---
+    val voiceAlertsEnabled: StateFlow<Boolean> = preferencesManager.voiceAlertsEnabled
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+
     private val _eventFlow = MutableSharedFlow<SettingsEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
@@ -60,6 +64,13 @@ class SettingsViewModel(
     fun onNearbyNotificationsToggled(enabled: Boolean) {
         viewModelScope.launch {
             preferencesManager.saveNearbyNotificationsEnabled(enabled)
+        }
+    }
+
+    // 📌 Sesli Uyarıları (TTS) Açar/Kapatır
+    fun onVoiceAlertsToggled(enabled: Boolean) {
+        viewModelScope.launch {
+            preferencesManager.saveVoiceAlertsEnabled(enabled)
         }
     }
 

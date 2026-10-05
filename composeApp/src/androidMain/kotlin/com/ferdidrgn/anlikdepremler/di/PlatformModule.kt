@@ -7,6 +7,7 @@ import com.ferdidrgn.anlikdepremler.core.datastore.createDataStore
 import com.ferdidrgn.anlikdepremler.core.network.AndroidNetworkMonitor
 import com.ferdidrgn.anlikdepremler.core.network.NetworkMonitor
 import com.ferdidrgn.anlikdepremler.core.notification.AndroidNearbyEarthquakeNotifier
+import com.ferdidrgn.anlikdepremler.core.notification.EarthquakeVoiceAnnouncer
 import com.ferdidrgn.anlikdepremler.core.notification.NearbyEarthquakeNotifier
 import com.ferdidrgn.anlikdepremler.core.util.AndroidLocationTracker
 import com.ferdidrgn.anlikdepremler.core.util.LocationTracker
@@ -22,5 +23,6 @@ actual fun platformModule(): Module = module {
     }
     single<LocationTracker> { AndroidLocationTracker(androidContext()) }
     single<NetworkMonitor> { AndroidNetworkMonitor(androidContext()) }
-    single<NearbyEarthquakeNotifier> { AndroidNearbyEarthquakeNotifier(androidContext()) }
+    single { EarthquakeVoiceAnnouncer(androidContext()) }
+    single<NearbyEarthquakeNotifier> { AndroidNearbyEarthquakeNotifier(androidContext(), get(), get()) }
 }

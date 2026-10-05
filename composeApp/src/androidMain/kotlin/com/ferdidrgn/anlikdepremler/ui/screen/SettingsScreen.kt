@@ -64,6 +64,7 @@ fun SettingsScreen(
     val currentTheme by settingsViewModel.currentTheme.collectAsState()
     val emergencyPhone by settingsViewModel.emergencyPhoneNumber.collectAsState()
     val nearbyNotificationsEnabled by settingsViewModel.nearbyNotificationsEnabled.collectAsState()
+    val voiceAlertsEnabled by settingsViewModel.voiceAlertsEnabled.collectAsState()
 
     var showLanguageDialog by remember { mutableStateOf(false) }
     var showPhoneDialog by remember { mutableStateOf(false) }
@@ -163,6 +164,15 @@ fun SettingsScreen(
                         subtitle = stringResource(R.string.nearby_notifications_sub),
                         checked = nearbyNotificationsEnabled,
                         onCheckedChange = { settingsViewModel.onNearbyNotificationsToggled(it) }
+                    )
+                    DividerLine()
+                    ModernSettingsSwitchTile(
+                        icon = Icons.Default.VolumeUp,
+                        iconBgColor = Color(0xFF009688),
+                        title = stringResource(R.string.voice_alerts_title),
+                        subtitle = stringResource(R.string.voice_alerts_sub),
+                        checked = voiceAlertsEnabled,
+                        onCheckedChange = { settingsViewModel.onVoiceAlertsToggled(it) }
                     )
                 }
             }

@@ -144,6 +144,8 @@
     <string name="location_permissions_sub">Yakındaki sarsıntıları görmek için gereklidir</string>
     <string name="nearby_notifications_title">Yakın Deprem Bildirimleri</string>
     <string name="nearby_notifications_sub">Konumunuza yakın bir deprem olduğunda anında bildirim alın</string>
+    <string name="voice_alerts_title">Sesli Uyarı</string>
+    <string name="voice_alerts_sub">Deprem bildirimleri geldiğinde telefon sesli olarak okusun</string>
     <string name="data_load_error">Veriler yüklenemedi, bağlantınızı kontrol edin.</string>
 
     <string name="category_support">DESTEK &amp; TOPLULUK</string>

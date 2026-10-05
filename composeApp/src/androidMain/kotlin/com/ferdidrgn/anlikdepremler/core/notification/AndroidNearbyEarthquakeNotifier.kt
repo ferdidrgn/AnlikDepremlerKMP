@@ -11,6 +11,12 @@ import androidx.core.app.NotificationCompat
 import com.ferdi.deprem.model.Earthquake
 import com.ferdidrgn.anlikdepremler.MainActivity
 import com.ferdidrgn.anlikdepremler.R
+import com.ferdidrgn.anlikdepremler.core.datastore.PreferencesManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 /**
@@ -18,7 +24,13 @@ import kotlin.math.roundToInt
  * reusing the channel/PendingIntent pattern from EarthquakeFirebaseMessagingService but on a
  * separate channel so the user can mute "nearby" alerts independently of the critical FCM ones.
  */
-class AndroidNearbyEarthquakeNotifier(private val context: Context) : NearbyEarthquakeNotifier {
+class AndroidNearbyEarthquakeNotifier(
+    private val context: Context,
+    private val preferencesManager: PreferencesManager,
+    private val voiceAnnouncer: EarthquakeVoiceAnnouncer
+) : NearbyEarthquakeNotifier {
+
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
     override fun notifyNearbyEarthquake(earthquake: Earthquake, distanceKm: Double) {
         val channelId = "nearby_earthquake_channel"
@@ -66,5 +78,11 @@ class AndroidNearbyEarthquakeNotifier(private val context: Context) : NearbyEart
             .setContentIntent(pendingIntent)
 
         notificationManager.notify(earthquake.id.hashCode(), builder.build())
+
+        scope.launch {
+            if (preferencesManager.voiceAlertsEnabled.first()) {
+                voiceAnnouncer.speak(body)
+            }
+        }
     }
 }

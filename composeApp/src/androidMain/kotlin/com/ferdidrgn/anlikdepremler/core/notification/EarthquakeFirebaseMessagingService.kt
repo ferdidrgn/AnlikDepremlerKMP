@@ -10,10 +10,21 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.ferdidrgn.anlikdepremler.MainActivity
 import com.ferdidrgn.anlikdepremler.R
+import com.ferdidrgn.anlikdepremler.core.datastore.PreferencesManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 
 class EarthquakeFirebaseMessagingService : FirebaseMessagingService() {
+
+    private val preferencesManager: PreferencesManager by inject()
+    private val voiceAnnouncer: EarthquakeVoiceAnnouncer by inject()
+    private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
@@ -74,6 +85,12 @@ class EarthquakeFirebaseMessagingService : FirebaseMessagingService() {
             .setContentIntent(pendingIntent)
 
         notificationManager.notify(System.currentTimeMillis().toInt(), builder.build())
+
+        serviceScope.launch {
+            if (preferencesManager.voiceAlertsEnabled.first()) {
+                voiceAnnouncer.speak(body)
+            }
+        }
     }
 
     override fun onNewToken(token: String) {
