@@ -31,6 +31,13 @@ if (System.getenv("CI") == "true") {
     rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin> {
         rootProject.the<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootEnvSpec>().download = false
     }
+    // Same again for Binaryen (wasm-opt), which wasmJsBrowserDistribution uses to optimize the
+    // production .wasm output - also fetched through nodejs.org's mirror. With download = false,
+    // Kotlin invokes the bare "wasm-opt" command expecting it on PATH, so the workflow installs
+    // the real thing via apt (Ubuntu's own mirrors, nothing to do with nodejs.org).
+    rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.wasm.binaryen.BinaryenPlugin> {
+        rootProject.the<org.jetbrains.kotlin.gradle.targets.wasm.binaryen.BinaryenEnvSpec>().download = false
+    }
 }
 
 val localProperties = Properties().apply {

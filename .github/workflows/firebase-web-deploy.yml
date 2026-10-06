@@ -44,6 +44,11 @@ jobs:
       - name: Install Yarn
         run: npm install -g yarn
 
+      # ...and the same again for Binaryen (wasm-opt), which the production wasmJs build uses to
+      # optimize the output. Ubuntu's own apt mirrors, unrelated to nodejs.org.
+      - name: Install Binaryen
+        run: sudo apt-get update && sudo apt-get install -y binaryen
+
       - name: Cache Gradle
         uses: actions/cache@v4
         with:
