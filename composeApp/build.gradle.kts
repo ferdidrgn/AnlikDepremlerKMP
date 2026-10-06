@@ -38,11 +38,13 @@ if (System.getenv("CI") == "true") {
     disableBinaryenDownload()
 }
 
+@Suppress("DEPRECATION")
 @OptIn(ExperimentalWasmDsl::class)
 fun Project.disableBinaryenDownload() {
     rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.binaryen.BinaryenRootPlugin> {
+        // .downloadProperty is internal; the deprecated public "download" var delegates to it.
         rootProject.the<org.jetbrains.kotlin.gradle.targets.js.binaryen.BinaryenRootExtension>()
-            .downloadProperty.set(false)
+            .download = false
     }
 }
 
