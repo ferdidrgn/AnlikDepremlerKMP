@@ -49,15 +49,19 @@ jobs:
       - name: Install Binaryen
         run: sudo apt-get update && sudo apt-get install -y binaryen
 
+      # Bumped to v2: the restore-keys prefix fallback below kept feeding forward a Gradle
+      # cache that may have been written mid-crash by one of the many earlier failed runs while
+      # debugging the wasmJs build (incomplete/corrupted stdlib klib download, etc.) - a plain
+      # key change doesn't escape that, since restore-keys still matches the old prefix.
       - name: Cache Gradle
         uses: actions/cache@v4
         with:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: gradle-wasm-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          key: gradle-wasm-v2-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
-            gradle-wasm-${{ runner.os }}-
+            gradle-wasm-v2-${{ runner.os }}-
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
