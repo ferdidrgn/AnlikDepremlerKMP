@@ -26,6 +26,11 @@ if (System.getenv("CI") == "true") {
     rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin> {
         rootProject.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec>().download = false
     }
+    // Same 403 problem, same fix, for Yarn (which Kotlin/JS also tries to download through
+    // nodejs.org's Maven-style mirror) - the workflow installs a real "yarn" via npm instead.
+    rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin> {
+        rootProject.the<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootEnvSpec>().download = false
+    }
 }
 
 val localProperties = Properties().apply {
