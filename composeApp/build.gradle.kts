@@ -17,12 +17,19 @@ plugins {
 }
 
 // nodejs.org has been returning 403 Forbidden to GitHub Actions' IP ranges when Kotlin/Wasm tries
-// to download its own managed Node.js/Yarn/Binaryen through it - not something a retry fixes. On
-// CI (the workflow installs real node/yarn/binaryen itself), skip those downloads and use the
-// pre-installed ones instead; local dev machines are untouched since $CI isn't set there.
+// to download its own managed Node.js/Yarn through it - not something a retry fixes. On CI (the
+// workflow installs real node/yarn itself), skip those downloads and use the pre-installed ones
+// instead; local dev machines are untouched since $CI isn't set there.
 //
-// Kotlin 2.2 renamed/relocated all three of these plugins' classes to wasm-specific packages
-// (e.g. org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin ->
+// Binaryen is NOT in this list, deliberately: unlike Node.js/Yarn, Kotlin fetches its managed
+// Binaryen from GitHub Releases (WebAssembly/binaryen), not nodejs.org, so it was never actually
+// blocked - and it needs to stay enabled, since Kotlin 2.2.20's wasm-opt invocation passes
+// optimizer flags (e.g. --closed-world) that Ubuntu's apt-packaged Binaryen (108, ancient) does
+// not understand ("Unknown option '--closed-world'"). Letting Kotlin download the exact version
+// (123) it was built against avoids that mismatch entirely.
+//
+// Kotlin 2.2 renamed/relocated these plugins' classes to wasm-specific packages (e.g.
+// org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin ->
 // org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsPlugin) and moved some from a
 // shared root-project extension to a per-project one - a hardcoded type reference to any one
 // generation's classes silently stops working (and stops disabling the download) the next time
@@ -30,10 +37,9 @@ plugins {
 // the root project, works across that churn without pinning to any one version's classes.
 //
 // Must run from afterEvaluate: these extensions are only created once the kotlin { wasmJs {} }
-// block further down this same file actually applies the Node.js/Yarn/Binaryen plugins, as a
-// side effect - scanning for them at the top of the script (before that block runs) finds
-// nothing, and download silently stays enabled, hitting the exact nodejs.org 403 this exists to
-// avoid.
+// block further down this same file actually applies the Node.js/Yarn plugins, as a side effect -
+// scanning for them at the top of the script (before that block runs) finds nothing, and download
+// silently stays enabled, hitting the exact nodejs.org 403 this exists to avoid.
 if (System.getenv("CI") == "true") {
     project.afterEvaluate {
         disableManagedToolDownloads(rootProject)
@@ -45,7 +51,7 @@ fun disableManagedToolDownloads(target: Project) {
     target.extensions.extensionsSchema.elements
         .map { it.name }
         .filter { name ->
-            listOf("nodejs", "yarn", "binaryen").any { name.contains(it, ignoreCase = true) }
+            listOf("nodejs", "yarn").any { name.contains(it, ignoreCase = true) }
         }
         .forEach { extensionName ->
             // Some name matches may not actually expose a settable "download" property -

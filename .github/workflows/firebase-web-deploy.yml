@@ -44,10 +44,9 @@ jobs:
       - name: Install Yarn
         run: npm install -g yarn
 
-      # ...and the same again for Binaryen (wasm-opt), which the production wasmJs build uses to
-      # optimize the output. Ubuntu's own apt mirrors, unrelated to nodejs.org.
-      - name: Install Binaryen
-        run: sudo apt-get update && sudo apt-get install -y binaryen
+      # Binaryen (wasm-opt) is NOT installed here on purpose: Kotlin downloads its own managed
+      # copy from GitHub Releases (not nodejs.org, so never actually blocked), and needs to -
+      # Ubuntu's apt-packaged binaryen is too old for the optimizer flags Kotlin 2.2.20 passes.
 
       # Bumped to v2: the restore-keys prefix fallback below kept feeding forward a Gradle
       # cache that may have been written mid-crash by one of the many earlier failed runs while
