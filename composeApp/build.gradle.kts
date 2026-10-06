@@ -16,44 +16,38 @@ plugins {
     id("com.github.triplet.play")
 }
 
-// nodejs.org has been returning 403 Forbidden to GitHub Actions' IP ranges when Kotlin/JS tries
-// to download its own managed Node.js runtime there - not something a retry fixes. On CI
-// (actions/setup-node already puts a working "node" on PATH), skip that download and use the
-// pre-installed one instead; local dev machines are untouched since $CI isn't set there.
-// This must target rootProject, not project (this module) - the actual :kotlinNodeJsSetup task
-// that does the downloading is a root-project task shared across the whole build, so configuring
-// composeApp's own NodeJsEnvSpec instance here had no effect on it.
+// nodejs.org has been returning 403 Forbidden to GitHub Actions' IP ranges when Kotlin/Wasm tries
+// to download its own managed Node.js/Yarn/Binaryen through it - not something a retry fixes. On
+// CI (the workflow installs real node/yarn/binaryen itself), skip those downloads and use the
+// pre-installed ones instead; local dev machines are untouched since $CI isn't set there.
+//
+// Kotlin 2.2 renamed/relocated all three of these plugins' classes to wasm-specific packages
+// (e.g. org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin ->
+// org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsPlugin) and moved some from a
+// shared root-project extension to a per-project one - a hardcoded type reference to any one
+// generation's classes silently stops working (and stops disabling the download) the next time
+// Kotlin reshuffles these packages. Matching extensions by name instead, on both this project and
+// the root project, works across that churn without pinning to any one version's classes.
 if (System.getenv("CI") == "true") {
-    rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin> {
-        rootProject.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec>().download = false
-    }
-    // Same 403 problem, same fix, for Yarn (which Kotlin/JS also tries to download through
-    // nodejs.org's Maven-style mirror) - the workflow installs a real "yarn" via npm instead.
-    rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin> {
-        rootProject.the<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootEnvSpec>().download = false
-    }
-    // Same again for Binaryen (wasm-opt), which wasmJsBrowserDistribution uses to optimize the
-    // production .wasm output - also fetched through nodejs.org's mirror. With download disabled,
-    // Kotlin invokes the bare "wasm-opt" command expecting it on PATH, so the workflow installs
-    // the real thing via apt (Ubuntu's own mirrors, nothing to do with nodejs.org).
-    disableBinaryenDownload()
+    disableManagedToolDownloads(rootProject)
+    disableManagedToolDownloads(project)
 }
 
-// Kotlin 2.2 moved Binaryen configuration from a shared root-project extension
-// (org.jetbrains.kotlin.gradle.targets.js.binaryen.BinaryenRootExtension) to a per-project one
-// under a different package (org.jetbrains.kotlin.gradle.targets.wasm.binaryen), so a hardcoded
-// type reference to the old class would pin us to one Kotlin version or the other. Matching by
-// extension name instead (same approach used elsewhere in this account's other KMP projects)
-// works across that rename.
-fun Project.disableBinaryenDownload() {
-    val binaryenExtensionName = extensions.extensionsSchema.elements
+fun disableManagedToolDownloads(target: Project) {
+    target.extensions.extensionsSchema.elements
         .map { it.name }
-        .firstOrNull { it.contains("binaryen", ignoreCase = true) }
-    if (binaryenExtensionName != null) {
-        extensions.getByName(binaryenExtensionName).withGroovyBuilder {
-            setProperty("download", false)
+        .filter { name ->
+            listOf("nodejs", "yarn", "binaryen").any { name.contains(it, ignoreCase = true) }
         }
-    }
+        .forEach { extensionName ->
+            // Some name matches may not actually expose a settable "download" property -
+            // skip those rather than failing the whole build over one mismatch.
+            runCatching {
+                target.extensions.getByName(extensionName).withGroovyBuilder {
+                    setProperty("download", false)
+                }
+            }
+        }
 }
 
 val localProperties = Properties().apply {
