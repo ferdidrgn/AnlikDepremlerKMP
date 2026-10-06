@@ -2,8 +2,7 @@ package com.ferdidrgn.anlikdepremler.data.mapper
 
 import com.ferdi.deprem.model.Earthquake as DomainEarthquake
 import com.ferdidrgn.anlikdepremler.data.remote.dto.*
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
+import kotlin.random.Random
 
 // ==========================================
 // 1. KANDILLI MAPPER
@@ -168,5 +167,4 @@ private fun getRandomCityImage(): String {
     return "https://picsum.photos/400/250?random=${(1..100).random()}"
 }
 
-@OptIn(ExperimentalUuidApi::class)
-private fun randomEarthquakeId(): String = Uuid.random().toString()
+private fun randomEarthquakeId(): String = Random.nextLong().toString()
