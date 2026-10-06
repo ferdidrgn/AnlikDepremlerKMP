@@ -28,9 +28,17 @@ plugins {
 // generation's classes silently stops working (and stops disabling the download) the next time
 // Kotlin reshuffles these packages. Matching extensions by name instead, on both this project and
 // the root project, works across that churn without pinning to any one version's classes.
+//
+// Must run from afterEvaluate: these extensions are only created once the kotlin { wasmJs {} }
+// block further down this same file actually applies the Node.js/Yarn/Binaryen plugins, as a
+// side effect - scanning for them at the top of the script (before that block runs) finds
+// nothing, and download silently stays enabled, hitting the exact nodejs.org 403 this exists to
+// avoid.
 if (System.getenv("CI") == "true") {
-    disableManagedToolDownloads(rootProject)
-    disableManagedToolDownloads(project)
+    project.afterEvaluate {
+        disableManagedToolDownloads(rootProject)
+        disableManagedToolDownloads(project)
+    }
 }
 
 fun disableManagedToolDownloads(target: Project) {
