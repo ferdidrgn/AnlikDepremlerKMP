@@ -125,10 +125,6 @@ kotlin {
 
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
-
-            implementation(libs.androidx.datastore.core)
-            implementation(libs.androidx.datastore.preferences)
-            implementation(libs.okio)
         }
 
         androidMain.dependencies {
@@ -172,10 +168,20 @@ kotlin {
 
             implementation("androidx.glance:glance-appwidget:1.1.1")
             implementation("androidx.work:work-runtime-ktx:2.10.0")
+
+            // androidx.datastore doesn't publish a working wasmJs target (see
+            // core/datastore/KeyValueStore.kt), so these live here and in iosMain.dependencies
+            // instead of commonMain.
+            implementation(libs.androidx.datastore.core)
+            implementation(libs.androidx.datastore.preferences)
+            implementation(libs.okio)
         }
 
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
+            implementation(libs.androidx.datastore.core)
+            implementation(libs.androidx.datastore.preferences)
+            implementation(libs.okio)
         }
 
         wasmJsMain.dependencies {

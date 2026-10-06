@@ -1,7 +1,7 @@
 package com.ferdidrgn.anlikdepremler.di
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
+import com.ferdidrgn.anlikdepremler.core.datastore.DataStoreKeyValueStore
+import com.ferdidrgn.anlikdepremler.core.datastore.KeyValueStore
 import com.ferdidrgn.anlikdepremler.core.datastore.PREFERENCES_DATASTORE_FILE_NAME
 import com.ferdidrgn.anlikdepremler.core.datastore.createDataStore
 import com.ferdidrgn.anlikdepremler.core.data.EarthquakeCommentRepository
@@ -19,10 +19,12 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 
 actual fun platformModule(): Module = module {
-    single<DataStore<Preferences>> {
-        createDataStore {
-            androidContext().filesDir.resolve(PREFERENCES_DATASTORE_FILE_NAME).absolutePath
-        }
+    single<KeyValueStore> {
+        DataStoreKeyValueStore(
+            createDataStore {
+                androidContext().filesDir.resolve(PREFERENCES_DATASTORE_FILE_NAME).absolutePath
+            }
+        )
     }
     single<LocationTracker> { AndroidLocationTracker(androidContext()) }
     single<NetworkMonitor> { AndroidNetworkMonitor(androidContext()) }

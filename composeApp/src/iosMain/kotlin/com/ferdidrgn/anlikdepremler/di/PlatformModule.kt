@@ -1,7 +1,7 @@
 package com.ferdidrgn.anlikdepremler.di
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
+import com.ferdidrgn.anlikdepremler.core.datastore.DataStoreKeyValueStore
+import com.ferdidrgn.anlikdepremler.core.datastore.KeyValueStore
 import com.ferdidrgn.anlikdepremler.core.datastore.PREFERENCES_DATASTORE_FILE_NAME
 import com.ferdidrgn.anlikdepremler.core.datastore.createDataStore
 import com.ferdidrgn.anlikdepremler.core.network.IosNetworkMonitor
@@ -19,17 +19,19 @@ import platform.Foundation.NSUserDomainMask
 
 @OptIn(ExperimentalForeignApi::class)
 actual fun platformModule(): Module = module {
-    single<DataStore<Preferences>> {
-        createDataStore {
-            val documentDirectory = NSFileManager.defaultManager.URLForDirectory(
-                directory = NSDocumentDirectory,
-                inDomain = NSUserDomainMask,
-                appropriateForURL = null,
-                create = true,
-                error = null
-            )
-            requireNotNull(documentDirectory?.path) { "Could not resolve iOS documents directory" } + "/$PREFERENCES_DATASTORE_FILE_NAME"
-        }
+    single<KeyValueStore> {
+        DataStoreKeyValueStore(
+            createDataStore {
+                val documentDirectory = NSFileManager.defaultManager.URLForDirectory(
+                    directory = NSDocumentDirectory,
+                    inDomain = NSUserDomainMask,
+                    appropriateForURL = null,
+                    create = true,
+                    error = null
+                )
+                requireNotNull(documentDirectory?.path) { "Could not resolve iOS documents directory" } + "/$PREFERENCES_DATASTORE_FILE_NAME"
+            }
+        )
     }
     single<LocationTracker> { IosLocationTracker() }
     single<NetworkMonitor> { IosNetworkMonitor() }
