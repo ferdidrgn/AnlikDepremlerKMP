@@ -1,6 +1,7 @@
 package com.ferdidrgn.anlikdepremler.di
 
 import io.ktor.client.HttpClient
+import io.ktor.client.plugins.HttpRequestRetry
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
@@ -32,6 +33,15 @@ val networkModule = module {
             install(HttpTimeout) {
                 requestTimeoutMillis = 15_000
                 connectTimeoutMillis = 15_000
+            }
+            // The very first request right after a cold app start can fail on Android
+            // (UnknownHostException/connect timeout) before the OS has finished bringing the
+            // network up - before this, that one bad request surfaced as a dead-end "no
+            // internet" screen with no automatic recovery. Retries connection-level failures
+            // and 5xx responses up to twice with a short exponential backoff.
+            install(HttpRequestRetry) {
+                retryOnExceptionOrServerErrors(maxRetries = 2)
+                exponentialDelay()
             }
         }
     }
