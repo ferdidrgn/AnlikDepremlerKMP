@@ -93,7 +93,7 @@ kotlin {
 
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
-        moduleName = "composeApp"
+        outputModuleName.set("composeApp")
         browser {
             commonWebpackConfig {
                 outputFileName = "composeApp.js"
@@ -142,7 +142,7 @@ kotlin {
             implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
 
             // Firebase BoM (Doğru ve tam paket adlarıyla)
-            implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
+            implementation(project.dependencies.platform("com.google.firebase:firebase-bom:33.6.0"))
             implementation("com.google.firebase:firebase-firestore-ktx")
             implementation("com.google.firebase:firebase-messaging-ktx")
             implementation("com.google.firebase:firebase-analytics-ktx")
