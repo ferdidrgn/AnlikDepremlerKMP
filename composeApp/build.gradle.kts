@@ -19,9 +19,12 @@ plugins {
 // to download its own managed Node.js runtime there - not something a retry fixes. On CI
 // (actions/setup-node already puts a working "node" on PATH), skip that download and use the
 // pre-installed one instead; local dev machines are untouched since $CI isn't set there.
+// This must target rootProject, not project (this module) - the actual :kotlinNodeJsSetup task
+// that does the downloading is a root-project task shared across the whole build, so configuring
+// composeApp's own NodeJsEnvSpec instance here had no effect on it.
 if (System.getenv("CI") == "true") {
-    project.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin> {
-        project.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec>().download = false
+    rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin> {
+        rootProject.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec>().download = false
     }
 }
 
