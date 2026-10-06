@@ -3,6 +3,7 @@ import java.util.Properties
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.gradle.kotlin.dsl.withGroovyBuilder
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -38,13 +39,20 @@ if (System.getenv("CI") == "true") {
     disableBinaryenDownload()
 }
 
-@Suppress("DEPRECATION")
-@OptIn(ExperimentalWasmDsl::class)
+// Kotlin 2.2 moved Binaryen configuration from a shared root-project extension
+// (org.jetbrains.kotlin.gradle.targets.js.binaryen.BinaryenRootExtension) to a per-project one
+// under a different package (org.jetbrains.kotlin.gradle.targets.wasm.binaryen), so a hardcoded
+// type reference to the old class would pin us to one Kotlin version or the other. Matching by
+// extension name instead (same approach used elsewhere in this account's other KMP projects)
+// works across that rename.
 fun Project.disableBinaryenDownload() {
-    rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.binaryen.BinaryenRootPlugin> {
-        // .downloadProperty is internal; the deprecated public "download" var delegates to it.
-        rootProject.the<org.jetbrains.kotlin.gradle.targets.js.binaryen.BinaryenRootExtension>()
-            .download = false
+    val binaryenExtensionName = extensions.extensionsSchema.elements
+        .map { it.name }
+        .firstOrNull { it.contains("binaryen", ignoreCase = true) }
+    if (binaryenExtensionName != null) {
+        extensions.getByName(binaryenExtensionName).withGroovyBuilder {
+            setProperty("download", false)
+        }
     }
 }
 
