@@ -56,7 +56,7 @@ fun TurkeyAfadEarthquakeDto.toDomain(): DomainEarthquake {
 // ==========================================
 // 3. TURKEY ALL (ORHAN AYDOĞDU) MAPPER
 // ==========================================
-fun TurkeyAllEarthquakeDto.Earthquake.toDomain(): DomainEarthquake {
+fun TurkeyAllEarthquake.toDomain(): DomainEarthquake {
     val magVal = this.mag ?: 0.0
     val dateTimeParts = this.dateTime?.split(" ")
 
@@ -79,7 +79,7 @@ fun TurkeyAllEarthquakeDto.Earthquake.toDomain(): DomainEarthquake {
 // ==========================================
 // 4. WORLD USGS MAPPER
 // ==========================================
-fun WorldUSGSEarthquakeDto.Feature.toDomain(): DomainEarthquake {
+fun UsgsFeature.toDomain(): DomainEarthquake {
     val magVal = this.properties?.mag ?: 0.0
     val coords = this.geometry?.coordinates
 
@@ -122,7 +122,7 @@ fun WorldIGPEarthquakeDto.toDomain(): DomainEarthquake {
     )
 }
 
-fun EmscEarthquakeDto.Feature.toDomain(): DomainEarthquake {
+fun EmscFeature.toDomain(): DomainEarthquake {
     val magVal = this.properties?.mag ?: 0.0
     val coords = this.geometry?.coordinates
     val timeParts = this.properties?.time?.split("T")
