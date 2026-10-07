@@ -52,3 +52,22 @@ jobs:
           curl -sS -D - -o /dev/null \
             -H "Origin: https://anlikdeprem.web.app" \
             "https://api.orhanaydogdu.com.tr/deprem/" || true
+
+      - name: orhanaydogdu - inspect distinct provider values
+        run: |
+          curl -sS "https://api.orhanaydogdu.com.tr/deprem/" -o /tmp/all.json
+          python3 -c "
+import json
+data = json.load(open('/tmp/all.json'))
+items = data.get('result', [])
+providers = {}
+for it in items:
+    p = it.get('provider')
+    providers[p] = providers.get(p, 0) + 1
+print('Total items:', len(items))
+print('Distinct providers:', providers)
+print()
+print('Sample item (first):')
+print(json.dumps(items[0], indent=2, ensure_ascii=False)[:1500])
+"
+
