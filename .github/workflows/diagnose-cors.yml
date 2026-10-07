@@ -1,0 +1,54 @@
+name: Diagnose Earthquake API CORS Headers
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Kandilli mirror (mertsenturk.net) - with Origin header
+        run: |
+          echo "--- GET, no Origin ---"
+          curl -sS -D - -o /dev/null "https://www.mertsenturk.net/deprem/api/limit/5" || true
+          echo "--- OPTIONS preflight, Origin: https://anlikdeprem.web.app ---"
+          curl -sS -D - -o /dev/null -X OPTIONS \
+            -H "Origin: https://anlikdeprem.web.app" \
+            -H "Access-Control-Request-Method: GET" \
+            "https://www.mertsenturk.net/deprem/api/limit/5" || true
+          echo "--- GET with Origin header ---"
+          curl -sS -D - -o /dev/null \
+            -H "Origin: https://anlikdeprem.web.app" \
+            "https://www.mertsenturk.net/deprem/api/limit/5" || true
+
+      - name: AFAD official API - with Origin header
+        run: |
+          echo "--- GET, no Origin ---"
+          curl -sS -D - -o /dev/null "https://deprem.afad.gov.tr/apiv2/event/filter?start=2026-10-01&end=2026-10-07&orderby=timedesc&minmag=2&limit=5" || true
+          echo "--- OPTIONS preflight, Origin: https://anlikdeprem.web.app ---"
+          curl -sS -D - -o /dev/null -X OPTIONS \
+            -H "Origin: https://anlikdeprem.web.app" \
+            -H "Access-Control-Request-Method: GET" \
+            "https://deprem.afad.gov.tr/apiv2/event/filter?start=2026-10-01&end=2026-10-07&orderby=timedesc&minmag=2&limit=5" || true
+          echo "--- GET with Origin header ---"
+          curl -sS -D - -o /dev/null \
+            -H "Origin: https://anlikdeprem.web.app" \
+            "https://deprem.afad.gov.tr/apiv2/event/filter?start=2026-10-01&end=2026-10-07&orderby=timedesc&minmag=2&limit=5" || true
+
+      - name: USGS (control - known to work cross-platform)
+        run: |
+          curl -sS -D - -o /dev/null \
+            -H "Origin: https://anlikdeprem.web.app" \
+            "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson" || true
+
+      - name: EMSC (control)
+        run: |
+          curl -sS -D - -o /dev/null \
+            -H "Origin: https://anlikdeprem.web.app" \
+            "https://www.seismicportal.eu/fdsnws/event/1/query?limit=5&format=json" || true
+
+      - name: orhanaydogdu TURKEY_ALL mirror (control)
+        run: |
+          curl -sS -D - -o /dev/null \
+            -H "Origin: https://anlikdeprem.web.app" \
+            "https://api.orhanaydogdu.com.tr/deprem/" || true
