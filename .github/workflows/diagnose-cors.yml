@@ -53,9 +53,9 @@ jobs:
             -H "Origin: https://anlikdeprem.web.app" \
             "https://api.orhanaydogdu.com.tr/deprem/" || true
 
-      - name: picsum.photos (city image placeholder service) - CORS check
+      - name: picsum.photos (city image placeholder service) - CORS check, following redirect
         run: |
-          curl -sS -D - -o /dev/null \
+          curl -sS -L -D - -o /dev/null \
             -H "Origin: https://anlikdeprem.web.app" \
             "https://picsum.photos/400/250?random=1" || true
 
