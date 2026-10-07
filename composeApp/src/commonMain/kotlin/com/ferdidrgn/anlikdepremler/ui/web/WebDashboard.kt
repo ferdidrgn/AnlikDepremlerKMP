@@ -16,10 +16,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.ferdi.deprem.model.Earthquake
 import com.ferdidrgn.anlikdepremler.resources.Res
 import com.ferdidrgn.anlikdepremler.resources.chart_magnitude_title
 import com.ferdidrgn.anlikdepremler.resources.filter_1h
@@ -66,6 +70,11 @@ fun WebDashboard(mainViewModel: MainViewModel) {
 
 @Composable
 private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel) {
+    var minMagnitude by remember { mutableDoubleStateOf(0.0) }
+    val filteredEarthquakes = remember(uiState.earthquakes, minMagnitude) {
+        uiState.earthquakes.filter { it.magnitude >= minMagnitude }
+    }
+
     Row(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
@@ -115,15 +124,27 @@ private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel) {
             WebStatsGrid(uiState)
 
             Spacer(modifier = Modifier.height(24.dp))
+            Text(
+                "KEŞFET: DEPREM HARİTASI",
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            EarthquakeMapCanvas(filteredEarthquakes)
+
+            Spacer(modifier = Modifier.height(20.dp))
             WebTimeFilterRow(
                 selected = uiState.selectedTimeFilter,
                 labels = timeFilterLabels(),
                 onSelected = viewModel::onTimeFilterSelected
             )
+            Spacer(modifier = Modifier.height(10.dp))
+            WebMagnitudeFilterRow(selected = minMagnitude, onSelected = { minMagnitude = it })
 
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                stringResource(Res.string.recent_earthquakes_title, uiState.earthquakes.size),
+                stringResource(Res.string.recent_earthquakes_title, filteredEarthquakes.size),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -136,7 +157,7 @@ private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel) {
             ) {
                 Column(modifier = Modifier.fillMaxSize()) {
                     WebEarthquakeTableHeader()
-                    EarthquakeTableBody(uiState)
+                    EarthquakeTableBody(uiState, filteredEarthquakes)
                 }
             }
         }
@@ -145,6 +166,11 @@ private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel) {
 
 @Composable
 private fun MobileWebDashboard(uiState: HomeUiState, viewModel: MainViewModel) {
+    var minMagnitude by remember { mutableDoubleStateOf(0.0) }
+    val filteredEarthquakes = remember(uiState.earthquakes, minMagnitude) {
+        uiState.earthquakes.filter { it.magnitude >= minMagnitude }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -165,15 +191,27 @@ private fun MobileWebDashboard(uiState: HomeUiState, viewModel: MainViewModel) {
         WebStatsGrid(uiState)
         Spacer(modifier = Modifier.height(20.dp))
 
+        Text(
+            "KEŞFET: DEPREM HARİTASI",
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.primary,
+            fontWeight = FontWeight.Bold
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        EarthquakeMapCanvas(filteredEarthquakes)
+        Spacer(modifier = Modifier.height(16.dp))
+
         WebTimeFilterRow(
             selected = uiState.selectedTimeFilter,
             labels = timeFilterLabels(),
             onSelected = viewModel::onTimeFilterSelected
         )
+        Spacer(modifier = Modifier.height(10.dp))
+        WebMagnitudeFilterRow(selected = minMagnitude, onSelected = { minMagnitude = it })
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            stringResource(Res.string.recent_earthquakes_title, uiState.earthquakes.size),
+            stringResource(Res.string.recent_earthquakes_title, filteredEarthquakes.size),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold
         )
@@ -181,9 +219,11 @@ private fun MobileWebDashboard(uiState: HomeUiState, viewModel: MainViewModel) {
 
         if (uiState.isLoading && uiState.earthquakes.isEmpty()) {
             LoadingState()
+        } else if (filteredEarthquakes.isEmpty()) {
+            EmptyState()
         } else {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                uiState.earthquakes.forEachIndexed { index, eq ->
+                filteredEarthquakes.forEachIndexed { index, eq ->
                     StaggeredEntrance(index = index) {
                         WebEarthquakeCardCompact(earthquake = eq, onClick = {})
                     }
@@ -213,12 +253,12 @@ private fun WebStatsGrid(uiState: HomeUiState) {
 }
 
 @Composable
-private fun EarthquakeTableBody(uiState: HomeUiState) {
+private fun EarthquakeTableBody(uiState: HomeUiState, filteredEarthquakes: List<Earthquake>) {
     when {
         uiState.isLoading && uiState.earthquakes.isEmpty() -> LoadingState()
-        uiState.earthquakes.isEmpty() -> EmptyState()
+        filteredEarthquakes.isEmpty() -> EmptyState()
         else -> LazyColumn(modifier = Modifier.fillMaxSize()) {
-            itemsIndexed(uiState.earthquakes, key = { _, eq -> eq.id }) { index, eq ->
+            itemsIndexed(filteredEarthquakes, key = { _, eq -> eq.id }) { index, eq ->
                 StaggeredEntrance(index = index) {
                     Column {
                         WebEarthquakeRow(earthquake = eq, onClick = {})

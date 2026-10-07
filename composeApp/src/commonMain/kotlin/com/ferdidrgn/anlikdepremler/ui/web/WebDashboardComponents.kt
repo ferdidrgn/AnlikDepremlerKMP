@@ -170,6 +170,33 @@ fun WebTimeFilterRow(selected: String, labels: Map<String, String>, onSelected: 
     }
 }
 
+/** Magnitude floor chips (kept purely in the web Compose layer, filtering the already-fetched
+ *  list client-side) - the shared MainViewModel/HomeUiState only has a time filter today, and
+ *  giving it a magnitude one too would mean touching Android's screens as well. */
+@Composable
+fun WebMagnitudeFilterRow(selected: Double, onSelected: (Double) -> Unit) {
+    val options = listOf(0.0 to "Tümü", 2.0 to "2+", 3.0 to "3+", 4.0 to "4+", 5.0 to "5+")
+    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        options.forEach { (value, label) ->
+            val isSelected = value == selected
+            val accent = if (value == 0.0) MaterialTheme.colorScheme.primary else magnitudeHeatColor(value)
+            Surface(
+                onClick = { onSelected(value) },
+                shape = RoundedCornerShape(20.dp),
+                color = if (isSelected) accent else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f),
+                contentColor = if (isSelected) Color.White else MaterialTheme.colorScheme.onSurfaceVariant
+            ) {
+                Text(
+                    label,
+                    modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp),
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
+                )
+            }
+        }
+    }
+}
+
 @Composable
 fun WebEarthquakeTableHeader() {
     Row(
