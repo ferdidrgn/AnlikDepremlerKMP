@@ -56,18 +56,9 @@ jobs:
       - name: orhanaydogdu - inspect distinct provider values
         run: |
           curl -sS "https://api.orhanaydogdu.com.tr/deprem/" -o /tmp/all.json
-          python3 -c "
-import json
-data = json.load(open('/tmp/all.json'))
-items = data.get('result', [])
-providers = {}
-for it in items:
-    p = it.get('provider')
-    providers[p] = providers.get(p, 0) + 1
-print('Total items:', len(items))
-print('Distinct providers:', providers)
-print()
-print('Sample item (first):')
-print(json.dumps(items[0], indent=2, ensure_ascii=False)[:1500])
-"
+          echo "Total items: $(jq '.result | length' /tmp/all.json)"
+          echo "Distinct providers (count):"
+          jq -r '.result[].provider' /tmp/all.json | sort | uniq -c
+          echo "Sample item (first):"
+          jq '.result[0]' /tmp/all.json
 
