@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ferdi.deprem.model.Earthquake
 import com.ferdidrgn.anlikdepremler.data.remote.EarthquakeSource
+import com.ferdidrgn.anlikdepremler.ui.components.RemoteImage
 import com.ferdidrgn.anlikdepremler.ui.theme.magnitudeHeatColor
 import com.ferdidrgn.anlikdepremler.ui.theme.magnitudeRangeMidpoint
 
@@ -252,13 +253,26 @@ fun WebEarthquakeRow(earthquake: Earthquake, onClick: () -> Unit) {
                 fontSize = 12.sp
             )
         }
-        Text(
-            earthquake.location,
+        Row(
             modifier = Modifier.weight(1f).padding(end = 8.dp),
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.bodyMedium
-        )
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            RemoteImage(
+                url = earthquake.cityImageUrl,
+                contentDescription = earthquake.location,
+                modifier = Modifier.size(28.dp).clip(RoundedCornerShape(6.dp)),
+                placeholder = {
+                    Box(modifier = Modifier.fillMaxSize().background(magnitudeColor.copy(alpha = 0.12f)))
+                }
+            )
+            Spacer(modifier = Modifier.width(10.dp))
+            Text(
+                earthquake.location,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
         Text(
             earthquake.region,
             modifier = Modifier.width(140.dp),
@@ -326,6 +340,20 @@ fun WebEarthquakeCardCompact(earthquake: Earthquake, onClick: () -> Unit) {
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Row(modifier = Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
+            RemoteImage(
+                url = earthquake.cityImageUrl,
+                contentDescription = earthquake.location,
+                modifier = Modifier.size(56.dp).clip(RoundedCornerShape(10.dp)),
+                placeholder = {
+                    Box(
+                        modifier = Modifier.fillMaxSize().background(magnitudeColor.copy(alpha = 0.15f)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(formatDecimal(earthquake.magnitude), color = magnitudeColor, fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                    }
+                }
+            )
+            Spacer(modifier = Modifier.width(12.dp))
             Surface(shape = RoundedCornerShape(8.dp), color = magnitudeColor.copy(alpha = 0.15f)) {
                 Text(
                     text = "${formatDecimal(earthquake.magnitude)} Mw",

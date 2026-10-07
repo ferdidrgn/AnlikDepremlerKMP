@@ -128,6 +128,7 @@ kotlin {
             implementation(libs.ktor.client.logging)
 
             implementation(libs.koin.core)
+            implementation(libs.koin.compose)
 
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
