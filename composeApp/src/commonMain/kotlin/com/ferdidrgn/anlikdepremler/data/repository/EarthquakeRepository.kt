@@ -4,9 +4,8 @@ import com.ferdi.deprem.model.Earthquake
 import com.ferdidrgn.anlikdepremler.data.mapper.toDomain
 import com.ferdidrgn.anlikdepremler.data.remote.EarthquakeSource
 import com.ferdidrgn.anlikdepremler.data.remote.dto.EmscEarthquakeDto
-import com.ferdidrgn.anlikdepremler.data.remote.dto.TurkeyAfadEarthquakeDto
+import com.ferdidrgn.anlikdepremler.data.remote.dto.TurkeyAllEarthquake
 import com.ferdidrgn.anlikdepremler.data.remote.dto.TurkeyAllEarthquakeDto
-import com.ferdidrgn.anlikdepremler.data.remote.dto.TurkeyKandilliEarthquakeDto
 import com.ferdidrgn.anlikdepremler.data.remote.dto.WorldIGPEarthquakeDto
 import com.ferdidrgn.anlikdepremler.data.remote.dto.WorldUSGSEarthquakeDto
 import io.ktor.client.HttpClient
@@ -15,11 +14,6 @@ import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.datetime.Clock
-import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.minus
-import kotlinx.datetime.todayIn
 
 class EarthquakeRepository(
     private val httpClient: HttpClient
@@ -29,29 +23,29 @@ class EarthquakeRepository(
         flow {
             try {
                 val list = when (source) {
+                    // Kandilli's own site (and the mertsenturk.net mirror this used to call) sits
+                    // behind a Cloudflare bot challenge and sends no Access-Control-Allow-Origin,
+                    // so browsers block it outright - confirmed via a direct header check, not a
+                    // guess. AFAD's official API 302-redirects every request (including the CORS
+                    // preflight) to servisnet.afad.gov.tr without ever answering the preflight
+                    // itself, which browsers also treat as a hard CORS failure. Both worked on
+                    // Android/iOS only because native HTTP clients don't enforce CORS at all -
+                    // the underlying endpoints were never actually reliable.
+                    //
+                    // api.orhanaydogdu.com.tr aggregates both (confirmed: its "provider" field is
+                    // "kandilli" or "afad") and sends Access-Control-Allow-Origin: *, so this
+                    // fetches from there instead and filters by provider - same data, works on
+                    // every platform.
                     EarthquakeSource.KANDILLI -> {
-                        httpClient.get("https://www.mertsenturk.net/deprem/api/limit/800")
-                            .body<List<TurkeyKandilliEarthquakeDto>>()
-                            .map { it.toDomain() }
+                        fetchOrhanAydogdu().filter { it.provider == "kandilli" }.map { it.toDomain() }
                     }
 
                     EarthquakeSource.AFAD -> {
-                        val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
-                        val fourDaysAgo = today.minus(4, DateTimeUnit.DAY)
-
-                        httpClient.get("https://deprem.afad.gov.tr/apiv2/event/filter") {
-                            parameter("start", fourDaysAgo.toString())
-                            parameter("end", today.toString())
-                            parameter("orderby", "timedesc")
-                            parameter("minmag", 2)
-                            parameter("limit", 100)
-                        }.body<List<TurkeyAfadEarthquakeDto>>().map { it.toDomain() }
+                        fetchOrhanAydogdu().filter { it.provider == "afad" }.map { it.toDomain() }
                     }
 
                     EarthquakeSource.TURKEY_ALL -> {
-                        httpClient.get("https://api.orhanaydogdu.com.tr/deprem/")
-                            .body<TurkeyAllEarthquakeDto>()
-                            .result.orEmpty().map { it.toDomain() }
+                        fetchOrhanAydogdu().map { it.toDomain() }
                     }
 
                     EarthquakeSource.USGS -> {
@@ -80,4 +74,9 @@ class EarthquakeRepository(
                 throw e
             }
         }
+
+    private suspend fun fetchOrhanAydogdu(): List<TurkeyAllEarthquake> =
+        httpClient.get("https://api.orhanaydogdu.com.tr/deprem/")
+            .body<TurkeyAllEarthquakeDto>()
+            .result.orEmpty()
 }

@@ -5,54 +5,6 @@ import com.ferdidrgn.anlikdepremler.data.remote.dto.*
 import kotlin.random.Random
 
 // ==========================================
-// 1. KANDILLI MAPPER
-// ==========================================
-fun TurkeyKandilliEarthquakeDto.toDomain(): DomainEarthquake {
-    val magnitudeValue = this.ml?.toDoubleOrNull()
-        ?: this.mw?.toDoubleOrNull()
-        ?: this.md?.toDoubleOrNull()
-        ?: 0.0
-
-    return DomainEarthquake(
-        id = randomEarthquakeId(),
-        location = this.location ?: "Bilinmeyen Konum",
-        region = extractRegion(this.location),
-        magnitude = magnitudeValue,
-        depth = this.depth?.toDoubleOrNull() ?: 0.0,
-        date = this.date ?: "",
-        time = this.time ?: "",
-        latitude = this.latitude?.toDoubleOrNull() ?: 0.0,
-        longitude = this.longitude?.toDoubleOrNull() ?: 0.0,
-        cityImageUrl = getRandomCityImage(),
-        isSignificant = magnitudeValue >= 4.5,
-        intensity = calculateIntensity(magnitudeValue)
-    )
-}
-
-// ==========================================
-// 2. AFAD MAPPER
-// ==========================================
-fun TurkeyAfadEarthquakeDto.toDomain(): DomainEarthquake {
-    val magVal = this.magnitude?.toDoubleOrNull() ?: 0.0
-    val dateParts = this.date?.split("T")
-
-    return DomainEarthquake(
-        id = this.eventID ?: randomEarthquakeId(),
-        location = this.location ?: "Bilinmeyen Konum",
-        region = this.district ?: this.province ?: "Türkiye",
-        magnitude = magVal,
-        depth = this.depth?.toDoubleOrNull() ?: 0.0,
-        date = dateParts?.getOrNull(0) ?: "",
-        time = dateParts?.getOrNull(1)?.take(5) ?: "",
-        latitude = this.latitude?.toDoubleOrNull() ?: 0.0,
-        longitude = this.longitude?.toDoubleOrNull() ?: 0.0,
-        cityImageUrl = getRandomCityImage(),
-        isSignificant = magVal >= 4.5,
-        intensity = calculateIntensity(magVal)
-    )
-}
-
-// ==========================================
 // 3. TURKEY ALL (ORHAN AYDOĞDU) MAPPER
 // ==========================================
 fun TurkeyAllEarthquake.toDomain(): DomainEarthquake {
@@ -146,13 +98,6 @@ fun EmscFeature.toDomain(): DomainEarthquake {
 // ==========================================
 // YARDIMCI METOTLAR
 // ==========================================
-private fun extractRegion(location: String?): String {
-    if (location.isNullOrEmpty()) return "Türkiye"
-    return if (location.contains("("))
-        location.substringAfter("(").substringBefore(")").trim()
-    else location.split(" ").lastOrNull() ?: "Türkiye"
-}
-
 private fun calculateIntensity(magnitude: Double): String {
     return when {
         magnitude >= 7.0 -> "X+"
