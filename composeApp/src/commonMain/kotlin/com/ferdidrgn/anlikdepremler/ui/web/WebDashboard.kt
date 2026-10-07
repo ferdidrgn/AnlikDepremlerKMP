@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -56,20 +57,25 @@ private val DESKTOP_BREAKPOINT = 900.dp
 @Composable
 fun WebDashboard(mainViewModel: MainViewModel) {
     val uiState by mainViewModel.uiState.collectAsState()
+    var selectedEarthquake by remember { mutableStateOf<Earthquake?>(null) }
 
     BoxWithConstraints(
         modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)
     ) {
         if (maxWidth >= DESKTOP_BREAKPOINT) {
-            DesktopDashboard(uiState, mainViewModel)
+            DesktopDashboard(uiState, mainViewModel, onEarthquakeClick = { selectedEarthquake = it })
         } else {
-            MobileWebDashboard(uiState, mainViewModel)
+            MobileWebDashboard(uiState, mainViewModel, onEarthquakeClick = { selectedEarthquake = it })
         }
+    }
+
+    selectedEarthquake?.let { eq ->
+        WebEarthquakeDetailDialog(earthquake = eq, onDismiss = { selectedEarthquake = null })
     }
 }
 
 @Composable
-private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel) {
+private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel, onEarthquakeClick: (Earthquake) -> Unit) {
     var minMagnitude by remember { mutableDoubleStateOf(0.0) }
     val filteredEarthquakes = remember(uiState.earthquakes, minMagnitude) {
         uiState.earthquakes.filter { it.magnitude >= minMagnitude }
@@ -84,7 +90,14 @@ private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel) {
                 .verticalScroll(rememberScrollState())
                 .padding(20.dp)
         ) {
-            WebBrandHeader(stringResource(Res.string.header_title))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                WebBrandHeader(stringResource(Res.string.header_title))
+                WebThemeToggle(current = uiState.currentTheme, onSelected = viewModel::onThemeChanged)
+            }
             Spacer(modifier = Modifier.height(16.dp))
             SeismicWaveform(
                 modifier = Modifier.fillMaxWidth().height(32.dp),
@@ -119,6 +132,11 @@ private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel) {
         Column(modifier = Modifier.weight(1f).fillMaxHeight().padding(28.dp)) {
             Text(stringResource(Res.string.header_subtitle), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Text(stringResource(Res.string.header_title), style = MaterialTheme.typography.displayMedium, fontWeight = FontWeight.Bold)
+
+            uiState.errorMessage?.let { message ->
+                Spacer(modifier = Modifier.height(16.dp))
+                WebErrorBanner(message = message, onRetry = viewModel::loadEarthquakes)
+            }
 
             Spacer(modifier = Modifier.height(20.dp))
             WebStatsGrid(uiState)
@@ -157,7 +175,7 @@ private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel) {
             ) {
                 Column(modifier = Modifier.fillMaxSize()) {
                     WebEarthquakeTableHeader()
-                    EarthquakeTableBody(uiState, filteredEarthquakes)
+                    EarthquakeTableBody(uiState, filteredEarthquakes, onEarthquakeClick)
                 }
             }
         }
@@ -165,7 +183,7 @@ private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel) {
 }
 
 @Composable
-private fun MobileWebDashboard(uiState: HomeUiState, viewModel: MainViewModel) {
+private fun MobileWebDashboard(uiState: HomeUiState, viewModel: MainViewModel, onEarthquakeClick: (Earthquake) -> Unit) {
     var minMagnitude by remember { mutableDoubleStateOf(0.0) }
     val filteredEarthquakes = remember(uiState.earthquakes, minMagnitude) {
         uiState.earthquakes.filter { it.magnitude >= minMagnitude }
@@ -177,8 +195,21 @@ private fun MobileWebDashboard(uiState: HomeUiState, viewModel: MainViewModel) {
             .verticalScroll(rememberScrollState())
             .padding(20.dp)
     ) {
-        WebBrandHeader(stringResource(Res.string.header_title))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            WebBrandHeader(stringResource(Res.string.header_title))
+            WebThemeToggle(current = uiState.currentTheme, onSelected = viewModel::onThemeChanged)
+        }
         Spacer(modifier = Modifier.height(12.dp))
+
+        uiState.errorMessage?.let { message ->
+            WebErrorBanner(message = message, onRetry = viewModel::loadEarthquakes)
+            Spacer(modifier = Modifier.height(12.dp))
+        }
+
         SeismicWaveform(
             modifier = Modifier.fillMaxWidth().height(28.dp),
             color = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
@@ -225,7 +256,7 @@ private fun MobileWebDashboard(uiState: HomeUiState, viewModel: MainViewModel) {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 filteredEarthquakes.forEachIndexed { index, eq ->
                     StaggeredEntrance(index = index) {
-                        WebEarthquakeCardCompact(earthquake = eq, onClick = {})
+                        WebEarthquakeCardCompact(earthquake = eq, onClick = { onEarthquakeClick(eq) })
                     }
                 }
             }
@@ -253,7 +284,11 @@ private fun WebStatsGrid(uiState: HomeUiState) {
 }
 
 @Composable
-private fun EarthquakeTableBody(uiState: HomeUiState, filteredEarthquakes: List<Earthquake>) {
+private fun EarthquakeTableBody(
+    uiState: HomeUiState,
+    filteredEarthquakes: List<Earthquake>,
+    onEarthquakeClick: (Earthquake) -> Unit
+) {
     when {
         uiState.isLoading && uiState.earthquakes.isEmpty() -> LoadingState()
         filteredEarthquakes.isEmpty() -> EmptyState()
@@ -261,7 +296,7 @@ private fun EarthquakeTableBody(uiState: HomeUiState, filteredEarthquakes: List<
             itemsIndexed(filteredEarthquakes, key = { _, eq -> eq.id }) { index, eq ->
                 StaggeredEntrance(index = index) {
                     Column {
-                        WebEarthquakeRow(earthquake = eq, onClick = {})
+                        WebEarthquakeRow(earthquake = eq, onClick = { onEarthquakeClick(eq) })
                         HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.2f))
                     }
                 }

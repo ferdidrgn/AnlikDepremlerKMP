@@ -12,6 +12,10 @@ import androidx.compose.foundation.hoverable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.LightMode
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.SettingsBrightness
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -20,6 +24,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -39,8 +44,78 @@ import androidx.compose.ui.unit.sp
 import com.ferdi.deprem.model.Earthquake
 import com.ferdidrgn.anlikdepremler.data.remote.EarthquakeSource
 import com.ferdidrgn.anlikdepremler.ui.components.RemoteImage
+import com.ferdidrgn.anlikdepremler.ui.theme.AppThemeMode
 import com.ferdidrgn.anlikdepremler.ui.theme.magnitudeHeatColor
 import com.ferdidrgn.anlikdepremler.ui.theme.magnitudeRangeMidpoint
+
+/**
+ * EarthquakeRepository stopped swallowing fetch/parse failures into a silent empty list (see
+ * its own comment), but MainViewModel.uiState.errorMessage was never actually rendered anywhere
+ * on web - a failed request just looked like the data was stuck, with zero explanation. Android
+ * has ErrorRetryBanner for exactly this; this is its web equivalent.
+ */
+@Composable
+fun WebErrorBanner(message: String, onRetry: () -> Unit, modifier: Modifier = Modifier) {
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(14.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.weight(1f)) {
+                Icon(
+                    imageVector = Icons.Default.Warning,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onErrorContainer
+                )
+                Text(
+                    text = message,
+                    color = MaterialTheme.colorScheme.onErrorContainer,
+                    style = MaterialTheme.typography.labelMedium,
+                    modifier = Modifier.padding(start = 10.dp)
+                )
+            }
+            TextButton(onClick = onRetry) {
+                Icon(Icons.Default.Refresh, contentDescription = null, tint = MaterialTheme.colorScheme.onErrorContainer)
+                Spacer(modifier = Modifier.width(4.dp))
+                Text("Tekrar Dene", color = MaterialTheme.colorScheme.onErrorContainer)
+            }
+        }
+    }
+}
+
+/** currentTheme/onThemeChanged already exist on MainViewModel/HomeUiState (Android has a full
+ *  theme picker in SettingsScreen) - web just never exposed a way to use it. A compact 3-way
+ *  icon toggle in the header is enough; a full settings screen is a bigger, separate piece. */
+@Composable
+fun WebThemeToggle(current: AppThemeMode, onSelected: (AppThemeMode) -> Unit) {
+    Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+        val options = listOf(
+            AppThemeMode.CREAM_LIGHT to Icons.Default.LightMode,
+            AppThemeMode.SYSTEM_DYNAMIC to Icons.Default.SettingsBrightness,
+            AppThemeMode.DARK_NIGHT to Icons.Default.DarkMode
+        )
+        options.forEach { (mode, icon) ->
+            val isSelected = mode == current
+            Surface(
+                onClick = { onSelected(mode) },
+                shape = RoundedCornerShape(10.dp),
+                color = if (isSelected) MaterialTheme.colorScheme.primaryContainer else Color.Transparent
+            ) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = mode.name,
+                    modifier = Modifier.padding(8.dp).size(18.dp),
+                    tint = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
+    }
+}
 
 @Composable
 fun WebBrandHeader(appName: String) {
