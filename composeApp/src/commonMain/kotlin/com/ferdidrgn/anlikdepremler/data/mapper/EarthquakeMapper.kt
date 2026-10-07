@@ -17,7 +17,11 @@ fun TurkeyAllEarthquake.toDomain(): DomainEarthquake {
         region = this.locationProperties?.closestCity?.name ?: "Türkiye",
         magnitude = magVal,
         depth = this.depth ?: 0.0,
-        date = this.date ?: "",
+        // The orhanaydogdu API's live feed response has no top-level "date" field at all (only
+        // "date_time", e.g. "2026-10-07 15:47:40") - this.date was always null in practice,
+        // showing a blank date on every card for every source that goes through this mapper
+        // (Kandilli/AFAD/Türkiye Karışık). Falling back to date_time's date part fixes it.
+        date = this.date ?: dateTimeParts?.getOrNull(0) ?: "",
         time = dateTimeParts?.getOrNull(1) ?: "",
         latitude = this.geojson?.coordinates?.getOrNull(1) ?: 0.0,
         longitude = this.geojson?.coordinates?.getOrNull(0) ?: 0.0,
