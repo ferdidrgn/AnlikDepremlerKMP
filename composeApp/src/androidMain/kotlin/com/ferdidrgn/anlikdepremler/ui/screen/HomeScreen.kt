@@ -111,12 +111,6 @@ fun HomeScreen(
             )
         }
 
-        BannerAdView(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-        )
-
         Spacer(modifier = Modifier.height(12.dp))
 
         if (uiState.isLoading || uiState.isRefreshing)

@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ferdi.deprem.model.Earthquake
 import com.ferdidrgn.anlikdepremler.R
-import com.ferdidrgn.anlikdepremler.core.ads.BannerAdView
 import com.ferdidrgn.anlikdepremler.core.ui.animation.AppAnimations
 import com.ferdidrgn.anlikdepremler.ui.theme.magnitudeHeatColor
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -185,11 +184,6 @@ fun MapScreen(
                     }
                 }
             }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // 🎯 HARİTA ÜST REKLAM BANTI
-            BannerAdView(modifier = Modifier.fillMaxWidth())
         }
 
         // 3. ALT DEPREM KARTLARI CAROUSEL LİSTESİ

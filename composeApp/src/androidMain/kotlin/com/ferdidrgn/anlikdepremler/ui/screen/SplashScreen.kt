@@ -19,7 +19,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ferdidrgn.anlikdepremler.R
-import com.ferdidrgn.anlikdepremler.core.ads.BannerAdView
 import com.ferdidrgn.anlikdepremler.core.util.getAppVersionName
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.milliseconds
@@ -143,11 +142,13 @@ fun SplashScreen(onSplashFinished: () -> Unit) {
             Spacer(modifier = Modifier.weight(1f))
         }
 
-        // 2. EN ALT YÜKLENİYOR + DİNAMİK VERSİYON + REKLAM ALANI
+        // 2. EN ALT YÜKLENİYOR + DİNAMİK VERSİYON
         Column(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .navigationBarsPadding()
+                .padding(bottom = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             CircularProgressIndicator(
@@ -163,13 +164,6 @@ fun SplashScreen(onSplashFinished: () -> Unit) {
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Medium,
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            // 🎯 EN ALT BANNER REKLAMI
-            BannerAdView(
-                modifier = Modifier.fillMaxWidth()
             )
         }
     }

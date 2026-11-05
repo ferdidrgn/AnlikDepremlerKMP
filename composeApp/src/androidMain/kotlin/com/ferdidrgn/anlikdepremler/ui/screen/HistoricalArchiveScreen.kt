@@ -77,9 +77,6 @@ fun HistoricalArchiveScreen(
                 .background(MaterialTheme.colorScheme.background)
                 .padding(innerPadding)
         ) {
-            // 1. ÜST BANNER REKLAM
-            BannerAdView(modifier = Modifier.fillMaxWidth())
-
             Spacer(modifier = Modifier.height(8.dp))
 
             // 2. TÜRKİYE / DÜNYA SEKMELERİ (TAB)

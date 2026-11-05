@@ -39,7 +39,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ferdidrgn.anlikdepremler.R
-import com.ferdidrgn.anlikdepremler.core.ads.BannerAdView
 import com.ferdidrgn.anlikdepremler.core.ads.RewardedAdManager
 import com.ferdidrgn.anlikdepremler.core.billing.launchCoffeeDonationFlow
 import com.ferdidrgn.anlikdepremler.core.billing.launchRemoveAdsPurchaseFlow
@@ -291,10 +290,6 @@ fun SettingsScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        BannerAdView(modifier = Modifier.fillMaxWidth())
-
-        Spacer(modifier = Modifier.height(16.dp))
-
         // 3. DESTEK VE İLETİŞİM
         AppAnimations.StaggeredEntrance(index = 2) {
             Column {
@@ -420,10 +415,6 @@ fun SettingsScreen(
         Spacer(modifier = Modifier.height(20.dp))
 
         NativeAdCard()
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        BannerAdView(modifier = Modifier.fillMaxWidth())
     }
 
     // 🎯 ACİL DURUM TELEFON NUMARASI AYARLAMA DİYALOĞU
@@ -550,8 +541,6 @@ fun SettingsScreen(
                             }
                         }
                     }
-                    Spacer(modifier = Modifier.height(12.dp))
-                    BannerAdView(modifier = Modifier.fillMaxWidth())
                 }
             },
             confirmButton = {},
