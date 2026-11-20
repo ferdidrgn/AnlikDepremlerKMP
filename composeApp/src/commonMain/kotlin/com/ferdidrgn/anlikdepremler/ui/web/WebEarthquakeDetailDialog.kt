@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -39,7 +40,7 @@ import com.ferdidrgn.anlikdepremler.ui.theme.magnitudeHeatColor
  * project) - this is a read-only detail view, the piece that's purely a client-side gap.
  */
 @Composable
-fun WebEarthquakeDetailDialog(earthquake: Earthquake, onDismiss: () -> Unit) {
+fun WebEarthquakeDetailDialog(earthquake: Earthquake, onShare: () -> Unit = {}, onDismiss: () -> Unit) {
     val magnitudeColor = magnitudeHeatColor(earthquake.magnitude)
 
     Dialog(onDismissRequest = onDismiss) {
@@ -65,6 +66,14 @@ fun WebEarthquakeDetailDialog(earthquake: Earthquake, onDismiss: () -> Unit) {
                     ) {
                         Surface(shape = RoundedCornerShape(50), color = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f)) {
                             Icon(Icons.Default.Close, contentDescription = "Kapat", modifier = Modifier.padding(6.dp))
+                        }
+                    }
+                    IconButton(
+                        onClick = onShare,
+                        modifier = Modifier.align(Alignment.TopEnd).padding(8.dp)
+                    ) {
+                        Surface(shape = RoundedCornerShape(50), color = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f)) {
+                            Icon(Icons.Default.Share, contentDescription = "Deprem bağlantısını paylaş", modifier = Modifier.padding(6.dp))
                         }
                     }
                 }

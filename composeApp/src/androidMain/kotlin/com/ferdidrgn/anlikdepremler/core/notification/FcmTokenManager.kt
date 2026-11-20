@@ -1,14 +1,12 @@
 package com.ferdidrgn.anlikdepremler.core.notification
 
-import android.content.Context
 import android.os.Build
-import androidx.core.content.edit
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.messaging.FirebaseMessaging
 import java.util.Date
-import java.util.UUID
 import java.util.concurrent.TimeUnit
 
 /** How long an inactive device's doc survives before Firestore's TTL policy (configured in the
@@ -18,27 +16,26 @@ private val DEVICE_DOC_TTL_MILLIS = TimeUnit.DAYS.toMillis(90)
 
 object FcmTokenManager {
 
-    fun syncFcmToken(context: Context) {
+    fun syncFcmToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (!task.isSuccessful) return@addOnCompleteListener
             val token = task.result ?: return@addOnCompleteListener
-            touchDeviceDoc(context, token)
+            syncFcmToken(token)
         }
+    }
+
+    fun syncFcmToken(token: String) {
+        if (token.isBlank()) return
+        touchDeviceDoc(token)
     }
 
 }
 
 /** Writes (or refreshes) this device's doc every app cold start - one small write, not polling -
  *  so "lastActive"/"expiresAt" stay current for devices still in use. */
-private fun touchDeviceDoc(context: Context, token: String) {
+private fun touchDeviceDoc(token: String) {
     val db = FirebaseFirestore.getInstance()
-
-    val sharedPrefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-    var deviceId = sharedPrefs.getString("device_id", null)
-    if (deviceId == null) {
-        deviceId = UUID.randomUUID().toString()
-        sharedPrefs.edit { putString("device_id", deviceId) }
-    }
+    val deviceId = FirebaseAuth.getInstance().currentUser?.uid ?: return
 
     val now = Timestamp.now()
     val expiresAt = Timestamp(Date(System.currentTimeMillis() + DEVICE_DOC_TTL_MILLIS))

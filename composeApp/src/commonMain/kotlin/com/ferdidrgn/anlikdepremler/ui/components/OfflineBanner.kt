@@ -21,9 +21,9 @@ import com.ferdidrgn.anlikdepremler.resources.warning_offline
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun OfflineBanner(isConnected: Boolean) {
+fun OfflineBanner(isConnected: Boolean, showingCachedData: Boolean) {
     AnimatedVisibility(
-        visible = !isConnected,
+        visible = !isConnected && showingCachedData,
         enter = slideInVertically() + fadeIn(),
         exit = slideOutVertically() + fadeOut()
     ) {

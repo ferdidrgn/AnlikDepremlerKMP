@@ -1,13 +1,16 @@
 package com.ferdidrgn.anlikdepremler.di
 
+import com.ferdidrgn.anlikdepremler.core.ads.AdConsentManager
 import com.ferdidrgn.anlikdepremler.core.ads.AdManager
 import com.ferdidrgn.anlikdepremler.core.ads.RewardedAdManager
 import com.ferdidrgn.anlikdepremler.ui.screen.MainViewModel
 import com.ferdidrgn.anlikdepremler.ui.screen.SettingsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val androidAppModule = module {
+    single { AdConsentManager(androidContext()) }
     single { AdManager() }
     single { RewardedAdManager() }
 

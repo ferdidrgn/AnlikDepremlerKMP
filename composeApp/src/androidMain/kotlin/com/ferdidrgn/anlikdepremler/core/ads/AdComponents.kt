@@ -20,8 +20,10 @@ fun BannerAdView(
     modifier: Modifier = Modifier
 ) {
     val preferencesManager: PreferencesManager = koinInject()
+    val consentManager: AdConsentManager = koinInject()
     val adsFreeUntilMillis by preferencesManager.adsFreeUntilMillis.collectAsState(initial = 0L)
-    if (adsFreeUntilMillis > System.currentTimeMillis()) return
+    val canRequestAds by consentManager.canRequestAds.collectAsState()
+    if (!canRequestAds || adsFreeUntilMillis > System.currentTimeMillis()) return
 
     AndroidView(
         modifier = modifier

@@ -121,7 +121,7 @@
     <string name="whistle_start">ВКЛЮЧИТЬ 🔊</string>
     <string name="whistle_stop">СТОП</string>
     <string name="share_earthquake_info">Поделиться Информацией</string>
-    <string name="share_template">🚨 ПРЕДУПРЕЖДЕНИЕ О ЗЕМЛЕТРЯСЕНИИ\n\n📍 Локация: %1$s (%2$s)\n💥 Магнитуда: %3$.1f Mw\n📏 Глубина: %4$.1f км\n🕒 Время: %5$s - %6$s\n\nПодробности в приложении Молниеносные Землетрясения: https://anlikdepremler.com/earthquake/%7$s</string>
+    <string name="share_template">🚨 ПРЕДУПРЕЖДЕНИЕ О ЗЕМЛЕТРЯСЕНИИ\n\n📍 Локация: %1$s (%2$s)\n💥 Магнитуда: %3$.1f Mw\n📏 Глубина: %4$.1f км\n🕒 Время: %5$s - %6$s\n\nПодробности в приложении Молниеносные Землетрясения: https://anlikdeprem.web.app/earthquake/%7$s</string>
 
     <!-- Реклама -->
     <string name="ad_sponsored">СПОНСОРСКИЙ КОНТЕНТ</string>

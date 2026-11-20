@@ -121,7 +121,7 @@
     <string name="whistle_start">AVVIA 🔊</string>
     <string name="whistle_stop">STOP</string>
     <string name="share_earthquake_info">Condividi Info Terremoto</string>
-    <string name="share_template">🚨 ALLERTA TERREMOTO\n\n📍 Posizione: %1$s (%2$s)\n💥 Magnitudo: %3$.1f Mw\n📏 Profondità: %4$.1f km\n🕒 Ora: %5$s - %6$s\n\nApri l\'app Terremoti Istantanei per i dettagli: https://anlikdepremler.com/earthquake/%7$s</string>
+    <string name="share_template">🚨 ALLERTA TERREMOTO\n\n📍 Posizione: %1$s (%2$s)\n💥 Magnitudo: %3$.1f Mw\n📏 Profondità: %4$.1f km\n🕒 Ora: %5$s - %6$s\n\nApri l\'app Terremoti Istantanei per i dettagli: https://anlikdeprem.web.app/earthquake/%7$s</string>
 
     <!-- Pubblicità -->
     <string name="ad_sponsored">SPONSORIZZATO</string>

@@ -14,6 +14,8 @@ import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.CancellationException
+import com.ferdidrgn.anlikdepremler.domain.util.deduplicateEarthquakes
 
 class EarthquakeRepository(
     private val httpClient: HttpClient
@@ -36,16 +38,12 @@ class EarthquakeRepository(
                     // "kandilli" or "afad") and sends Access-Control-Allow-Origin: *, so this
                     // fetches from there instead and filters by provider - same data, works on
                     // every platform.
-                    EarthquakeSource.KANDILLI -> {
-                        fetchOrhanAydogdu().filter { it.provider == "kandilli" }.map { it.toDomain() }
-                    }
+                    EarthquakeSource.KANDILLI -> fetchTurkeySourceWithUsgsFallback("kandilli")
 
-                    EarthquakeSource.AFAD -> {
-                        fetchOrhanAydogdu().filter { it.provider == "afad" }.map { it.toDomain() }
-                    }
+                    EarthquakeSource.AFAD -> fetchTurkeySourceWithUsgsFallback("afad")
 
                     EarthquakeSource.TURKEY_ALL -> {
-                        fetchOrhanAydogdu().map { it.toDomain() }
+                        fetchOrhanAydogdu().map { it.toDomain() }.deduplicateEarthquakes()
                     }
 
                     EarthquakeSource.USGS -> {
@@ -79,4 +77,44 @@ class EarthquakeRepository(
         httpClient.get("https://api.orhanaydogdu.com.tr/deprem/")
             .body<TurkeyAllEarthquakeDto>()
             .result.orEmpty()
+
+    /**
+     * The browser cannot call AFAD's redirecting endpoint directly because its CORS preflight
+     * fails. Keep the existing CORS-enabled primary, then use USGS only if that provider fails
+     * or has no events. The fallback is a coarse Turkey-region bounding box; each returned event
+     * keeps its USGS source label so the UI never presents it as an AFAD/Kandilli observation.
+     */
+    private suspend fun fetchTurkeySourceWithUsgsFallback(provider: String): List<Earthquake> {
+        var primaryFailure: Exception? = null
+        val primary = try {
+            fetchOrhanAydogdu().filter { it.provider.equals(provider, ignoreCase = true) }
+        } catch (cancelled: CancellationException) {
+            throw cancelled
+        } catch (error: Exception) {
+            primaryFailure = error
+            emptyList()
+        }
+
+        if (primary.isNotEmpty()) return primary.map { it.toDomain() }.deduplicateEarthquakes()
+
+        val fallback = try {
+            httpClient.get("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson")
+                .body<WorldUSGSEarthquakeDto>()
+                .features.orEmpty()
+                .map { it.toDomain() }
+                .filter { earthquake ->
+                    earthquake.latitude in 35.0..43.5 && earthquake.longitude in 25.0..46.0
+                }
+                .deduplicateEarthquakes()
+        } catch (cancelled: CancellationException) {
+            throw cancelled
+        } catch (fallbackError: Exception) {
+            if (primaryFailure != null) throw primaryFailure
+            throw fallbackError
+        }
+
+        if (fallback.isNotEmpty()) return fallback
+        if (primaryFailure != null) throw primaryFailure
+        return emptyList()
+    }
 }

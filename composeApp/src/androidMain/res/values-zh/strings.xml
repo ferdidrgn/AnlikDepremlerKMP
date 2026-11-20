@@ -122,7 +122,7 @@
     <string name="whistle_start">播放 🔊</string>
     <string name="whistle_stop">停止</string>
     <string name="share_earthquake_info">分享地震信息</string>
-    <string name="share_template">🚨 地震速报\n\n📍 位置: %1$s (%2$s)\n💥 震级: %3$.1f Mw\n📏 深度: %4$.1f km\n🕒 时间: %5$s - %6$s\n\n打开实时地震应用查看详情: https://anlikdepremler.com/earthquake/%7$s</string>
+    <string name="share_template">🚨 地震速报\n\n📍 位置: %1$s (%2$s)\n💥 震级: %3$.1f Mw\n📏 深度: %4$.1f km\n🕒 时间: %5$s - %6$s\n\n打开实时地震应用查看详情: https://anlikdeprem.web.app/earthquake/%7$s</string>
 
     <!-- 广告 -->
     <string name="ad_sponsored">赞助内容</string>

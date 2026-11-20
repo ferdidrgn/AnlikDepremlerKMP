@@ -1,69 +1,14 @@
-# ===================================================================
-# Deprem & Veri Modellerini Koruma
-# ===================================================================
--keepattributes Signature
--keepattributes *Annotation*
--keepclassmembers class * {
-    @com.google.gson.annotations.SerializedName <fields>;
-}
+# Application-specific R8 rules.
+#
+# Compose, Firebase, Google Play services, Maps, Ktor, Kotlin serialization,
+# coroutines, Koin and AndroidX publish their own consumer rules. Keeping their
+# complete packages here prevents shrinking, optimization and obfuscation and
+# causes Android Vitals to report a low DEX optimization score.
 
-# Veri modellerinin paket isimlerini koru
--keep class com.ferdidrgn.anlikdepremler.data.** { *; }
+# Preserve generic signatures and annotations used by generated serializers and
+# the small number of libraries that inspect annotated members at runtime.
+-keepattributes Signature,InnerClasses,EnclosingMethod
+-keepattributes RuntimeVisibleAnnotations,RuntimeInvisibleAnnotations,AnnotationDefault
 
-# ===================================================================
-# Network (Retrofit, OkHttp, Gson)
-# ===================================================================
--keep class retrofit2.** { *; }
--keep interface retrofit2.** { *; }
--keep class okhttp3.** { *; }
--dontwarn okhttp3.**
--dontwarn retrofit2.**
-
-# ===================================================================
-# Jetpack Compose & Navigation
-# ===================================================================
--keep class androidx.compose.** { *; }
--dontwarn androidx.compose.**
-
-# ===================================================================
-# Dagger Hilt
-# ===================================================================
--keep class * extends androidx.lifecycle.ViewModel
--keep class *_Factory { *; }
--keep class *_MembersInjector { *; }
-
-# ===================================================================
-# Dagger Hilt
-# ===================================================================
--keep class * extends androidx.lifecycle.ViewModel
--keep class *_Factory { *; }
--keep class *_MembersInjector { *; }
-
--keep class dagger.hilt.** { *; }
--keep class com.google.dagger.** { *; }
--keepclassmembers class * {
-    @dagger.hilt.android.lifecycle.HiltViewModel <init>(...);
-}
--dontwarn dagger.hilt.**
-
-# ===================================================================
-# Firebase, Google Play & AdMob
-# ===================================================================
--keep class com.google.firebase.** { *; }
--keep class com.google.android.gms.** { *; }
--dontwarn com.google.android.gms.**
-
-# ===================================================================
-# Google Maps Compose & Clustering
-# ===================================================================
--keep class com.google.maps.android.** { *; }
--keep class com.google.android.gms.maps.** { *; }
--dontwarn com.google.maps.android.**
-
-# ===================================================================
-# Coroutines & DataStore & Startup
-# ===================================================================
--keepclassmembers class kotlinx.coroutines.** { *; }
--dontwarn kotlinx.coroutines.**
--keep class androidx.startup.** { *; }
--dontwarn androidx.**
+# Do not add package-wide -keep rules. If a future minified release reports a
+# missing reflected class, keep only that exact class or annotated member.

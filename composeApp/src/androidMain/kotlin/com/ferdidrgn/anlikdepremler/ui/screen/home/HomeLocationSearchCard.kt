@@ -12,6 +12,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
@@ -33,7 +34,8 @@ fun LocationBasedEarthquakeCard(
     isSearching: Boolean,
     onQueryChange: (String) -> Unit,
     earthquakes: List<Earthquake>,
-    onSeeAllClick: () -> Unit
+    onSeeAllClick: () -> Unit,
+    onUseCurrentLocation: () -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -49,11 +51,13 @@ fun LocationBasedEarthquakeCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        Icons.Default.GpsFixed,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary
-                    )
+                    IconButton(onClick = onUseCurrentLocation) {
+                        Icon(
+                            Icons.Default.GpsFixed,
+                            contentDescription = stringResource(R.string.permissions_title),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = stringResource(R.string.location_based_title),

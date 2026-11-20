@@ -133,7 +133,7 @@
     <string name="whistle_start">ÇAL 🔊</string>
     <string name="whistle_stop">DURDUR</string>
     <string name="share_earthquake_info">Deprem Bilgisini Paylaş</string>
-    <string name="share_template">🚨 DEPREM BİLDİRİMİ\n\n📍 Konum: %1$s (%2$s)\n💥 Büyüklük: %3$.1f Mw\n📏 Derinlik: %4$.1f km\n🕒 Zaman: %5$s - %6$s\n\nDetaylar için Anlık Depremler uygulamasını açın: https://anlikdepremler.com/earthquake/%7$s</string>
+    <string name="share_template">🚨 DEPREM BİLDİRİMİ\n\n📍 Konum: %1$s (%2$s)\n💥 Büyüklük: %3$.1f Mw\n📏 Derinlik: %4$.1f km\n🕒 Zaman: %5$s - %6$s\n\nDetaylar için Anlık Depremler uygulamasını açın: https://anlikdeprem.web.app/earthquake/%7$s</string>
 
     <!-- Reklamlar -->
     <string name="ad_sponsored">SPONSORLU</string>
@@ -212,6 +212,8 @@
     <string name="category_legal">YASAL &amp; HAKKINDA</string>
     <string name="privacy_policy">Gizlilik Politikası</string>
     <string name="privacy_policy_sub">Firebase verileri ve gizlilik metni</string>
+    <string name="ad_privacy_options">Reklam gizlilik seçenekleri</string>
+    <string name="ad_privacy_options_sub">Reklam onayı ve kişiselleştirme tercihleriniz</string>
     <string name="terms_conditions">Kullanıcı Sözleşmesi</string>
     <string name="terms_conditions_sub">Kullanım şartları ve koşullar</string>
     <string name="privacy_header_title">Veri Güvenliğiniz Bizim İçin Önemli</string>
@@ -254,8 +256,10 @@
     <string name="permissions_title">Hayati İzinler Gereklidir</string>
     <string name="permissions_desc">Anlık Depremler uygulamasının yakınınızdaki sarsıntıları algılayıp size acil durum bildirimi gönderebilmesi için Konum ve Bildirim izinlerine ihtiyacı vardır.</string>
     <string name="btn_grant_permissions">İzinleri Ver</string>
+    <string name="permissions_not_now">Şimdi değil</string>
 
     <!-- Tarihte Büyük Depremler Kartı -->
     <string name="historical_archive_title">Tarihte Büyük Depremler</string>
     <string name="historical_archive_subtitle">Geçmişten günümüze yıkıcı sismik arşiv</string>
+    <string name="data_last_update">Veri güncellemesi: %1$s</string>
 </resources>

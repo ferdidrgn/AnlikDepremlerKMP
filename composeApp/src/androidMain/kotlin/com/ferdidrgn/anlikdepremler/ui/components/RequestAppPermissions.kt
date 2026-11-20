@@ -18,53 +18,64 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import com.ferdidrgn.anlikdepremler.R
 
+enum class AppPermissionRequestMode {
+    ALL_OPTIONAL,
+    LOCATION_ONLY
+}
+
 @Composable
 fun RequestAppPermissions(
-    onPermissionsGranted: () -> Unit
+    onPermissionsGranted: () -> Unit,
+    onSkip: () -> Unit,
+    mode: AppPermissionRequestMode = AppPermissionRequestMode.ALL_OPTIONAL
 ) {
     val context = LocalContext.current
 
-    val permissionsToRequest = remember {
+    val permissionsToRequest = remember(mode) {
         mutableListOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
         ).apply {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (mode == AppPermissionRequestMode.ALL_OPTIONAL &&
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+            ) {
                 add(Manifest.permission.POST_NOTIFICATIONS)
             }
         }.toTypedArray()
     }
 
-    fun checkAllPermissionsGranted(): Boolean {
-        return permissionsToRequest.all { permission ->
-            ContextCompat.checkSelfPermission(
-                context,
-                permission
-            ) == PackageManager.PERMISSION_GRANTED
-        }
+    fun hasPermission(permission: String): Boolean =
+        ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
+
+    fun checkRequestedPermissionsGranted(): Boolean {
+        val hasLocation = hasPermission(Manifest.permission.ACCESS_FINE_LOCATION) ||
+            hasPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+        val hasNotifications = Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
+            hasPermission(Manifest.permission.POST_NOTIFICATIONS)
+        return hasLocation &&
+            (mode == AppPermissionRequestMode.LOCATION_ONLY || hasNotifications)
     }
 
-    var showDialog by remember { mutableStateOf(!checkAllPermissionsGranted()) }
+    var showDialog by remember(mode) { mutableStateOf(!checkRequestedPermissionsGranted()) }
 
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissionsMap ->
-        val areAllGranted = permissionsMap.values.all { it }
-        if (areAllGranted) {
+    ) {
+        if (checkRequestedPermissionsGranted()) {
             showDialog = false
             onPermissionsGranted()
         }
     }
 
-    LaunchedEffect(Unit) {
-        if (checkAllPermissionsGranted()) {
+    LaunchedEffect(mode) {
+        if (checkRequestedPermissionsGranted()) {
             onPermissionsGranted()
         }
     }
 
     if (showDialog) {
         AlertDialog(
-            onDismissRequest = { },
+            onDismissRequest = onSkip,
             icon = {
                 Icon(
                     Icons.Default.Security,
@@ -74,14 +85,26 @@ fun RequestAppPermissions(
             },
             title = {
                 Text(
-                    text = stringResource(R.string.permissions_title),
+                    text = stringResource(
+                        if (mode == AppPermissionRequestMode.LOCATION_ONLY) {
+                            R.string.location_permissions
+                        } else {
+                            R.string.permissions_title
+                        }
+                    ),
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp
                 )
             },
             text = {
                 Text(
-                    text = stringResource(R.string.permissions_desc),
+                    text = stringResource(
+                        if (mode == AppPermissionRequestMode.LOCATION_ONLY) {
+                            R.string.location_permissions_sub
+                        } else {
+                            R.string.permissions_desc
+                        }
+                    ),
                     fontSize = 13.sp
                 )
             },
@@ -93,6 +116,11 @@ fun RequestAppPermissions(
                     shape = RoundedCornerShape(12.dp)
                 ) {
                     Text(stringResource(R.string.btn_grant_permissions))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = onSkip) {
+                    Text(stringResource(R.string.permissions_not_now))
                 }
             }
         )

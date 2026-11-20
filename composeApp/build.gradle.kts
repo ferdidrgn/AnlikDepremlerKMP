@@ -134,11 +134,15 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
         }
 
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+        }
+
         androidMain.dependencies {
             implementation(libs.androidx.core.ktx)
             implementation(libs.androidx.splashscreen)
             implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
-            implementation("androidx.activity:activity-compose:1.9.3")
+            implementation("androidx.activity:activity-compose:1.13.0")
 
             implementation(libs.material)
 
@@ -152,9 +156,13 @@ kotlin {
             implementation("com.google.firebase:firebase-messaging-ktx")
             implementation("com.google.firebase:firebase-analytics-ktx")
             implementation("com.google.firebase:firebase-crashlytics-ktx")
+            implementation("com.google.firebase:firebase-auth")
+            implementation("com.google.firebase:firebase-appcheck-playintegrity")
+            implementation("com.google.firebase:firebase-appcheck-debug")
 
             implementation("com.android.billingclient:billing-ktx:8.0.0")
             implementation("com.google.android.gms:play-services-ads:23.6.0")
+            implementation("com.google.android.ump:user-messaging-platform:4.0.0")
 
             implementation("com.google.android.play:review:2.0.2")
             implementation("com.google.android.play:review-ktx:2.0.2")
@@ -162,8 +170,6 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
 
             implementation("io.coil-kt:coil-compose:2.7.0")
-
-            implementation("com.google.accompanist:accompanist-systemuicontroller:0.36.0")
 
             implementation("com.google.maps.android:maps-compose:6.2.1")
             implementation("com.google.maps.android:maps-compose-utils:6.2.1")
@@ -214,8 +220,8 @@ android {
         applicationId = "com.ferdidrgn.anlikdepremler"
         minSdk = 24
         targetSdk = 36
-        versionCode = 41
-        versionName = "1.41"
+        versionCode = 43
+        versionName = "1.43"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables { useSupportLibrary = true }

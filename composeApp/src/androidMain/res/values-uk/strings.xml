@@ -121,7 +121,7 @@
     <string name="whistle_start">УВІМКНУТИ 🔊</string>
     <string name="whistle_stop">СТОП</string>
     <string name="share_earthquake_info">Поділитися Інформацією</string>
-    <string name="share_template">🚨 ПОПЕРЕДЖЕННЯ ПРО ЗЕМЛЕТРУС\n\n📍 Локація: %1$s (%2$s)\n💥 Магнітуда: %3$.1f Mw\n📏 Глибина: %4$.1f км\n🕒 Час: %5$s - %6$s\n\nПодробиці у додатку Миттєві Землетруси: https://anlikdepremler.com/earthquake/%7$s</string>
+    <string name="share_template">🚨 ПОПЕРЕДЖЕННЯ ПРО ЗЕМЛЕТРУС\n\n📍 Локація: %1$s (%2$s)\n💥 Магнітуда: %3$.1f Mw\n📏 Глибина: %4$.1f км\n🕒 Час: %5$s - %6$s\n\nПодробиці у додатку Миттєві Землетруси: https://anlikdeprem.web.app/earthquake/%7$s</string>
 
     <!-- Реклама -->
     <string name="ad_sponsored">СПИСАНИЙ КОНТЕНТ</string>

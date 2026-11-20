@@ -2,7 +2,26 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://anlikdeprem.web.app/</loc>
-        <changefreq>hourly</changefreq>
-        <priority>1.0</priority>
+        <lastmod>2026-11-18</lastmod>
+    </url>
+    <url>
+        <loc>https://anlikdeprem.web.app/deprem-aninda-ne-yapmali/</loc>
+        <lastmod>2026-11-18</lastmod>
+    </url>
+    <url>
+        <loc>https://anlikdeprem.web.app/hazirlik-listesi/</loc>
+        <lastmod>2026-11-20</lastmod>
+    </url>
+    <url>
+        <loc>https://anlikdeprem.web.app/veri-kaynaklari/</loc>
+        <lastmod>2026-11-18</lastmod>
+    </url>
+    <url>
+        <loc>https://anlikdeprem.web.app/hakkimizda/</loc>
+        <lastmod>2026-11-18</lastmod>
+    </url>
+    <url>
+        <loc>https://anlikdeprem.web.app/gizlilik/</loc>
+        <lastmod>2026-11-18</lastmod>
     </url>
 </urlset>

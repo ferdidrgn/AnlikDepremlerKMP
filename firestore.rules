@@ -5,34 +5,79 @@ rules_version = '2';
 // Paste this file's contents into Firebase Console -> Firestore Database -> Rules, or deploy it
 // with `firebase deploy --only firestore:rules` if this project is linked locally.
 //
-// There is no Firebase Auth in this app - every device writes anonymously using a random
-// UUID generated once and stored in SharedPreferences ("device_id"). These rules can't verify
-// *who* is writing, only *what shape* the data is, so they focus on preventing malformed or
-// oversized writes rather than per-user ownership.
+// Clients sign in with Firebase Auth (currently Anonymous Auth). App Check app registration and
+// enforcement are configured separately in Firebase Console; these rules enforce auth identity,
+// ownership and document shape, but cannot prove that a request carries a valid App Check token.
 service cloud.firestore {
   match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isRecentClientMillis(value) {
+      return value is int
+        && value >= request.time.toMillis() - 300000
+        && value <= request.time.toMillis() + 300000;
+    }
+
+    function isNearRequestTime(value) {
+      return value is timestamp
+        && value >= request.time - duration.value(5, 'm')
+        && value <= request.time + duration.value(5, 'm');
+    }
+
+    function reporterPath(earthquakeId) {
+      return /databases/$(database)/documents/felt_reports/$(earthquakeId)/reporters/$(request.auth.uid);
+    }
+
+    function createsOwnReporter(earthquakeId) {
+      return signedIn()
+        && !exists(reporterPath(earthquakeId))
+        && existsAfter(reporterPath(earthquakeId));
+    }
 
     // One aggregate doc per earthquake: { count: <int> }. Anyone can read the live "felt it"
     // count; writes are only allowed if they touch nothing but the count field.
     match /felt_reports/{earthquakeId} {
       allow read: if true;
-      allow create, update: if request.resource.data.keys().hasOnly(['count'])
-        && request.resource.data.count is int;
+      allow create: if createsOwnReporter(earthquakeId)
+        && request.resource.data.keys().hasOnly(['count'])
+        && request.resource.data.count == 1;
+      allow update: if createsOwnReporter(earthquakeId)
+        && request.resource.data.keys().hasOnly(['count'])
+        && request.resource.data.count == resource.data.count + 1;
       allow delete: if false;
+
+      // One immutable marker per authenticated user prevents repeated "felt it" increments.
+      match /reporters/{userId} {
+        // submitFeltReport() checks this exact marker inside a Firestore transaction.
+        // Only its owner may get it; collection listing and other users' markers stay private.
+        allow get: if signedIn() && userId == request.auth.uid;
+        allow list: if false;
+        allow create: if signedIn()
+          && userId == request.auth.uid
+          && request.resource.data.keys().hasOnly(['createdAt'])
+          && isNearRequestTime(request.resource.data.createdAt);
+        allow update, delete: if false;
+      }
 
       // Eyewitness comments, auto-ID docs under each earthquake's report.
       match /comments/{commentId} {
         allow read: if true;
-        allow create: if request.resource.data.keys().hasOnly(['text', 'timestampMillis', 'reported'])
+        allow create: if signedIn()
+          && request.resource.data.keys().hasOnly(['text', 'timestampMillis', 'reported'])
           && request.resource.data.text is string
           && request.resource.data.text.size() > 0
           && request.resource.data.text.size() <= 300
-          && request.resource.data.timestampMillis is int
+          && isRecentClientMillis(request.resource.data.timestampMillis)
           && request.resource.data.reported == false;
         // reportComment() only ever flips "reported" to true for manual moderation review -
         // nothing else about a comment can be changed after it's created, and it can't be undone
         // client-side (stops a bad-faith reporter from un-flagging someone else's flag).
-        allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reported'])
+        allow update: if signedIn()
+          && resource.data.reported == false
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reported'])
           && request.resource.data.reported == true;
         allow delete: if false;
       }
@@ -42,9 +87,13 @@ service cloud.firestore {
       // few minutes after the last heartbeat - see EventPresenceRepository.kt.
       match /viewers/{deviceId} {
         allow read: if true;
-        allow write: if request.resource.data.keys().hasOnly(['lastSeenMillis', 'expiresAt'])
-          && request.resource.data.lastSeenMillis is int
-          && request.resource.data.expiresAt is timestamp;
+        allow write: if signedIn()
+          && deviceId == request.auth.uid
+          && request.resource.data.keys().hasOnly(['lastSeenMillis', 'expiresAt'])
+          && isRecentClientMillis(request.resource.data.lastSeenMillis)
+          && request.resource.data.expiresAt is timestamp
+          && request.resource.data.expiresAt >= request.time + duration.value(5, 'm')
+          && request.resource.data.expiresAt <= request.time + duration.value(15, 'm');
         allow delete: if false;
       }
     }
@@ -54,12 +103,23 @@ service cloud.firestore {
     // uninstalled/abandoned devices - see FcmTokenManager.kt.
     match /devices/{deviceId} {
       allow read: if false;
-      allow write: if request.resource.data.keys().hasOnly(
+      allow write: if signedIn()
+        && deviceId == request.auth.uid
+        && request.resource.data.deviceId == request.auth.uid
+        && request.resource.data.keys().hasOnly(
           ['fcmToken', 'deviceId', 'deviceModel', 'osVersion', 'lastActive', 'expiresAt']
         )
         && request.resource.data.fcmToken is string
-        && request.resource.data.lastActive is timestamp
-        && request.resource.data.expiresAt is timestamp;
+        && request.resource.data.fcmToken.size() > 20
+        && request.resource.data.fcmToken.size() <= 4096
+        && request.resource.data.deviceModel is string
+        && request.resource.data.deviceModel.size() <= 200
+        && request.resource.data.osVersion is string
+        && request.resource.data.osVersion.size() <= 100
+        && isNearRequestTime(request.resource.data.lastActive)
+        && request.resource.data.expiresAt is timestamp
+        && request.resource.data.expiresAt >= request.time + duration.value(89, 'd')
+        && request.resource.data.expiresAt <= request.time + duration.value(91, 'd');
       allow delete: if false;
     }
 

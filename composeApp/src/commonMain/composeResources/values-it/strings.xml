@@ -118,7 +118,7 @@
     <string name="whistle_start">AVVIA 🔊</string>
     <string name="whistle_stop">STOP</string>
     <string name="share_earthquake_info">Condividi Info Terremoto</string>
-    <string name="share_template">🚨 ALLERTA TERREMOTO\n\n📍 Posizione: %1$s (%2$s)\n💥 Magnitudo: %3$.1f Mw\n📏 Profondità: %4$.1f km\n🕒 Ora: %5$s - %6$s\n\nApri l\'app Terremoti Istantanei per i dettagli: https://anlikdepremler.com/earthquake/%7$s</string>
+    <string name="share_template">🚨 ALLERTA TERREMOTO\n\n📍 Posizione: %1$s (%2$s)\n💥 Magnitudo: %3$.1f Mw\n📏 Profondità: %4$.1f km\n🕒 Ora: %5$s - %6$s\n\nApri l\'app Terremoti Istantanei per i dettagli: https://anlikdeprem.web.app/earthquake/%7$s</string>
 
     <!-- Pubblicità -->
     <string name="ad_sponsored">SPONSORIZZATO</string>
@@ -159,7 +159,7 @@
     <string name="terms_conditions_sub">Termini d\'uso e linee guida</string>
     <string name="privacy_header_title">La sicurezza dei tuoi dati è importante</string>
     <string name="terms_header_title">Termini di Utilizzo &amp; Regole</string>
-    <string name="last_update">Ultimo aggiornamento: 2026</string>
+    <string name="last_update">Ultimo aggiornamento: %1$s</string>
     <string name="error_offline_text">Controlla la tua connessione internet.</string>
     <string name="error_load_text">Impossibile caricare il testo. Riprova.</string>
 

@@ -119,7 +119,7 @@
     <string name="whistle_start">울리기 🔊</string>
     <string name="whistle_stop">정지</string>
     <string name="share_earthquake_info">지진 정보 공유</string>
-    <string name="share_template">🚨 지진 알림\n\n📍 위치: %1$s (%2$s)\n💥 규모: %3$.1f Mw\n📏 깊이: %4$.1f km\n🕒 시간: %5$s - %6$s\n\n자세한 내용은 실시간 지진 앱을 열어 확인하세요: https://anlikdepremler.com/earthquake/%7$s</string>
+    <string name="share_template">🚨 지진 알림\n\n📍 위치: %1$s (%2$s)\n💥 규모: %3$.1f Mw\n📏 깊이: %4$.1f km\n🕒 시간: %5$s - %6$s\n\n자세한 내용은 실시간 지진 앱을 열어 확인하세요: https://anlikdeprem.web.app/earthquake/%7$s</string>
 
     <!-- 광고 -->
     <string name="ad_sponsored">후원 광고</string>
@@ -160,7 +160,7 @@
     <string name="terms_conditions_sub">이용 조건 및 규정</string>
     <string name="privacy_header_title">개인정보 보호는 소중합니다</string>
     <string name="terms_header_title">이용약관 및 규정</string>
-    <string name="last_update">최종 업데이트: 2026</string>
+    <string name="last_update">최종 업데이트: %1$s</string>
     <string name="error_offline_text">인터넷 연결을 확인해 주세요.</string>
     <string name="error_load_text">텍스트를 불러오지 못했습니다. 다시 시도해 주세요.</string>
 

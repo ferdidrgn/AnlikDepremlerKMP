@@ -120,7 +120,7 @@
     <string name="whistle_start">鳴らす 🔊</string>
     <string name="whistle_stop">停止</string>
     <string name="share_earthquake_info">地震情報を共有</string>
-    <string name="share_template">🚨 地震速報\n\n📍 場所: %1$s (%2$s)\n💥 規模: %3$.1f Mw\n📏 深さ: %4$.1f km\n🕒 日時: %5$s - %6$s\n\n詳細についてはアプリを開いて確認してください: https://anlikdepremler.com/earthquake/%7$s</string>
+    <string name="share_template">🚨 地震速報\n\n📍 場所: %1$s (%2$s)\n💥 規模: %3$.1f Mw\n📏 深さ: %4$.1f km\n🕒 日時: %5$s - %6$s\n\n詳細についてはアプリを開いて確認してください: https://anlikdeprem.web.app/earthquake/%7$s</string>
 
     <!-- 広告 -->
     <string name="ad_sponsored">スポンサー</string>
@@ -161,7 +161,7 @@
     <string name="terms_conditions_sub">利用条件と規定</string>
     <string name="privacy_header_title">個人情報の保護を重視しています</string>
     <string name="terms_header_title">利用規約とルール</string>
-    <string name="last_update">最終更新: 2026</string>
+    <string name="last_update">最終更新: %1$s</string>
     <string name="error_offline_text">インターネット接続を確認してください。</string>
     <string name="error_load_text">テキストを読み込めませんでした。再試行してください。</string>
 

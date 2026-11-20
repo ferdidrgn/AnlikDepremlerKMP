@@ -16,12 +16,19 @@ import kotlinx.serialization.json.Json
  */
 class WasmLocalStorageKeyValueStore : KeyValueStore {
     private val rawFlows = mutableMapOf<String, MutableStateFlow<String?>>()
+    private val memoryFallback = mutableMapOf<String, String>()
 
     private fun rawFlow(key: String): MutableStateFlow<String?> =
-        rawFlows.getOrPut(key) { MutableStateFlow(localStorage.getItem(key)) }
+        rawFlows.getOrPut(key) {
+            val persisted = runCatching { localStorage.getItem(key) }.getOrNull()
+            MutableStateFlow(persisted ?: memoryFallback[key])
+        }
 
     private fun writeRaw(key: String, value: String) {
-        localStorage.setItem(key, value)
+        // Browsers may reject localStorage in private/restricted contexts or when quota is full.
+        // Preferences should keep working for the current session instead of crashing the app.
+        memoryFallback[key] = value
+        runCatching { localStorage.setItem(key, value) }
         rawFlow(key).value = value
     }
 

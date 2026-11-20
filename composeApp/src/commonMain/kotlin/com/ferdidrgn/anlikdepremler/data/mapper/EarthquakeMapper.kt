@@ -1,119 +1,109 @@
 package com.ferdidrgn.anlikdepremler.data.mapper
 
 import com.ferdi.deprem.model.Earthquake as DomainEarthquake
-import com.ferdidrgn.anlikdepremler.data.remote.dto.*
-import kotlin.random.Random
+import com.ferdidrgn.anlikdepremler.data.remote.dto.EmscFeature
+import com.ferdidrgn.anlikdepremler.data.remote.dto.TurkeyAllEarthquake
+import com.ferdidrgn.anlikdepremler.data.remote.dto.UsgsFeature
+import com.ferdidrgn.anlikdepremler.data.remote.dto.WorldIGPEarthquakeDto
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
-// ==========================================
-// 3. TURKEY ALL (ORHAN AYDOĞDU) MAPPER
-// ==========================================
 fun TurkeyAllEarthquake.toDomain(): DomainEarthquake {
-    val magVal = this.mag ?: 0.0
-    val dateTimeParts = this.dateTime?.split(" ")
+    val magnitudeValue = mag ?: 0.0
+    val dateTimeParts = dateTime?.split(" ")
+    val coordinates = geojson?.coordinates
 
     return DomainEarthquake(
-        id = this.id ?: this.earthquakeId ?: randomEarthquakeId(),
-        location = this.title ?: "Bilinmeyen Konum",
-        region = this.locationProperties?.closestCity?.name ?: "Türkiye",
-        magnitude = magVal,
-        depth = this.depth ?: 0.0,
-        // The orhanaydogdu API's live feed response has no top-level "date" field at all (only
-        // "date_time", e.g. "2026-10-07 15:47:40") - this.date was always null in practice,
-        // showing a blank date on every card for every source that goes through this mapper
-        // (Kandilli/AFAD/Türkiye Karışık). Falling back to date_time's date part fixes it.
-        date = this.date ?: dateTimeParts?.getOrNull(0) ?: "",
+        id = id ?: earthquakeId ?: stableEarthquakeId(dateTime, coordinates),
+        location = title ?: "Bilinmeyen konum",
+        region = locationProperties?.closestCity?.name ?: "Türkiye",
+        magnitude = magnitudeValue,
+        depth = depth ?: 0.0,
+        date = date ?: dateTimeParts?.getOrNull(0) ?: "",
         time = dateTimeParts?.getOrNull(1) ?: "",
-        latitude = this.geojson?.coordinates?.getOrNull(1) ?: 0.0,
-        longitude = this.geojson?.coordinates?.getOrNull(0) ?: 0.0,
-        cityImageUrl = getRandomCityImage(),
-        isSignificant = magVal >= 4.5,
-        intensity = calculateIntensity(magVal)
+        latitude = coordinates?.getOrNull(1) ?: 0.0,
+        longitude = coordinates?.getOrNull(0) ?: 0.0,
+        cityImageUrl = "",
+        isSignificant = magnitudeValue >= 4.5,
+        intensity = "—",
+        source = provider?.uppercase() ?: "TÜRKİYE"
     )
 }
 
-// ==========================================
-// 4. WORLD USGS MAPPER
-// ==========================================
 fun UsgsFeature.toDomain(): DomainEarthquake {
-    val magVal = this.properties?.mag ?: 0.0
-    val coords = this.geometry?.coordinates
+    val magnitudeValue = properties?.mag ?: 0.0
+    val coordinates = geometry?.coordinates
+    val localDateTime = properties?.time?.let { epochMillis ->
+        Instant.fromEpochMilliseconds(epochMillis)
+            .toLocalDateTime(TimeZone.currentSystemDefault())
+    }
 
     return DomainEarthquake(
-        id = this.id ?: randomEarthquakeId(),
-        location = this.properties?.place ?: "Dünya Geneli",
+        id = id ?: stableEarthquakeId(properties?.time?.toString(), coordinates),
+        location = properties?.place ?: "Dünya geneli",
         region = "GLOBAL",
-        magnitude = magVal,
-        depth = coords?.getOrNull(2) ?: 0.0,
-        date = "Bugün",
-        time = "",
-        latitude = coords?.getOrNull(1) ?: 0.0,
-        longitude = coords?.getOrNull(0) ?: 0.0,
-        cityImageUrl = getRandomCityImage(),
-        isSignificant = magVal >= 5.0,
-        intensity = calculateIntensity(magVal)
+        magnitude = magnitudeValue,
+        depth = coordinates?.getOrNull(2) ?: 0.0,
+        date = localDateTime?.date?.toString() ?: "",
+        time = localDateTime?.time?.toString()?.take(8) ?: "",
+        latitude = coordinates?.getOrNull(1) ?: 0.0,
+        longitude = coordinates?.getOrNull(0) ?: 0.0,
+        cityImageUrl = "",
+        isSignificant = magnitudeValue >= 5.0,
+        intensity = properties?.mmi?.let { "MMI ${it.toInt()}" } ?: "—",
+        source = "USGS"
     )
 }
 
-// ==========================================
-// 5. WORLD IGP MAPPER
-// ==========================================
 fun WorldIGPEarthquakeDto.toDomain(): DomainEarthquake {
-    val magVal = this.magnitude?.toDoubleOrNull() ?: 0.0
-    val dateTimeParts = this.dateTime?.split(" ")
+    val magnitudeValue = magnitude?.toDoubleOrNull() ?: 0.0
+    val dateTimeParts = dateTime?.split(" ")
+    val coordinates = listOf(longitude ?: 0.0, latitude ?: 0.0)
 
     return DomainEarthquake(
-        id = randomEarthquakeId(),
-        location = this.place ?: "Dünya Geneli",
+        id = stableEarthquakeId(dateTime, coordinates),
+        location = place ?: "Dünya geneli",
         region = "DÜNYA",
-        magnitude = magVal,
-        depth = this.depth?.toDoubleOrNull() ?: 0.0,
+        magnitude = magnitudeValue,
+        depth = depth?.toDoubleOrNull() ?: 0.0,
         date = dateTimeParts?.getOrNull(0) ?: "",
         time = dateTimeParts?.getOrNull(1) ?: "",
-        latitude = this.latitude ?: 0.0,
-        longitude = this.longitude ?: 0.0,
-        cityImageUrl = getRandomCityImage(),
-        isSignificant = magVal >= 5.0,
-        intensity = calculateIntensity(magVal)
+        latitude = latitude ?: 0.0,
+        longitude = longitude ?: 0.0,
+        cityImageUrl = "",
+        isSignificant = magnitudeValue >= 5.0,
+        intensity = "—",
+        source = "IGP"
     )
 }
 
 fun EmscFeature.toDomain(): DomainEarthquake {
-    val magVal = this.properties?.mag ?: 0.0
-    val coords = this.geometry?.coordinates
-    val timeParts = this.properties?.time?.split("T")
+    val magnitudeValue = properties?.mag ?: 0.0
+    val coordinates = geometry?.coordinates
+    val localDateTime = properties?.time?.let { raw ->
+        runCatching { Instant.parse(raw).toLocalDateTime(TimeZone.currentSystemDefault()) }.getOrNull()
+    }
 
     return DomainEarthquake(
-        id = this.id ?: this.properties?.sourceId ?: randomEarthquakeId(),
-        location = this.properties?.flynnRegion ?: "Avrupa / Dünya",
+        id = id ?: properties?.sourceId ?: stableEarthquakeId(properties?.time, coordinates),
+        location = properties?.flynnRegion ?: "Avrupa / Dünya",
         region = "EMSC - EU",
-        magnitude = magVal,
-        depth = this.properties?.depth ?: coords?.getOrNull(2) ?: 0.0,
-        date = timeParts?.getOrNull(0) ?: "",
-        time = timeParts?.getOrNull(1)?.take(5) ?: "",
-        latitude = coords?.getOrNull(1) ?: 0.0,
-        longitude = coords?.getOrNull(0) ?: 0.0,
-        cityImageUrl = getRandomCityImage(),
-        isSignificant = magVal >= 4.5,
-        intensity = calculateIntensity(magVal),
+        magnitude = magnitudeValue,
+        depth = properties?.depth ?: coordinates?.getOrNull(2) ?: 0.0,
+        date = localDateTime?.date?.toString() ?: "",
+        time = localDateTime?.time?.toString()?.take(8) ?: "",
+        latitude = coordinates?.getOrNull(1) ?: 0.0,
+        longitude = coordinates?.getOrNull(0) ?: 0.0,
+        cityImageUrl = "",
+        isSignificant = magnitudeValue >= 4.5,
+        intensity = "—",
         source = "EMSC"
     )
 }
 
-// ==========================================
-// YARDIMCI METOTLAR
-// ==========================================
-private fun calculateIntensity(magnitude: Double): String {
-    return when {
-        magnitude >= 7.0 -> "X+"
-        magnitude >= 6.0 -> "VIII"
-        magnitude >= 5.0 -> "VI"
-        magnitude >= 4.0 -> "IV"
-        else -> "II"
-    }
-}
-
-private fun getRandomCityImage(): String {
-    return "https://picsum.photos/400/250?random=${(1..100).random()}"
-}
-
-private fun randomEarthquakeId(): String = Random.nextLong().toString()
+private fun stableEarthquakeId(timestamp: String?, coordinates: List<Double>?): String =
+    listOf(timestamp.orEmpty(), coordinates?.joinToString(",").orEmpty())
+        .joinToString("|")
+        .hashCode()
+        .toString()

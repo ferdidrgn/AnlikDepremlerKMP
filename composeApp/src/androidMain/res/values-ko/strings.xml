@@ -122,7 +122,7 @@
     <string name="whistle_start">울리기 🔊</string>
     <string name="whistle_stop">정지</string>
     <string name="share_earthquake_info">지진 정보 공유</string>
-    <string name="share_template">🚨 지진 알림\n\n📍 위치: %1$s (%2$s)\n💥 규모: %3$.1f Mw\n📏 깊이: %4$.1f km\n🕒 시간: %5$s - %6$s\n\n자세한 내용은 실시간 지진 앱을 열어 확인하세요: https://anlikdepremler.com/earthquake/%7$s</string>
+    <string name="share_template">🚨 지진 알림\n\n📍 위치: %1$s (%2$s)\n💥 규모: %3$.1f Mw\n📏 깊이: %4$.1f km\n🕒 시간: %5$s - %6$s\n\n자세한 내용은 실시간 지진 앱을 열어 확인하세요: https://anlikdeprem.web.app/earthquake/%7$s</string>
 
     <!-- 광고 -->
     <string name="ad_sponsored">후원 광고</string>

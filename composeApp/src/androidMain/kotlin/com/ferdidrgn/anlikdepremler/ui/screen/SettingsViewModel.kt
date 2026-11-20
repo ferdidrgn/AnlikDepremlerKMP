@@ -244,7 +244,11 @@ class SettingsViewModel(
 
     fun onFeedbackClick() {
         viewModelScope.launch {
-            _eventFlow.emit(SettingsEvent.SendEmail("destek@anlikdepremler.com"))
+            _eventFlow.emit(
+                SettingsEvent.NavigateToWeb(
+                    "https://github.com/ferdidrgn/AnlikDepremlerKMP/issues"
+                )
+            )
         }
     }
 

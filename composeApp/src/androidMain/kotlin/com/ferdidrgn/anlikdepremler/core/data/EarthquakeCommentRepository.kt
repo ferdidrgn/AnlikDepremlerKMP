@@ -1,5 +1,6 @@
 package com.ferdidrgn.anlikdepremler.core.data
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.channels.awaitClose
@@ -50,6 +51,9 @@ class EarthquakeCommentRepository {
     }
 
     suspend fun submitComment(earthquakeId: String, text: String) {
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            throw IllegalStateException("Firebase anonymous authentication is not ready")
+        }
         val data = mapOf(
             "text" to text.take(MAX_COMMENT_LENGTH),
             "timestampMillis" to System.currentTimeMillis(),
@@ -66,6 +70,9 @@ class EarthquakeCommentRepository {
     }
 
     suspend fun reportComment(earthquakeId: String, commentId: String) {
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            throw IllegalStateException("Firebase anonymous authentication is not ready")
+        }
         suspendCancellableCoroutine<Unit> { continuation ->
             firestore.collection(COLLECTION)
                 .document(earthquakeId)

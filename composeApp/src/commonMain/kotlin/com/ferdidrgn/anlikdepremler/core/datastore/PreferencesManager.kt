@@ -41,6 +41,34 @@ class PreferencesManager(
     private val WEEKLY_DIGEST_ENABLED_KEY = "weekly_digest_enabled"
     private val FELT_REPORTED_EARTHQUAKE_IDS_KEY = "felt_reported_earthquake_ids"
     private val EXTRA_SAVED_LOCATION_SLOTS_KEY = "extra_saved_location_slots"
+    private val LAST_EARTHQUAKE_SNAPSHOT_KEY = "last_earthquake_snapshot_v1"
+
+    /** Last full, unsearched feed. The bounded snapshot stays small for browser localStorage. */
+    val lastEarthquakeSnapshot: Flow<EarthquakeCacheSnapshot?> =
+        store.observeString(LAST_EARTHQUAKE_SNAPSHOT_KEY, "").map { encoded ->
+            if (encoded.isBlank()) null else runCatching {
+                Json.decodeFromString<StoredEarthquakeSnapshot>(encoded).let { stored ->
+                    EarthquakeCacheSnapshot(
+                        earthquakes = stored.earthquakes.map(StoredEarthquake::toEarthquake),
+                        cachedAtEpochMillis = stored.cachedAtEpochMillis,
+                        sourceName = stored.sourceName
+                    )
+                }
+            }.getOrNull()
+        }
+
+    suspend fun saveLastEarthquakeSnapshot(
+        earthquakes: List<com.ferdi.deprem.model.Earthquake>,
+        sourceName: String,
+        cachedAtEpochMillis: Long
+    ) {
+        val snapshot = StoredEarthquakeSnapshot(
+            cachedAtEpochMillis = cachedAtEpochMillis,
+            sourceName = sourceName,
+            earthquakes = earthquakes.take(MAX_CACHED_EARTHQUAKES).map(StoredEarthquake::from)
+        )
+        store.setString(LAST_EARTHQUAKE_SNAPSHOT_KEY, Json.encodeToString(snapshot))
+    }
 
     // --- DEPREM VERİ KAYNAĞI ---
     val selectedSource: Flow<String> = store.observeString(SELECTED_SOURCE_KEY, "KANDILLI")
@@ -225,5 +253,9 @@ class PreferencesManager(
     suspend fun grantExtraSavedLocationSlot() {
         val current = extraSavedLocationSlots.first()
         store.setInt(EXTRA_SAVED_LOCATION_SLOTS_KEY, current + 1)
+    }
+
+    private companion object {
+        const val MAX_CACHED_EARTHQUAKES = 150
     }
 }

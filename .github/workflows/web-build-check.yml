@@ -1,0 +1,70 @@
+name: Web Build Check
+
+on:
+  pull_request:
+    paths:
+      - 'composeApp/src/commonMain/**'
+      - 'composeApp/src/wasmJsMain/**'
+      - 'composeApp/build.gradle.kts'
+      - 'build.gradle.kts'
+      - 'settings.gradle.kts'
+      - 'gradle.properties'
+      - 'gradlew'
+      - 'gradlew.bat'
+      - 'gradle/**'
+      - 'firebase.json'
+      - 'scripts/verify-web-assets.mjs'
+      - '.github/workflows/web-build-check.yml'
+  push:
+    branches:
+      - 'codex/**'
+
+jobs:
+  build-web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Yarn
+        run: npm install -g yarn
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-wasm-check-v1-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-wasm-check-v1-${{ runner.os }}-
+      - name: Verify source web metadata
+        run: node scripts/verify-web-assets.mjs
+      - name: Build production web bundle
+        env:
+          CI: 'true'
+        run: ./gradlew :composeApp:wasmJsBrowserDistribution --no-daemon
+      - name: Verify required web files
+        shell: bash
+        run: |
+          output='composeApp/build/dist/wasmJs/productionExecutable'
+          test -f "$output/index.html"
+          test -f "$output/composeApp.js"
+          test -f "$output/site.css"
+          test -f "$output/site.js"
+          test -f "$output/service-worker.js"
+          test -f "$output/ads.txt"
+          test -f "$output/app-ads.txt"
+          test -f "$output/robots.txt"
+          test -f "$output/sitemap.xml"
+          test -f "$output/manifest.json"
+          test -f "$output/404.html"
+          test -f "$output/google5afbd46fec1b3ba7.html"
+          test -f "$output/.well-known/assetlinks.json"
+          node scripts/verify-web-assets.mjs "$output"
+      - name: Smoke test production bundle locally
+        run: node scripts/preview-web.mjs --smoke

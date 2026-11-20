@@ -11,11 +11,23 @@ on:
       - 'composeApp/build.gradle.kts'
       - 'build.gradle.kts'
       - 'settings.gradle.kts'
+      - 'gradle.properties'
+      - 'gradlew'
+      - 'gradlew.bat'
       - 'gradle/**'
       - 'firebase.json'
+      - 'firestore.rules'
+      - 'firestore.indexes.json'
       - '.firebaserc'
+      - 'scripts/verify-web-assets.mjs'
       - '.github/workflows/firebase-web-deploy.yml'
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      deploy_firestore_rules:
+        description: 'Deploy the reviewed Firestore rules with this release'
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   deploy-web:
@@ -65,10 +77,19 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Verify source web metadata
+        run: node scripts/verify-web-assets.mjs
+
       # wasmJsBrowserDistribution's output path is composeApp/build/dist/wasmJs/productionExecutable,
       # which is exactly what firebase.json's hosting.public already points at.
       - name: Build production web bundle
         run: ./gradlew :composeApp:wasmJsBrowserDistribution --no-daemon
+
+      - name: Verify production web bundle
+        run: node scripts/verify-web-assets.mjs composeApp/build/dist/wasmJs/productionExecutable
+
+      - name: Smoke test production bundle locally
+        run: node scripts/preview-web.mjs --smoke
 
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
@@ -81,7 +102,18 @@ jobs:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         run: echo "$FIREBASE_SERVICE_ACCOUNT" > "$RUNNER_TEMP/firebase-service-account.json"
 
-      - name: Deploy to Firebase Hosting
+      - name: Deploy Firebase preview channel
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/firebase-service-account.json
+        run: firebase hosting:channel:deploy preprod --expires 7d --project anlikdepremler-56637 --non-interactive
+
+      - name: Deploy to Firebase Hosting production
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/firebase-service-account.json
         run: firebase deploy --only hosting --project anlikdepremler-56637 --non-interactive
+
+      - name: Deploy reviewed Firestore rules and TTL policies
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.deploy_firestore_rules }}
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/firebase-service-account.json
+        run: firebase deploy --only firestore --project anlikdepremler-56637 --non-interactive

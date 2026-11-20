@@ -11,8 +11,11 @@ import androidx.core.app.NotificationCompat
 import com.ferdidrgn.anlikdepremler.MainActivity
 import com.ferdidrgn.anlikdepremler.R
 import com.ferdidrgn.anlikdepremler.core.datastore.PreferencesManager
+import com.ferdidrgn.anlikdepremler.core.navigation.DeepLinkHelper
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -59,10 +62,14 @@ class EarthquakeFirebaseMessagingService : FirebaseMessagingService() {
             notificationManager.createNotificationChannel(channel)
         }
 
-        // Deeplink Intent (detail/{earthquakeId})
+        // Tek kanonik uygulama URI'si: anlikdepremler://app/earthquake/{earthquakeId}
+        val destination = earthquakeId
+            ?.takeIf { it.isNotBlank() }
+            ?.let(DeepLinkHelper::earthquakeUri)
+            ?: DeepLinkHelper.APP_URI
         val intent = Intent(
             Intent.ACTION_VIEW,
-            Uri.parse("anlikdepremler://detail/${earthquakeId ?: ""}"),
+            Uri.parse(destination),
             this,
             MainActivity::class.java
         ).apply {
@@ -95,6 +102,15 @@ class EarthquakeFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
-        // Firebase Token güncellemesi yapılabilir
+        val auth = FirebaseAuth.getInstance()
+        if (auth.currentUser != null) {
+            FcmTokenManager.syncFcmToken(token)
+        } else {
+            auth.signInAnonymously().addOnSuccessListener {
+                FcmTokenManager.syncFcmToken(token)
+            }.addOnFailureListener { error ->
+                FirebaseCrashlytics.getInstance().recordException(error)
+            }
+        }
     }
 }

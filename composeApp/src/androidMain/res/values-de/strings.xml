@@ -121,7 +121,7 @@
     <string name="whistle_start">START 🔊</string>
     <string name="whistle_stop">STOPP</string>
     <string name="share_earthquake_info">Erdbeben-Info teilen</string>
-    <string name="share_template">🚨 ERDBEBEN-WARNUNG\n\n📍 Ort: %1$s (%2$s)\n💥 Stärke: %3$.1f Mw\n📏 Tiefe: %4$.1f km\n🕒 Zeit: %5$s - %6$s\n\nÖffnen Sie die App Sofort-Erdbeben für Details: https://anlikdepremler.com/earthquake/%7$s</string>
+    <string name="share_template">🚨 ERDBEBEN-WARNUNG\n\n📍 Ort: %1$s (%2$s)\n💥 Stärke: %3$.1f Mw\n📏 Tiefe: %4$.1f km\n🕒 Zeit: %5$s - %6$s\n\nÖffnen Sie die App Sofort-Erdbeben für Details: https://anlikdeprem.web.app/earthquake/%7$s</string>
 
     <!-- Werbung -->
     <string name="ad_sponsored">GESPONSERT</string>

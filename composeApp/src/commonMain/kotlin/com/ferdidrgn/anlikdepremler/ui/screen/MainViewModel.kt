@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.ferdi.deprem.model.Earthquake
 import com.ferdi.deprem.model.EarthquakeStatistics
 import com.ferdidrgn.anlikdepremler.core.datastore.PreferencesManager
+import kotlinx.coroutines.CancellationException
 import com.ferdidrgn.anlikdepremler.core.network.NetworkMonitor
 import com.ferdidrgn.anlikdepremler.core.notification.NearbyEarthquakeNotifier
 import com.ferdidrgn.anlikdepremler.core.util.LocationTracker
@@ -15,6 +16,7 @@ import com.ferdidrgn.anlikdepremler.domain.usecase.*
 import com.ferdidrgn.anlikdepremler.domain.util.filterByTimeSpan
 import com.ferdidrgn.anlikdepremler.ui.theme.AppThemeMode
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.isActive
@@ -42,7 +44,10 @@ data class HomeUiState(
     val errorMessage: String? = null,
     val userLocation: UserLocationResult? = null,
     val nearbyAlertEarthquake: Earthquake? = null,
-    val emergencyPhoneNumber: String = ""
+    val emergencyPhoneNumber: String = "",
+    val lastSuccessfulUpdateMillis: Long? = null,
+    val lastSuccessfulSourceName: String? = null,
+    val isShowingCachedData: Boolean = false
 )
 
 /**
@@ -72,6 +77,10 @@ class MainViewModel(
     /** The last earthquake id a system notification was already posted for - avoids re-firing
      *  one on every auto-refresh poll while it's still the nearest qualifying quake. */
     private var lastNotifiedEarthquakeId: String? = null
+
+    /** Only the newest source/search/refresh request may update the visible list. */
+    private var earthquakeLoadJob: Job? = null
+    private var earthquakeLoadGeneration = 0L
 
     /** Whether the app is currently visible to the user - set by the platform layer from the
      *  Activity/page lifecycle. Auto-refresh skips its network call while this is false, since
@@ -263,7 +272,36 @@ class MainViewModel(
     }
 
     fun loadEarthquakes() {
-        viewModelScope.launch {
+        earthquakeLoadJob?.cancel()
+        val requestGeneration = ++earthquakeLoadGeneration
+        earthquakeLoadJob = viewModelScope.launch {
+            if (_uiState.value.rawEarthquakes.isEmpty()) {
+                val cachedSnapshot = try {
+                    preferencesManager.lastEarthquakeSnapshot.first()
+                } catch (cancelled: CancellationException) {
+                    throw cancelled
+                } catch (_: Exception) {
+                    null
+                }
+                if (cachedSnapshot != null && requestGeneration == earthquakeLoadGeneration) {
+                    val cachedList = cachedSnapshot.earthquakes
+                    val cachedStatistics = calculateStatisticsUseCase(cachedList)
+                    _uiState.update { current ->
+                        if (current.rawEarthquakes.isNotEmpty()) current else current.copy(
+                            isLoading = false,
+                            rawEarthquakes = cachedList,
+                            earthquakes = cachedList.filterByTimeSpan(current.selectedTimeFilter),
+                            statistics = cachedStatistics,
+                            lastSuccessfulUpdateMillis = cachedSnapshot.cachedAtEpochMillis,
+                            lastSuccessfulSourceName = cachedSnapshot.sourceName,
+                            isShowingCachedData = true
+                        )
+                    }
+                }
+            }
+
+            if (requestGeneration != earthquakeLoadGeneration) return@launch
+
             // A refresh with data already on screen must never flip isLoading - that's the flag
             // HomeScreen/EarthquakeListScreen use to swap the real list out for a loading
             // skeleton, which was yanking whatever the user was scrolled to back to a 4-row
@@ -280,11 +318,28 @@ class MainViewModel(
                 source = _uiState.value.selectedSource,
                 query = activeQuery
             ).catch { e ->
-                _uiState.update {
-                    it.copy(isLoading = false, isRefreshing = false, errorMessage = e.localizedMessage())
+                if (requestGeneration == earthquakeLoadGeneration) {
+                    _uiState.update {
+                        it.copy(isLoading = false, isRefreshing = false, errorMessage = e.localizedMessage())
+                    }
                 }
             }.collect { list ->
+                if (requestGeneration != earthquakeLoadGeneration) return@collect
                 val stats = calculateStatisticsUseCase(list)
+                val updatedAt = Clock.System.now().toEpochMilliseconds()
+                if (activeQuery.isBlank() && list.isNotEmpty()) {
+                    try {
+                        preferencesManager.saveLastEarthquakeSnapshot(
+                            earthquakes = list,
+                            sourceName = _uiState.value.selectedSource.displayName,
+                            cachedAtEpochMillis = updatedAt
+                        )
+                    } catch (cancelled: CancellationException) {
+                        throw cancelled
+                    } catch (_: Exception) {
+                        // Storage can be disabled or full (notably in private browsing); live data still works.
+                    }
+                }
                 _uiState.update {
                     it.copy(
                         isLoading = false,
@@ -292,7 +347,10 @@ class MainViewModel(
                         rawEarthquakes = list,
                         earthquakes = list.filterByTimeSpan(it.selectedTimeFilter),
                         statistics = stats,
-                        errorMessage = null
+                        errorMessage = null,
+                        lastSuccessfulUpdateMillis = updatedAt,
+                        lastSuccessfulSourceName = it.selectedSource.displayName,
+                        isShowingCachedData = false
                     )
                 }
                 _uiState.value.userLocation?.let { checkNearbyEarthquakes(it) }

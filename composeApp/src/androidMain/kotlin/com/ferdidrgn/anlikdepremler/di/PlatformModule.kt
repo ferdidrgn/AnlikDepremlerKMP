@@ -31,6 +31,6 @@ actual fun platformModule(): Module = module {
     single { EarthquakeVoiceAnnouncer(androidContext()) }
     single { FeltReportRepository() }
     single { EarthquakeCommentRepository() }
-    single { EventPresenceRepository(androidContext()) }
+    single { EventPresenceRepository() }
     single<NearbyEarthquakeNotifier> { AndroidNearbyEarthquakeNotifier(androidContext(), get(), get()) }
 }

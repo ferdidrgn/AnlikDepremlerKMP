@@ -121,7 +121,7 @@
     <string name="whistle_start">PLAY 🔊</string>
     <string name="whistle_stop">STOP</string>
     <string name="share_earthquake_info">Share Earthquake Info</string>
-    <string name="share_template">🚨 EARTHQUAKE ALERT\n\n📍 Location: %1$s (%2$s)\n💥 Magnitude: %3$.1f Mw\n📏 Depth: %4$.1f km\n🕒 Time: %5$s - %6$s\n\nOpen Instant Earthquakes app for details: https://anlikdepremler.com/earthquake/%7$s</string>
+    <string name="share_template">🚨 EARTHQUAKE ALERT\n\n📍 Location: %1$s (%2$s)\n💥 Magnitude: %3$.1f Mw\n📏 Depth: %4$.1f km\n🕒 Time: %5$s - %6$s\n\nOpen Instant Earthquakes app for details: https://anlikdeprem.web.app/earthquake/%7$s</string>
 
     <!-- Ads -->
     <string name="ad_sponsored">SPONSORED</string>
@@ -158,6 +158,8 @@
     <string name="category_legal">LEGAL &amp; ABOUT</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="privacy_policy_sub">Firebase data and privacy policy</string>
+    <string name="ad_privacy_options">Ad privacy options</string>
+    <string name="ad_privacy_options_sub">Manage ad consent and personalization choices</string>
     <string name="terms_conditions">Terms &amp; Conditions</string>
     <string name="terms_conditions_sub">Usage terms and guidelines</string>
     <string name="privacy_header_title">Your Data Security Matters</string>

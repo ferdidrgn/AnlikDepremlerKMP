@@ -13,12 +13,22 @@ import com.ferdidrgn.anlikdepremler.ui.web.WebDashboard
 
 /** Shared entry point for the web (wasmJs) target: a dashboard layout, not a stretched port of the phone UI. */
 @Composable
-fun App(mainViewModel: MainViewModel) {
+fun App(
+    mainViewModel: MainViewModel,
+    initialEarthquakeId: String? = null,
+    onEarthquakeUrlChanged: (String?) -> Unit = {},
+    onShareEarthquake: () -> Unit = {}
+) {
     val uiState by mainViewModel.uiState.collectAsState()
 
     DepremTheme(themeMode = uiState.currentTheme) {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-            WebDashboard(mainViewModel = mainViewModel)
+            WebDashboard(
+                mainViewModel = mainViewModel,
+                initialEarthquakeId = initialEarthquakeId,
+                onEarthquakeUrlChanged = onEarthquakeUrlChanged,
+                onShareEarthquake = onShareEarthquake
+            )
         }
     }
 }

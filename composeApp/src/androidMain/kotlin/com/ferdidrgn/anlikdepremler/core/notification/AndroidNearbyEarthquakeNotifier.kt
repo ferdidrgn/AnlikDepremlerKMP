@@ -12,6 +12,7 @@ import com.ferdi.deprem.model.Earthquake
 import com.ferdidrgn.anlikdepremler.MainActivity
 import com.ferdidrgn.anlikdepremler.R
 import com.ferdidrgn.anlikdepremler.core.datastore.PreferencesManager
+import com.ferdidrgn.anlikdepremler.core.navigation.DeepLinkHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -51,7 +52,7 @@ class AndroidNearbyEarthquakeNotifier(
 
         val intent = Intent(
             Intent.ACTION_VIEW,
-            Uri.parse("anlikdepremler://detail/${earthquake.id}"),
+            Uri.parse(DeepLinkHelper.earthquakeUri(earthquake.id)),
             context,
             MainActivity::class.java
         ).apply {

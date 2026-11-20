@@ -2,7 +2,6 @@ package com.ferdidrgn.anlikdepremler
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
@@ -11,11 +10,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import com.ferdidrgn.anlikdepremler.core.ads.AdManager
+import com.ferdidrgn.anlikdepremler.core.ads.AdConsentManager
+import com.ferdidrgn.anlikdepremler.core.ads.RewardedAdManager
 import com.ferdidrgn.anlikdepremler.core.util.CrashlyticsLogger
 import com.ferdidrgn.anlikdepremler.navigation.AppNavigation
 import com.ferdidrgn.anlikdepremler.ui.screen.MainViewModel
@@ -29,17 +28,28 @@ import org.koin.androidx.compose.koinViewModel
 class MainActivity : AppCompatActivity() {
 
     private val adManager: AdManager by inject()
+    private val adConsentManager: AdConsentManager by inject()
+    private val rewardedAdManager: RewardedAdManager by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
+        WindowCompat.enableEdgeToEdge(window)
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setupUncaughtExceptionHandler()
+        adConsentManager.gatherConsent(this) {}
 
         setContent {
             val mainViewModel: MainViewModel = koinViewModel()
             val uiState by mainViewModel.uiState.collectAsState()
             val isOnboardingCompleted by mainViewModel.isOnboardingCompleted.collectAsState()
+            val canRequestAds by adConsentManager.canRequestAds.collectAsState()
+
+            LaunchedEffect(canRequestAds) {
+                if (canRequestAds) {
+                    adManager.initialize(this@MainActivity)
+                    rewardedAdManager.load(this@MainActivity)
+                }
+            }
 
             var isSplashActive by remember { mutableStateOf(true) }
 
@@ -82,9 +92,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         SideEffect {
-            window.statusBarColor = Color.Transparent.toArgb()
-            window.navigationBarColor = Color.Transparent.toArgb()
-
             val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
             windowInsetsController.isAppearanceLightStatusBars = !isDarkTheme
             windowInsetsController.isAppearanceLightNavigationBars = !isDarkTheme
@@ -93,9 +100,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupUncaughtExceptionHandler() {
         try {
+            val previousHandler = Thread.getDefaultUncaughtExceptionHandler()
             Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
                 CrashlyticsLogger.log("Uncaught Exception in Thread: ${thread.name}")
                 CrashlyticsLogger.logException(throwable)
+                // Preserve Android's normal crash handling so fatal errors are not swallowed.
+                previousHandler?.uncaughtException(thread, throwable)
+                    ?: run {
+                        android.os.Process.killProcess(android.os.Process.myPid())
+                        kotlin.system.exitProcess(10)
+                    }
             }
         } catch (e: Exception) {
             CrashlyticsLogger.logException(e)

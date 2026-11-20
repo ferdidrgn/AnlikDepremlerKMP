@@ -121,7 +121,7 @@
     <string name="whistle_start">CHALISH 🔊</string>
     <string name="whistle_stop">TO\'XTATISH</string>
     <string name="share_earthquake_info">Zilzila Ma\'lumotini Ulashish</string>
-    <string name="share_template">🚨 ZILZILA OGOHLANTIRISHI\n\n📍 Joylashuv: %1$s (%2$s)\n💥 Magnituda: %3$.1f Mw\n📏 Chuqurlik: %4$.1f km\n🕒 Vaqt: %5$s - %6$s\n\nBatafsil ma\'lumot uchun Lazzatli Zilzilalar ilovasini oching: https://anlikdepremler.com/earthquake/%7$s</string>
+    <string name="share_template">🚨 ZILZILA OGOHLANTIRISHI\n\n📍 Joylashuv: %1$s (%2$s)\n💥 Magnituda: %3$.1f Mw\n📏 Chuqurlik: %4$.1f km\n🕒 Vaqt: %5$s - %6$s\n\nBatafsil ma\'lumot uchun Lazzatli Zilzilalar ilovasini oching: https://anlikdeprem.web.app/earthquake/%7$s</string>
 
     <!-- Reklamalar -->
     <string name="ad_sponsored">HOMIYLIK</string>

@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.ContextWrapper
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -107,7 +108,10 @@ fun AppNavigation(
 
     Scaffold(
         topBar = {
-            OfflineBanner(isConnected = isConnected)
+            OfflineBanner(
+                isConnected = isConnected,
+                showingCachedData = uiState.isShowingCachedData
+            )
         },
         bottomBar = {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -137,6 +141,7 @@ fun AppNavigation(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .consumeWindowInsets(innerPadding)
         ) {
             // 1. ANA SAYFA
             composable(Screen.Home.route) {

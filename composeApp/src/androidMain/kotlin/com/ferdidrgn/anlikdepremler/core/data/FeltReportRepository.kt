@@ -1,6 +1,7 @@
 package com.ferdidrgn.anlikdepremler.core.data
 
-import com.google.firebase.firestore.FieldValue
+import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.channels.awaitClose
@@ -38,10 +39,22 @@ class FeltReportRepository {
     }
 
     suspend fun submitFeltReport(earthquakeId: String) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+            ?: throw IllegalStateException("Firebase anonymous authentication is not ready")
         suspendCancellableCoroutine<Unit> { continuation ->
-            firestore.collection(COLLECTION)
-                .document(earthquakeId)
-                .set(mapOf(FIELD_COUNT to FieldValue.increment(1)), SetOptions.merge())
+            val reportRef = firestore.collection(COLLECTION).document(earthquakeId)
+            val reporterRef = reportRef.collection(REPORTERS).document(userId)
+            firestore.runTransaction { transaction ->
+                if (transaction.get(reporterRef).exists()) return@runTransaction false
+                val currentCount = transaction.get(reportRef).getLong(FIELD_COUNT) ?: 0L
+                transaction.set(
+                    reportRef,
+                    mapOf(FIELD_COUNT to currentCount + 1L),
+                    SetOptions.merge()
+                )
+                transaction.set(reporterRef, mapOf("createdAt" to Timestamp.now()))
+                true
+            }
                 .addOnSuccessListener { if (continuation.isActive) continuation.resume(Unit) }
                 .addOnFailureListener { if (continuation.isActive) continuation.resumeWithException(it) }
         }
@@ -50,5 +63,6 @@ class FeltReportRepository {
     private companion object {
         const val COLLECTION = "felt_reports"
         const val FIELD_COUNT = "count"
+        const val REPORTERS = "reporters"
     }
 }

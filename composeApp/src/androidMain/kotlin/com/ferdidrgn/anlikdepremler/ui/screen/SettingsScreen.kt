@@ -39,6 +39,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ferdidrgn.anlikdepremler.R
+import com.ferdidrgn.anlikdepremler.core.ads.AdConsentManager
 import com.ferdidrgn.anlikdepremler.core.ads.RewardedAdManager
 import com.ferdidrgn.anlikdepremler.core.billing.launchCoffeeDonationFlow
 import com.ferdidrgn.anlikdepremler.core.billing.launchRemoveAdsPurchaseFlow
@@ -74,6 +75,7 @@ fun SettingsScreen(
 ) {
     val context = LocalContext.current
     val preferencesManager: PreferencesManager = koinInject()
+    val adConsentManager: AdConsentManager = koinInject()
     val rewardedAdManager: RewardedAdManager = koinInject()
     var isRewardedAdReady by remember { mutableStateOf(rewardedAdManager.isReady) }
 
@@ -349,6 +351,20 @@ fun SettingsScreen(
             Column {
                 SettingsCategoryTitle(stringResource(R.string.category_legal))
                 SettingsCardContainer {
+                    if (adConsentManager.isPrivacyOptionsRequired) {
+                        ModernSettingsTile(
+                            icon = Icons.Default.PrivacyTip,
+                            iconBgColor = Color(0xFF00897B),
+                            title = stringResource(R.string.ad_privacy_options),
+                            subtitle = stringResource(R.string.ad_privacy_options_sub),
+                            onClick = {
+                                (context as? android.app.Activity)?.let { activity ->
+                                    adConsentManager.showPrivacyOptions(activity)
+                                }
+                            }
+                        )
+                        DividerLine()
+                    }
                     ModernSettingsTile(
                         icon = Icons.Default.PrivacyTip,
                         iconBgColor = Color(0xFF607D8B),

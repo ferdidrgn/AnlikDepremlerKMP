@@ -55,6 +55,10 @@ fun OnboardingScreen(
             onPermissionsGranted = {
                 showPermissionDialog = false
                 onFinishOnboarding()
+            },
+            onSkip = {
+                showPermissionDialog = false
+                onFinishOnboarding()
             }
         )
     }
@@ -141,7 +145,7 @@ fun OnboardingScreen(
                 modifier = Modifier
                     .clip(CircleShape)
                     .background(Color.Black.copy(alpha = 0.3f))
-                    .clickable { showPermissionDialog = true }
+                    .clickable(onClick = onFinishOnboarding)
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             )
         }

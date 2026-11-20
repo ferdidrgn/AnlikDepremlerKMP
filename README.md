@@ -55,7 +55,7 @@ Web (Kotlin/Wasm) hedeflerinin her biri kendi arayüzünü — ama aynı canlı 
 - Firebase Cloud Messaging ile anlık deprem bildirimleri
 - **Derin bağlantılar (deep links)**: paylaşılan bir deprem/harita linki — uygulama telefonda
   yüklüyse doğrudan ilgili ekranı açar, yüklü değilse otomatik olarak web sitesine yönlendirir
-  (Android App Links, `assetlinks.json` ile doğrulanmış)
+  (Android App Links altyapısı hazır; Play App Signing parmak izi yayınlandığında üretimde doğrulanır)
 
 ### 🎨 Kişiselleştirme
 - 🌗 3 tema modu: **Krem (Açık)**, **Sistem**, **Koyu Gece**

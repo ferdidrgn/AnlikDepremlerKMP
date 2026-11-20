@@ -118,7 +118,7 @@
     <string name="whistle_start">ÇAL 🔊</string>
     <string name="whistle_stop">DURDUR</string>
     <string name="share_earthquake_info">Deprem Bilgisini Paylaş</string>
-    <string name="share_template">🚨 DEPREM BİLDİRİMİ\n\n📍 Konum: %1$s (%2$s)\n💥 Büyüklük: %3$.1f Mw\n📏 Derinlik: %4$.1f km\n🕒 Zaman: %5$s - %6$s\n\nDetaylar için Anlık Depremler uygulamasını açın: https://anlikdepremler.com/earthquake/%7$s</string>
+    <string name="share_template">🚨 DEPREM BİLDİRİMİ\n\n📍 Konum: %1$s (%2$s)\n💥 Büyüklük: %3$.1f Mw\n📏 Derinlik: %4$.1f km\n🕒 Zaman: %5$s - %6$s\n\nDetaylar için Anlık Depremler uygulamasını açın: https://anlikdeprem.web.app/earthquake/%7$s</string>
 
     <!-- Reklamlar -->
     <string name="ad_sponsored">SPONSORLU</string>
@@ -159,7 +159,7 @@
     <string name="terms_conditions_sub">Kullanım şartları ve koşullar</string>
     <string name="privacy_header_title">Veri Güvenliğiniz Bizim İçin Önemli</string>
     <string name="terms_header_title">Kullanım Şartları &amp; Kurallar</string>
-    <string name="last_update">Son Güncelleme: 2026</string>
+    <string name="last_update">Son Güncelleme: %1$s</string>
     <string name="error_offline_text">Lütfen internet bağlantınızı kontrol ediniz.</string>
     <string name="error_load_text">Metin yüklenemedi. Lütfen tekrar deneyiniz.</string>
 

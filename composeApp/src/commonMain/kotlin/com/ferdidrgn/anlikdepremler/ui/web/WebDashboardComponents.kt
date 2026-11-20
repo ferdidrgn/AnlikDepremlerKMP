@@ -9,6 +9,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.hoverable
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -226,7 +228,10 @@ fun WebStatTile(label: String, value: String, accent: Color, modifier: Modifier 
 
 @Composable
 fun WebTimeFilterRow(selected: String, labels: Map<String, String>, onSelected: (String) -> Unit) {
-    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+    Row(
+        modifier = Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
         labels.forEach { (key, label) ->
             val isSelected = key == selected
             Surface(
@@ -252,7 +257,10 @@ fun WebTimeFilterRow(selected: String, labels: Map<String, String>, onSelected: 
 @Composable
 fun WebMagnitudeFilterRow(selected: Double, onSelected: (Double) -> Unit) {
     val options = listOf(0.0 to "Tümü", 2.0 to "2+", 3.0 to "3+", 4.0 to "4+", 5.0 to "5+")
-    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+    Row(
+        modifier = Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
         options.forEach { (value, label) ->
             val isSelected = value == selected
             val accent = if (value == 0.0) MaterialTheme.colorScheme.primary else magnitudeHeatColor(value)

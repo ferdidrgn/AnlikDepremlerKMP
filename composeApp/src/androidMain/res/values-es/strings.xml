@@ -121,7 +121,7 @@
     <string name="whistle_start">INICIAR 🔊</string>
     <string name="whistle_stop">DETENER</string>
     <string name="share_earthquake_info">Compartir Información Sísmica</string>
-    <string name="share_template">🚨 ALERTA DE TERREMOTO\n\n📍 Ubicación: %1$s (%2$s)\n💥 Magnitud: %3$.1f Mw\n📏 Profundidad: %4$.1f km\n🕒 Hora: %5$s - %6$s\n\nAbra la aplicación Terremotos al Instante para más detalles: https://anlikdepremler.com/earthquake/%7$s</string>
+    <string name="share_template">🚨 ALERTA DE TERREMOTO\n\n📍 Ubicación: %1$s (%2$s)\n💥 Magnitud: %3$.1f Mw\n📏 Profundidad: %4$.1f km\n🕒 Hora: %5$s - %6$s\n\nAbra la aplicación Terremotos al Instante para más detalles: https://anlikdeprem.web.app/earthquake/%7$s</string>
 
     <!-- Publicidad -->
     <string name="ad_sponsored">PATROCINADO</string>

@@ -1,14 +1,12 @@
 package com.ferdidrgn.anlikdepremler.core.data
 
-import android.content.Context
-import androidx.core.content.edit
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import java.util.Date
-import java.util.UUID
 
 /**
  * Approximates EMSC LastQuake's "lots of people have this page open right now" signal without a
@@ -20,10 +18,9 @@ import java.util.UUID
  * VIEWER_DOC_TTL_MILLIS via Firestore's native TTL policy on the "expiresAt" field (configured in
  * the Firebase Console, not in code) - no Cloud Function needed for that either.
  */
-class EventPresenceRepository(private val context: Context) {
+class EventPresenceRepository {
 
     private val firestore get() = FirebaseFirestore.getInstance()
-    private val deviceId: String by lazy { getOrCreateDeviceId() }
 
     fun observeViewerCount(earthquakeId: String): Flow<Int> = callbackFlow {
         val registration = firestore.collection(COLLECTION)
@@ -48,27 +45,18 @@ class EventPresenceRepository(private val context: Context) {
      *  leaving it behind forever - the client-side PRESENCE_WINDOW_MILLIS filter above already
      *  hides it from live counts, but TTL is what removes the litter from the database itself. */
     fun heartbeat(earthquakeId: String) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         val expiresAt = Timestamp(Date(System.currentTimeMillis() + VIEWER_DOC_TTL_MILLIS))
         firestore.collection(COLLECTION)
             .document(earthquakeId)
             .collection(SUBCOLLECTION)
-            .document(deviceId)
+            .document(userId)
             .set(
                 mapOf(
                     "lastSeenMillis" to System.currentTimeMillis(),
                     "expiresAt" to expiresAt
                 )
             )
-    }
-
-    private fun getOrCreateDeviceId(): String {
-        val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        var id = prefs.getString("device_id", null)
-        if (id == null) {
-            id = UUID.randomUUID().toString()
-            prefs.edit { putString("device_id", id) }
-        }
-        return id
     }
 
     companion object {

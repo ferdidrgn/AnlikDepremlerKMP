@@ -1,13 +1,14 @@
 package com.ferdidrgn.anlikdepremler
 
 import android.app.Application
-import com.ferdidrgn.anlikdepremler.core.ads.AdManager
-import com.ferdidrgn.anlikdepremler.core.ads.RewardedAdManager
 import com.ferdidrgn.anlikdepremler.core.notification.FcmTokenManager
 import com.ferdidrgn.anlikdepremler.di.androidPlatformModules
 import com.google.firebase.FirebaseApp
+import com.google.firebase.appcheck.FirebaseAppCheck
+import com.google.firebase.appcheck.debug.DebugAppCheckProviderFactory
+import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import org.koin.android.ext.android.get
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -24,14 +25,26 @@ class EarthquakeApplication : Application() {
             }
 
             FirebaseApp.initializeApp(this)
+            FirebaseAppCheck.getInstance().installAppCheckProviderFactory(
+                if (BuildConfig.DEBUG) {
+                    DebugAppCheckProviderFactory.getInstance()
+                } else {
+                    PlayIntegrityAppCheckProviderFactory.getInstance()
+                },
+                true
+            )
             FirebaseCrashlytics.getInstance().isCrashlyticsCollectionEnabled = true
-            FcmTokenManager.syncFcmToken(this)
+            val auth = FirebaseAuth.getInstance()
+            if (auth.currentUser != null) {
+                FcmTokenManager.syncFcmToken()
+            } else {
+                auth.signInAnonymously().addOnSuccessListener {
+                    FcmTokenManager.syncFcmToken()
+                }.addOnFailureListener { error ->
+                    FirebaseCrashlytics.getInstance().recordException(error)
+                }
+            }
 
-            val adManager: AdManager = get()
-            adManager.initialize(this)
-
-            val rewardedAdManager: RewardedAdManager = get()
-            rewardedAdManager.load(this)
         } catch (e: Exception) {
             e.printStackTrace()
         }

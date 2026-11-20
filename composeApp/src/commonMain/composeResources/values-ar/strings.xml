@@ -118,7 +118,7 @@
     <string name="whistle_start">تشغيل 🔊</string>
     <string name="whistle_stop">إيقاف</string>
     <string name="share_earthquake_info">مشاركة معلومات الزلزال</string>
-    <string name="share_template">🚨 تنبيه زلزال\n\n📍 الموقع: %1$s (%2$s)\n💥 الشدة: %3$.1f Mw\n📏 العمق: %4$.1f كم\n🕒 الوقت: %5$s - %6$s\n\nافتح تطبيق الزلزال الفوري للتفاصيل: https://anlikdepremler.com/earthquake/%7$s</string>
+    <string name="share_template">🚨 تنبيه زلزال\n\n📍 الموقع: %1$s (%2$s)\n💥 الشدة: %3$.1f Mw\n📏 العمق: %4$.1f كم\n🕒 الوقت: %5$s - %6$s\n\nافتح تطبيق الزلزال الفوري للتفاصيل: https://anlikdeprem.web.app/earthquake/%7$s</string>
 
     <!-- الإعلانات -->
     <string name="ad_sponsored">برعاية</string>
@@ -159,7 +159,7 @@
     <string name="terms_conditions_sub">شروط وإرشادات الاستخدام</string>
     <string name="privacy_header_title">أمان بياناتك يهمنا جداً</string>
     <string name="terms_header_title">شروط وقواعد الاستخدام</string>
-    <string name="last_update">آخر تحديث: 2026</string>
+    <string name="last_update">آخر تحديث: %1$s</string>
     <string name="error_offline_text">يرجى التحقق من اتصالك بالإنترنت.</string>
     <string name="error_load_text">تعذر تحميل النص. يرجى المحاولة مرة أخرى.</string>
 

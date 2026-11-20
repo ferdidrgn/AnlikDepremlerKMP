@@ -121,7 +121,7 @@
     <string name="whistle_start">ΕΝΑΡΞΗ 🔊</string>
     <string name="whistle_stop">ΔΙΑΚΟΠΗ</string>
     <string name="share_earthquake_info">Κοινοποίηση Πληροφοριών Σεισμού</string>
-    <string name="share_template">🚨 ΕΙΔΟΠΟΙΗΣΗ ΣΕΙΣΜΟΥ\n\n📍 Τοποθεσία: %1$s (%2$s)\n💥 Μέγεθος: %3$.1f Mw\n📏 Βάθος: %4$.1f km\n🕒 Ώρα: %5$s - %6$s\n\nΑνοίξτε την εφαρμογή Άμεσοι Σεισμοί για λεπτομέρειες: https://anlikdepremler.com/earthquake/%7$s</string>
+    <string name="share_template">🚨 ΕΙΔΟΠΟΙΗΣΗ ΣΕΙΣΜΟΥ\n\n📍 Τοποθεσία: %1$s (%2$s)\n💥 Μέγεθος: %3$.1f Mw\n📏 Βάθος: %4$.1f km\n🕒 Ώρα: %5$s - %6$s\n\nΑνοίξτε την εφαρμογή Άμεσοι Σεισμοί για λεπτομέρειες: https://anlikdeprem.web.app/earthquake/%7$s</string>
 
     <!-- Διαφημίσεις -->
     <string name="ad_sponsored">ΧΟΡΗΓΟΥΜΕΝΟ</string>

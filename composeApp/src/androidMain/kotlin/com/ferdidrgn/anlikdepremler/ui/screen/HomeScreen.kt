@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.ferdi.deprem.model.Earthquake
 import com.ferdidrgn.anlikdepremler.R
 import com.ferdidrgn.anlikdepremler.core.ads.BannerAdView
@@ -29,6 +30,7 @@ import com.ferdidrgn.anlikdepremler.core.ui.animation.AppAnimations.shimmer
 import com.ferdidrgn.anlikdepremler.ui.components.ErrorRetryBanner
 import com.ferdidrgn.anlikdepremler.ui.components.NativeAdCard
 import com.ferdidrgn.anlikdepremler.ui.components.NearbyEarthquakeAlertCard
+import com.ferdidrgn.anlikdepremler.ui.components.AppPermissionRequestMode
 import com.ferdidrgn.anlikdepremler.ui.components.RequestAppPermissions
 import com.ferdidrgn.anlikdepremler.ui.screen.home.CreativeSourceSelector
 import com.ferdidrgn.anlikdepremler.ui.screen.home.DailySummarySection
@@ -44,6 +46,9 @@ import com.ferdidrgn.anlikdepremler.ui.screen.home.QuickChecklistCard
 import com.ferdidrgn.anlikdepremler.ui.screen.home.QuickFilters
 import com.ferdidrgn.anlikdepremler.ui.screen.home.SectionTitle
 import com.ferdidrgn.anlikdepremler.ui.screen.home.StatisticsSection
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 /**
  * Home tab: an orchestrator that lays out the sections defined under
@@ -61,13 +66,19 @@ fun HomeScreen(
     val uiState by viewModel.uiState.collectAsState()
     val scrollState = rememberScrollState()
     var rawLocationInput by remember { mutableStateOf("") }
+    var showLocationPermissionDialog by remember { mutableStateOf(false) }
 
     // 🎯 KONUM İZNİ VE SORGUSU BAŞLATMA
-    RequestAppPermissions(
-        onPermissionsGranted = {
-            viewModel.fetchUserLocationAndSearch()
-        }
-    )
+    if (showLocationPermissionDialog) {
+        RequestAppPermissions(
+            mode = AppPermissionRequestMode.LOCATION_ONLY,
+            onPermissionsGranted = {
+                showLocationPermissionDialog = false
+                viewModel.fetchUserLocationAndSearch()
+            },
+            onSkip = { showLocationPermissionDialog = false }
+        )
+    }
 
     LaunchedEffect(uiState.userLocation) {
         uiState.userLocation?.let {
@@ -95,7 +106,7 @@ fun HomeScreen(
         }
 
         // 🎯 VERİ YÜKLEME HATASI BİLDİRİMİ
-        if (uiState.errorMessage != null && uiState.rawEarthquakes.isEmpty()) {
+        if (uiState.errorMessage != null) {
             ErrorRetryBanner(onRetryClick = { viewModel.loadEarthquakes() })
             Spacer(modifier = Modifier.height(12.dp))
         }
@@ -109,6 +120,28 @@ fun HomeScreen(
                 selectedSource = uiState.selectedSource,
                 onSourceSelected = { viewModel.onSourceChanged(it) }
             )
+        }
+
+        uiState.lastSuccessfulUpdateMillis?.let { updatedAt ->
+            val formattedTime = remember(updatedAt) {
+                SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault()).format(Date(updatedAt))
+            }
+            Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 4.dp)) {
+                Text(
+                    text = stringResource(
+                        R.string.source_label,
+                        uiState.lastSuccessfulSourceName ?: uiState.selectedSource.displayName
+                    ),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = stringResource(R.string.data_last_update, formattedTime),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    fontSize = 11.sp
+                )
+            }
         }
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -147,7 +180,8 @@ fun HomeScreen(
                 viewModel.onLocationQueryTyped(it)
             },
             earthquakes = uiState.earthquakes,
-            onSeeAllClick = onSeeAllClick
+            onSeeAllClick = onSeeAllClick,
+            onUseCurrentLocation = { showLocationPermissionDialog = true }
         )
 
         Spacer(modifier = Modifier.height(16.dp))
