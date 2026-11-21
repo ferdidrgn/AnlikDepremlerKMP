@@ -140,13 +140,13 @@ private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel, onE
         }
     }
 
-    Row(modifier = Modifier.fillMaxSize()) {
+    // Keep the desktop dashboard on one shared scroll axis so the sidebar and the
+    // main panel stay aligned while the user browses the embedded dashboard.
+    Row(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
         Column(
             modifier = Modifier
                 .width(280.dp)
-                .fillMaxHeight()
                 .background(MaterialTheme.colorScheme.surface)
-                .verticalScroll(rememberScrollState())
                 .padding(20.dp)
         ) {
             Row(
@@ -185,16 +185,10 @@ private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel, onE
             WebActivityInsights(uiState.earthquakes)
         }
 
-        HorizontalDivider(
-            modifier = Modifier.fillMaxHeight().width(1.dp),
-            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f)
-        )
 
         Column(
             modifier = Modifier
                 .weight(1f)
-                .fillMaxHeight()
-                .verticalScroll(rememberScrollState())
                 .padding(28.dp)
         ) {
             Text(stringResource(Res.string.header_subtitle), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
