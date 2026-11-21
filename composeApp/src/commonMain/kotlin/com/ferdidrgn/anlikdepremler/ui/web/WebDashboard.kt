@@ -164,7 +164,7 @@ private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel, onE
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                "VER� KAYNA�I",
+                "VERİ KAYNAĞI",
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Bold
@@ -211,7 +211,7 @@ private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel, onE
 
             Spacer(modifier = Modifier.height(24.dp))
             Text(
-                "KE�FET: DEPREM HAR�TASI",
+                "KEŞFET: DEPREM HARİTASI",
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Bold
@@ -327,7 +327,7 @@ private fun MobileWebDashboard(uiState: HomeUiState, viewModel: MainViewModel, o
                 Spacer(modifier = Modifier.height(20.dp))
 
                 Text(
-                    "KE�FET: DEPREM HAR�TASI",
+                    "KEŞFET: DEPREM HARİTASI",
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.Bold
@@ -400,9 +400,9 @@ private fun WebEarthquakeSortRow(
     ) {
         listOf(
             WebEarthquakeSort.NEWEST to "En yeni",
-            WebEarthquakeSort.MAGNITUDE to "En b�y�k",
+            WebEarthquakeSort.MAGNITUDE to "En büyük",
             WebEarthquakeSort.DEPTH to "En derin",
-            WebEarthquakeSort.NEAREST to if (hasLocation) "Yak�n�mda" else "Konumuma g�re"
+            WebEarthquakeSort.NEAREST to if (hasLocation) "Yakınımda" else "Konumuma göre"
         ).forEach { (order, label) ->
             val isSelected = selected == order
             androidx.compose.material3.Surface(
@@ -519,7 +519,7 @@ private fun LoadingState() {
 @Composable
 private fun EmptyState() {
     Box(modifier = Modifier.fillMaxWidth().padding(48.dp), contentAlignment = Alignment.Center) {
-        Text("G�sterilecek deprem verisi yok.", color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text("Gösterilecek deprem verisi yok.", color = MaterialTheme.colorScheme.onSurfaceVariant)
     }
 }
 
@@ -536,4 +536,3 @@ private fun formatMagnitude(value: Double): String {
     val rounded = kotlin.math.round(value * 10) / 10.0
     return rounded.toString()
 }
-
