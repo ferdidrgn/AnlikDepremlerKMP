@@ -137,7 +137,8 @@ private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel, onE
         }
     }
 
-    // Vertical scrolling belongs to the containing website, not the embedded dashboard.
+    // Let the containing website own vertical scrolling. The dashboard must not create
+    // a second scroll area inside the marketing page.
     Row(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
@@ -180,7 +181,6 @@ private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel, onE
             Spacer(modifier = Modifier.height(20.dp))
             WebActivityInsights(uiState.earthquakes)
         }
-
 
         Column(
             modifier = Modifier
@@ -285,7 +285,7 @@ private fun MobileWebDashboard(uiState: HomeUiState, viewModel: MainViewModel, o
         modifier = Modifier.fillMaxWidth().padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        Column {
+            Column {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -353,7 +353,7 @@ private fun MobileWebDashboard(uiState: HomeUiState, viewModel: MainViewModel, o
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
-        }
+            }
 
         when {
             uiState.isLoading && uiState.earthquakes.isEmpty() -> LoadingState()
@@ -367,10 +367,11 @@ private fun MobileWebDashboard(uiState: HomeUiState, viewModel: MainViewModel, o
                 }
             }
         }
+    }
 }
 
 @Composable
-private fun WebEarthquakeSortRow,
+private fun WebEarthquakeSortRow(
     selected: WebEarthquakeSort,
     hasLocation: Boolean,
     onSelected: (WebEarthquakeSort) -> Unit,
