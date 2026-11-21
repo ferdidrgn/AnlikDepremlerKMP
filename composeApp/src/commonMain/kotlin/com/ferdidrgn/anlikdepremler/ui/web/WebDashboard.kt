@@ -166,7 +166,7 @@ private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel, onE
             Text(
                 "VERİ KAYNAĞI",
                 style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.onPrimary,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -176,7 +176,7 @@ private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel, onE
             Text(
                 stringResource(Res.string.chart_magnitude_title),
                 style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.onPrimary,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(12.dp))
@@ -190,7 +190,13 @@ private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel, onE
             color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f)
         )
 
-        Column(modifier = Modifier.weight(1f).fillMaxHeight().padding(28.dp)) {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight()
+                .verticalScroll(rememberScrollState())
+                .padding(28.dp)
+        ) {
             Text(stringResource(Res.string.header_subtitle), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Text(stringResource(Res.string.header_title), style = MaterialTheme.typography.displayMedium, fontWeight = FontWeight.Bold)
             DataFreshnessText(uiState)
@@ -207,7 +213,7 @@ private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel, onE
             Text(
                 "KEŞFET: DEPREM HARİTASI",
                 style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.onPrimary,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -247,7 +253,7 @@ private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel, onE
             Spacer(modifier = Modifier.height(8.dp))
 
             Card(
-                modifier = Modifier.fillMaxWidth().weight(1f),
+                modifier = Modifier.fillMaxWidth().height(440.dp),
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
             ) {

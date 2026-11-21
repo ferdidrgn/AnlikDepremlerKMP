@@ -40,7 +40,7 @@
 
     <!-- Pantalla Principal -->
     <string name="header_subtitle">Rastreador de Sismos</string>
-    <string name="header_title">Mantente a Salvo 👋</string>
+    <string name="header_title">Mantente a Salvo</string>
     <string name="live_data">DATOS EN VIVO</string>
     <string name="data_source_title">Fuente de Datos Sísmicos</string>
     <string name="source_kandilli">Kandilli 🏢</string>
@@ -76,7 +76,7 @@
     <string name="map_preview_title">Mapa de Terremotos</string>
     <string name="map_preview_subtitle">Inspección sísmica basada en la ubicación</string>
 
-    <string name="chart_magnitude_title">📈 Distribución de Magnitud</string>
+    <string name="chart_magnitude_title">Distribución de Magnitud</string>
     <string name="chart_last_24h">Últimas 24 Horas</string>
 
     <string name="info_tips_title">Información y Consejos</string>
@@ -92,7 +92,7 @@
     <string name="filter_7d">7 Días</string>
     <string name="filter_30d">30 Días</string>
 
-    <string name="recent_earthquakes_title">🔄 Terremotos Recientes (%1$d)</string>
+    <string name="recent_earthquakes_title">Terremotos Recientes (%1$d)</string>
     <string name="see_all">Ver Todo</string>
 
     <!-- Lista de Sismos -->

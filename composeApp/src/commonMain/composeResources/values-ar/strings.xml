@@ -40,7 +40,7 @@
 
     <!-- الشاشة الرئيسية -->
     <string name="header_subtitle">راصد الزلازل</string>
-    <string name="header_title">ابْقَ آمنًا 👋</string>
+    <string name="header_title">ابْقَ آمنًا</string>
     <string name="live_data">بيانات مباشرة</string>
     <string name="data_source_title">مصدر بيانات الزلازل</string>
     <string name="source_kandilli">Kandilli 🏢</string>
@@ -76,7 +76,7 @@
     <string name="map_preview_title">خريطة الزلازل</string>
     <string name="map_preview_subtitle">فحص سيزمي قائم على الموقع</string>
 
-    <string name="chart_magnitude_title">📈 توزيع الشدة</string>
+    <string name="chart_magnitude_title">توزيع الشدة</string>
     <string name="chart_last_24h">آخر 24 ساعة</string>
 
     <string name="info_tips_title">معلومات ونصائح</string>
@@ -92,7 +92,7 @@
     <string name="filter_7d">7 أيام</string>
     <string name="filter_30d">30 يومًا</string>
 
-    <string name="recent_earthquakes_title">🔄 أحدث الزلازل (%1$d)</string>
+    <string name="recent_earthquakes_title">أحدث الزلازل (%1$d)</string>
     <string name="see_all">عرض الكل</string>
 
     <!-- قائمة الزلازل -->

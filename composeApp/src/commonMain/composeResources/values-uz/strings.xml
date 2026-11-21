@@ -40,7 +40,7 @@
 
     <!-- Bosh Sahifa -->
     <string name="header_subtitle">Zilzila Kuzatuvchi</string>
-    <string name="header_title">Xavfsiz bo\'ling 👋</string>
+    <string name="header_title">Xavfsiz bo\'ling</string>
     <string name="live_data">JONLI MA\'LUMOT</string>
     <string name="data_source_title">Zilzila Ma\'lumot Manbai</string>
     <string name="source_kandilli">Kandilli 🏢</string>
@@ -76,7 +76,7 @@
     <string name="map_preview_title">Zilzila Xaritasi</string>
     <string name="map_preview_subtitle">Joylashuvga asoslangan seysmik ko\'rik</string>
 
-    <string name="chart_magnitude_title">📈 Magnituda Taqsimoti</string>
+    <string name="chart_magnitude_title">Magnituda Taqsimoti</string>
     <string name="chart_last_24h">Oxirgi 24 Soat</string>
 
     <string name="info_tips_title">Ma\'lumot va Maslahatlar</string>
@@ -92,7 +92,7 @@
     <string name="filter_7d">7 Kun</string>
     <string name="filter_30d">30 Kun</string>
 
-    <string name="recent_earthquakes_title">🔄 Oxirgi Zilzilalar (%1$d)</string>
+    <string name="recent_earthquakes_title">Oxirgi Zilzilalar (%1$d)</string>
     <string name="see_all">Barchasini Ko\'rish</string>
 
     <!-- Zilzila Ro'yxati -->

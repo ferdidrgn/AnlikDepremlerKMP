@@ -40,7 +40,7 @@
 
     <!-- Home Screen -->
     <string name="header_subtitle">Quake Tracker</string>
-    <string name="header_title">Stay Safe 👋</string>
+    <string name="header_title">Stay Safe</string>
     <string name="live_data">LIVE DATA</string>
     <string name="data_source_title">Earthquake Data Source</string>
     <string name="source_kandilli">Kandilli 🏢</string>
@@ -76,7 +76,7 @@
     <string name="map_preview_title">Quake Map</string>
     <string name="map_preview_subtitle">Location-based seismic inspection</string>
 
-    <string name="chart_magnitude_title">📈 Magnitude Distribution</string>
+    <string name="chart_magnitude_title">Magnitude Distribution</string>
     <string name="chart_last_24h">Last 24 Hours</string>
 
     <string name="info_tips_title">Info &amp; Tips</string>
@@ -92,7 +92,7 @@
     <string name="filter_7d">7 Days</string>
     <string name="filter_30d">30 Days</string>
 
-    <string name="recent_earthquakes_title">🔄 Recent Earthquakes (%1$d)</string>
+    <string name="recent_earthquakes_title">Recent Earthquakes (%1$d)</string>
     <string name="see_all">See All</string>
 
     <!-- Earthquake List Screen -->

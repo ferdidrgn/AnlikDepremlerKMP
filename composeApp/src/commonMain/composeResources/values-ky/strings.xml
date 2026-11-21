@@ -40,7 +40,7 @@
 
     <!-- Башкы Бет -->
     <string name="header_subtitle">Зилзала Мыкчымы</string>
-    <string name="header_title">Аман-эсен болуңуз 👋</string>
+    <string name="header_title">Аман-эсен болуңуз</string>
 
     <string name="live_data">ТҮЗ МААЛЫМАТ</string>
     <string name="data_source_title">Зилзала Маалымат Булагы</string>
@@ -77,7 +77,7 @@
     <string name="map_preview_title">Зилзала Картасы</string>
     <string name="map_preview_subtitle">Орунга негизделген сейсмикалык кароо</string>
 
-    <string name="chart_magnitude_title">📈 Магнитуда Бөлүнүшү</string>
+    <string name="chart_magnitude_title">Магнитуда Бөлүнүшү</string>
     <string name="chart_last_24h">Акыркы 24 Саат</string>
 
     <string name="info_tips_title">Маалымат жана Кеңештер</string>
@@ -93,7 +93,7 @@
     <string name="filter_7d">7 Күн</string>
     <string name="filter_30d">30 Күн</string>
 
-    <string name="recent_earthquakes_title">🔄 Акыркы Зилзалалар (%1$d)</string>
+    <string name="recent_earthquakes_title">Акыркы Зилзалалар (%1$d)</string>
     <string name="see_all">Баарын Көрүү</string>
 
     <!-- Зилзала Тизмеси -->

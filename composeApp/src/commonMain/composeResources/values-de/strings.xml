@@ -40,7 +40,7 @@
 
     <!-- Home Screen -->
     <string name="header_subtitle">Erdbeben-Tracker</string>
-    <string name="header_title">Sicher bleiben 👋</string>
+    <string name="header_title">Sicher bleiben</string>
     <string name="live_data">LIVE-DATEN</string>
     <string name="data_source_title">Erdbeben-Datenquelle</string>
     <string name="source_kandilli">Kandilli 🏢</string>
@@ -76,7 +76,7 @@
     <string name="map_preview_title">Erdbebenkarte</string>
     <string name="map_preview_subtitle">Standortbezogene seismische Überprüfung</string>
 
-    <string name="chart_magnitude_title">📈 Stärkenverteilung</string>
+    <string name="chart_magnitude_title">Stärkenverteilung</string>
     <string name="chart_last_24h">Letzte 24 Stunden</string>
 
     <string name="info_tips_title">Info &amp; Tipps</string>
@@ -92,7 +92,7 @@
     <string name="filter_7d">7 Tage</string>
     <string name="filter_30d">30 Tage</string>
 
-    <string name="recent_earthquakes_title">🔄 Neueste Erdbeben (%1$d)</string>
+    <string name="recent_earthquakes_title">Neueste Erdbeben (%1$d)</string>
     <string name="see_all">Alle anzeigen</string>
 
     <!-- Erdbeben Liste -->

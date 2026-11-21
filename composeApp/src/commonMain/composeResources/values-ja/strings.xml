@@ -41,7 +41,7 @@
 
     <!-- ホーム画面 (HomeScreen) -->
     <string name="header_subtitle">地震トラッカー</string>
-    <string name="header_title">ご無事で 👋</string>
+    <string name="header_title">ご無事で</string>
     <string name="live_data">ライブデータ</string>
     <string name="data_source_title">地震データ情報源</string>
     <string name="source_kandilli">Kandilli 🏢</string>
@@ -77,7 +77,7 @@
     <string name="map_preview_title">地震マップ</string>
     <string name="map_preview_subtitle">位置情報に基づく地震分析</string>
 
-    <string name="chart_magnitude_title">📈 マグニチュード分布</string>
+    <string name="chart_magnitude_title">マグニチュード分布</string>
     <string name="chart_last_24h">過去24時間</string>
 
     <string name="info_tips_title">情報 &amp; ヒント</string>
@@ -94,7 +94,7 @@
     <string name="filter_7d">7日間</string>
     <string name="filter_30d">30日間</string>
 
-    <string name="recent_earthquakes_title">🔄 最新の地震 (%1$d)</string>
+    <string name="recent_earthquakes_title">最新の地震 (%1$d)</string>
     <string name="see_all">すべて見る</string>
 
     <!-- 地震一覧 (EarthquakeListScreen) -->

@@ -40,7 +40,7 @@
 
     <!-- Головна сторінка -->
     <string name="header_subtitle">Моніторинг Поштовхів</string>
-    <string name="header_title">Будьте у безпеці 👋</string>
+    <string name="header_title">Будьте у безпеці</string>
     <string name="live_data">ПРЯМИЙ ЕФІР</string>
     <string name="data_source_title">Джерело Сейсмоданих</string>
     <string name="source_kandilli">Канділлі 🏢</string>
@@ -76,7 +76,7 @@
     <string name="map_preview_title">Карта Землетрусів</string>
     <string name="map_preview_subtitle">Сейсмоаналіз за місцем розташування</string>
 
-    <string name="chart_magnitude_title">📈 Розподіл Магнітуди</string>
+    <string name="chart_magnitude_title">Розподіл Магнітуди</string>
     <string name="chart_last_24h">За останні 24 години</string>
 
     <string name="info_tips_title">Інфо та Поради</string>
@@ -92,7 +92,7 @@
     <string name="filter_7d">7 Днів</string>
     <string name="filter_30d">30 Днів</string>
 
-    <string name="recent_earthquakes_title">🔄 Останні Землетруси (%1$d)</string>
+    <string name="recent_earthquakes_title">Останні Землетруси (%1$d)</string>
     <string name="see_all">Дивитися все</string>
 
     <!-- Список землетрусів -->

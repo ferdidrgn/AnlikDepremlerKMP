@@ -40,7 +40,7 @@
 
     <!-- Αρχική Οθόνη -->
     <string name="header_subtitle">Παρακολούθηση Σεισμών</string>
-    <string name="header_title">Μείνετε Ασφαλείς 👋</string>
+    <string name="header_title">Μείνετε Ασφαλείς</string>
     <string name="live_data">ΖΩΝΤΑΝΑ ΔΕΔΟΜΕΝΑ</string>
     <string name="data_source_title">Πηγή Σεισμικών Δεδομένων</string>
     <string name="source_kandilli">Kandilli 🏢</string>
@@ -76,7 +76,7 @@
     <string name="map_preview_title">Χάρτης Σεισμών</string>
     <string name="map_preview_subtitle">Σεισμική επιθεώρηση βάσει τοποθεσίας</string>
 
-    <string name="chart_magnitude_title">📈 Κατανομή Μεγέθους</string>
+    <string name="chart_magnitude_title">Κατανομή Μεγέθους</string>
     <string name="chart_last_24h">Τελευταίες 24 Ώρες</string>
 
     <string name="info_tips_title">Πληροφορίες &amp; Συμβουλές</string>
@@ -92,7 +92,7 @@
     <string name="filter_7d">7 Ημέρες</string>
     <string name="filter_30d">30 Ημέρες</string>
 
-    <string name="recent_earthquakes_title">🔄 Πρόσφατοι Σεισμοί (%1$d)</string>
+    <string name="recent_earthquakes_title">Πρόσφατοι Σεισμοί (%1$d)</string>
     <string name="see_all">Προβολή Όλων</string>
 
     <!-- Λίστα Σεισμών -->

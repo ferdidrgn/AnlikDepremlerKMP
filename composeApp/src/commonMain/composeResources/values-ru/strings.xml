@@ -40,7 +40,7 @@
 
     <!-- Главный экран -->
     <string name="header_subtitle">Мониторинг Толчков</string>
-    <string name="header_title">Будьте в безопасности 👋</string>
+    <string name="header_title">Будьте в безопасности</string>
     <string name="live_data">ПРЯМОЙ ЭФИР</string>
     <string name="data_source_title">Источник Сейсмоданных</string>
     <string name="source_kandilli">Кандилли 🏢</string>
@@ -76,7 +76,7 @@
     <string name="map_preview_title">Карта Землетрясений</string>
     <string name="map_preview_subtitle">Сейсмоанализ по местоположению</string>
 
-    <string name="chart_magnitude_title">📈 Распределение Магнитуды</string>
+    <string name="chart_magnitude_title">Распределение Магнитуды</string>
     <string name="chart_last_24h">За последние 24 часа</string>
 
     <string name="info_tips_title">Инфо и Советы</string>
@@ -92,7 +92,7 @@
     <string name="filter_7d">7 Дней</string>
     <string name="filter_30d">30 Дней</string>
 
-    <string name="recent_earthquakes_title">🔄 Последние Землетрясения (%1$d)</string>
+    <string name="recent_earthquakes_title">Последние Землетрясения (%1$d)</string>
     <string name="see_all">Смотреть все</string>
 
     <!-- Список землетрясений -->

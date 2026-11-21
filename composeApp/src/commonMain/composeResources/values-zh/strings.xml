@@ -41,7 +41,7 @@
 
     <!-- 首页 (HomeScreen) -->
     <string name="header_subtitle">地震追踪</string>
-    <string name="header_title">保重安全 👋</string>
+    <string name="header_title">保重安全</string>
     <string name="live_data">实时数据</string>
     <string name="data_source_title">地震数据来源</string>
     <string name="source_kandilli">Kandilli 🏢</string>
@@ -77,7 +77,7 @@
     <string name="map_preview_title">地震地图</string>
     <string name="map_preview_subtitle">基于位置的地震分析</string>
 
-    <string name="chart_magnitude_title">📈 震级分布</string>
+    <string name="chart_magnitude_title">震级分布</string>
     <string name="chart_last_24h">过去 24 小时</string>
 
     <string name="info_tips_title">信息与提示</string>
@@ -93,7 +93,7 @@
     <string name="filter_7d">7 天</string>
     <string name="filter_30d">30 天</string>
 
-    <string name="recent_earthquakes_title">🔄 最近地震 (%1$d)</string>
+    <string name="recent_earthquakes_title">最近地震 (%1$d)</string>
     <string name="see_all">查看全部</string>
 
     <!-- 地震列表 (EarthquakeListScreen) -->
