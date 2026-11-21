@@ -461,8 +461,20 @@ fun SeismicImpactCard(
     val coroutineScope = rememberCoroutineScope()
 
     val currentFeltCount by repository.observeFeltCount(earthquakeId).collectAsState(initial = 0L)
+    val intensityCounts by repository.observeIntensityCounts(earthquakeId).collectAsState(initial = emptyMap())
     val feltReportedIds by preferencesManager.feltReportedEarthquakeIds.collectAsState(initial = emptySet())
     val hasUserFelt = earthquakeId in feltReportedIds
+    val submissionFailedText = stringResource(R.string.felt_mmi_failed)
+    var showIntensityPicker by remember { mutableStateOf(false) }
+    var selectedIntensity by remember { mutableIntStateOf(4) }
+    var isSubmitting by remember { mutableStateOf(false) }
+    var submissionError by remember { mutableStateOf<String?>(null) }
+    val romanLevels = listOf("", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII")
+    val leadingIntensityReports = remember(intensityCounts) {
+        intensityCounts.entries.sortedWith(
+            compareByDescending<Map.Entry<Int, Long>> { it.value }.thenBy { it.key }
+        ).take(3)
+    }
 
     // 🎯 REMEMBER SARMALI İLE STATE DERLEYİCİ HATASI ÇÖZÜLDÜ
     val mmiText = remember(magnitude, depth) {
@@ -508,31 +520,16 @@ fun SeismicImpactCard(
 
                 Button(
                     onClick = {
-                        if (!hasUserFelt) {
-                            coroutineScope.launch {
-                                preferencesManager.markEarthquakeAsFelt(earthquakeId)
-                                preferencesManager.addJournalEntry(
-                                    EarthquakeJournalEntry(
-                                        earthquakeId = earthquakeId,
-                                        location = location,
-                                        region = region,
-                                        magnitude = magnitude,
-                                        date = date,
-                                        time = time,
-                                        markedAtMillis = System.currentTimeMillis()
-                                    )
-                                )
-                                repository.submitFeltReport(earthquakeId)
-                            }
-                        }
+                        if (!hasUserFelt) showIntensityPicker = true
                     },
+                    enabled = !hasUserFelt && !isSubmitting,
                     colors = ButtonDefaults.buttonColors(
                         containerColor = if (hasUserFelt) Color(0xFF10B981) else MaterialTheme.colorScheme.primary
                     ),
                     shape = RoundedCornerShape(12.dp)
                 ) {
                     Text(
-                        text = if (hasUserFelt) "✓" else stringResource(R.string.show_more),
+                        text = if (hasUserFelt) "✓" else stringResource(R.string.felt_mmi_button),
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -541,6 +538,22 @@ fun SeismicImpactCard(
 
             Spacer(modifier = Modifier.height(12.dp))
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f))
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Text(
+                text = stringResource(R.string.felt_mmi_distribution),
+                fontSize = 11.sp,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                fontWeight = FontWeight.SemiBold
+            )
+            Text(
+                text = if (leadingIntensityReports.isEmpty()) "—" else leadingIntensityReports.joinToString("  •  ") { (level, count) ->
+                    "MMI ${romanLevels[level]}: $count"
+                },
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
+            )
             Spacer(modifier = Modifier.height(12.dp))
 
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
@@ -573,6 +586,84 @@ fun SeismicImpactCard(
                 }
             }
         }
+    }
+
+    if (showIntensityPicker) {
+        AlertDialog(
+            onDismissRequest = { if (!isSubmitting) showIntensityPicker = false },
+            title = { Text(stringResource(R.string.felt_mmi_title)) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Text(stringResource(R.string.felt_mmi_prompt), style = MaterialTheme.typography.bodyMedium)
+                    (2..12).chunked(4).forEach { rowLevels ->
+                        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                            rowLevels.forEach { level ->
+                                FilterChip(
+                                    selected = selectedIntensity == level,
+                                    onClick = { selectedIntensity = level },
+                                    enabled = !isSubmitting,
+                                    label = { Text(romanLevels[level], maxLines = 1) },
+                                    modifier = Modifier.weight(1f)
+                                )
+                            }
+                            if (rowLevels.size < 4) Spacer(modifier = Modifier.weight(1f))
+                        }
+                    }
+                    Text(
+                        text = stringResource(R.string.felt_mmi_privacy),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    submissionError?.let { error ->
+                        Text(error, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.error)
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(
+                    enabled = !isSubmitting,
+                    onClick = {
+                        if (!isSubmitting && !hasUserFelt) {
+                            isSubmitting = true
+                            submissionError = null
+                            coroutineScope.launch {
+                                try {
+                                    repository.submitFeltReport(earthquakeId, selectedIntensity)
+                                    preferencesManager.markEarthquakeAsFelt(earthquakeId)
+                                    preferencesManager.addJournalEntry(
+                                        EarthquakeJournalEntry(
+                                            earthquakeId = earthquakeId,
+                                            location = location,
+                                            region = region,
+                                            magnitude = magnitude,
+                                            date = date,
+                                            time = time,
+                                            markedAtMillis = System.currentTimeMillis()
+                                        )
+                                    )
+                                    showIntensityPicker = false
+                                } catch (_: Exception) {
+                                    submissionError = submissionFailedText
+                                } finally {
+                                    isSubmitting = false
+                                }
+                            }
+                        }
+                    }
+                ) {
+                    if (isSubmitting) {
+                        CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
+                    } else {
+                        Text(stringResource(R.string.felt_mmi_submit))
+                    }
+                }
+            },
+            dismissButton = {
+                TextButton(enabled = !isSubmitting, onClick = { showIntensityPicker = false }) {
+                    Text(stringResource(R.string.cancel))
+                }
+            }
+        )
     }
 }
 

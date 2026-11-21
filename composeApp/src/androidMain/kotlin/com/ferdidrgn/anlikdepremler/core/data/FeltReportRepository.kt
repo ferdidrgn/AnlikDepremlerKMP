@@ -38,21 +38,49 @@ class FeltReportRepository {
         awaitClose { registration.remove() }
     }
 
-    suspend fun submitFeltReport(earthquakeId: String) {
+    /** Aggregate intensity bands only; individual reporter documents stay private. */
+    fun observeIntensityCounts(earthquakeId: String): Flow<Map<Int, Long>> = callbackFlow {
+        val registration = firestore.collection(COLLECTION)
+            .document(earthquakeId)
+            .collection(INTENSITY_COUNTS)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) return@addSnapshotListener
+                val counts = snapshot?.documents.orEmpty().mapNotNull { document ->
+                    val level = document.id.removePrefix(INTENSITY_PREFIX).toIntOrNull()
+                    val count = document.getLong(FIELD_COUNT)
+                    if (level != null && level in 2..12 && count != null && count > 0L) level to count else null
+                }.toMap()
+                trySend(counts)
+            }
+        awaitClose { registration.remove() }
+    }
+
+    suspend fun submitFeltReport(earthquakeId: String, intensityLevel: Int) {
+        require(intensityLevel in 2..12) { "Perceived intensity must be between II and XII" }
         val userId = FirebaseAuth.getInstance().currentUser?.uid
             ?: throw IllegalStateException("Firebase anonymous authentication is not ready")
         suspendCancellableCoroutine<Unit> { continuation ->
             val reportRef = firestore.collection(COLLECTION).document(earthquakeId)
             val reporterRef = reportRef.collection(REPORTERS).document(userId)
+            val intensityRef = reportRef.collection(INTENSITY_COUNTS).document("$INTENSITY_PREFIX$intensityLevel")
             firestore.runTransaction { transaction ->
                 if (transaction.get(reporterRef).exists()) return@runTransaction false
                 val currentCount = transaction.get(reportRef).getLong(FIELD_COUNT) ?: 0L
+                val currentIntensityCount = transaction.get(intensityRef).getLong(FIELD_COUNT) ?: 0L
                 transaction.set(
                     reportRef,
                     mapOf(FIELD_COUNT to currentCount + 1L),
                     SetOptions.merge()
                 )
-                transaction.set(reporterRef, mapOf("createdAt" to Timestamp.now()))
+                transaction.set(
+                    intensityRef,
+                    mapOf(FIELD_COUNT to currentIntensityCount + 1L),
+                    SetOptions.merge()
+                )
+                transaction.set(
+                    reporterRef,
+                    mapOf("createdAt" to Timestamp.now(), FIELD_INTENSITY_BAND to "$INTENSITY_PREFIX$intensityLevel")
+                )
                 true
             }
                 .addOnSuccessListener { if (continuation.isActive) continuation.resume(Unit) }
@@ -63,6 +91,9 @@ class FeltReportRepository {
     private companion object {
         const val COLLECTION = "felt_reports"
         const val FIELD_COUNT = "count"
+        const val FIELD_INTENSITY_BAND = "intensityBand"
         const val REPORTERS = "reporters"
+        const val INTENSITY_COUNTS = "intensity_counts"
+        const val INTENSITY_PREFIX = "mmi_"
     }
 }

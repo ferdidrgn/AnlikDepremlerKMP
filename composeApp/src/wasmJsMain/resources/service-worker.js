@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'anlik-depremler-shell-';
-const CACHE_NAME = `${CACHE_PREFIX}v1`;
+const CACHE_NAME = `${CACHE_PREFIX}v2`;
 const APP_SHELL = [
   '/', '/index.html', '/site.css', '/site.js', '/manifest.json', '/404.html',
   '/hazirlik-listesi/',

@@ -5,22 +5,6 @@ name: Firebase Web Hosting Deploy
 on:
   push:
     branches: [ main ]
-    paths:
-      - 'composeApp/src/commonMain/**'
-      - 'composeApp/src/wasmJsMain/**'
-      - 'composeApp/build.gradle.kts'
-      - 'build.gradle.kts'
-      - 'settings.gradle.kts'
-      - 'gradle.properties'
-      - 'gradlew'
-      - 'gradlew.bat'
-      - 'gradle/**'
-      - 'firebase.json'
-      - 'firestore.rules'
-      - 'firestore.indexes.json'
-      - '.firebaserc'
-      - 'scripts/verify-web-assets.mjs'
-      - '.github/workflows/firebase-web-deploy.yml'
   workflow_dispatch:
     inputs:
       deploy_firestore_rules:

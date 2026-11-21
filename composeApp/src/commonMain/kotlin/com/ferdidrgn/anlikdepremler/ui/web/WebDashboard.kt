@@ -211,7 +211,7 @@ private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel, onE
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(8.dp))
-            EarthquakeMapCanvas(filteredEarthquakes)
+            WebEarthquakeMapView(filteredEarthquakes, onEarthquakeClick = onEarthquakeClick)
 
             Spacer(modifier = Modifier.height(20.dp))
             WebTimeFilterRow(
@@ -327,7 +327,7 @@ private fun MobileWebDashboard(uiState: HomeUiState, viewModel: MainViewModel, o
                     fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                EarthquakeMapCanvas(filteredEarthquakes)
+                WebEarthquakeMapView(filteredEarthquakes, onEarthquakeClick = onEarthquakeClick)
                 Spacer(modifier = Modifier.height(16.dp))
 
                 WebTimeFilterRow(

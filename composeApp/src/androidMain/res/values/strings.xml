@@ -122,7 +122,7 @@
     <string name="label_magnitude">Büyüklük</string>
     <string name="label_depth">Derinlik</string>
     <string name="label_intensity">Şiddet</string>
-    <string name="label_perceived_intensity">Hissedilen Şiddet</string>
+    <string name="label_perceived_intensity">Yaklaşık MMI tahmini</string>
     <string name="label_source">Kaynak</string>
     <string name="important_warning">⚠️ ÖNEMLİ</string>
     <string name="show_more">Daha Fazla</string>
@@ -178,6 +178,13 @@
     <string name="comments_empty">Henüz yorum yok. İlk yorumu siz yazın.</string>
     <string name="comments_report">Şikayet Et</string>
     <string name="comments_viewer_count">👀 %1$d kişi şu an inceliyor</string>
+    <string name="felt_mmi_title">Hissedilen şiddet (MMI)</string>
+    <string name="felt_mmi_button">Ben de hissettim</string>
+    <string name="felt_mmi_prompt">Sarsıntıyı bulunduğunuz yerde ne ölçüde hissettiniz? (MMI II–XII)</string>
+    <string name="felt_mmi_privacy">Konumunuz alınmaz. Yalnızca deprem başına toplu seviye sayıları gösterilir.</string>
+    <string name="felt_mmi_submit">Bildirimi gönder</string>
+    <string name="felt_mmi_distribution">Kullanıcı bildirimleri</string>
+    <string name="felt_mmi_failed">Bildirim gönderilemedi. Bağlantınızı kontrol edip tekrar deneyin.</string>
     <string name="category_experimental">DENEYSEL ÖZELLİKLER</string>
     <string name="shake_detection_title">Sarsıntı Algılama</string>
     <string name="shake_detection_sub">Telefonunuzun ivmeölçeriyle şiddetli sarsıntı algılayıp uyarı gösterir</string>

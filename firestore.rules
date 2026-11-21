@@ -37,6 +37,19 @@ service cloud.firestore {
         && existsAfter(reporterPath(earthquakeId));
     }
 
+    function validIntensityBand(band) {
+      return band in [
+        'mmi_2', 'mmi_3', 'mmi_4', 'mmi_5', 'mmi_6',
+        'mmi_7', 'mmi_8', 'mmi_9', 'mmi_10', 'mmi_11', 'mmi_12'
+      ];
+    }
+
+    function reportsIntensityBand(earthquakeId, band) {
+      return createsOwnReporter(earthquakeId)
+        && validIntensityBand(band)
+        && getAfter(reporterPath(earthquakeId)).data.intensityBand == band;
+    }
+
     // One aggregate doc per earthquake: { count: <int> }. Anyone can read the live "felt it"
     // count; writes are only allowed if they touch nothing but the count field.
     match /felt_reports/{earthquakeId} {
@@ -57,9 +70,25 @@ service cloud.firestore {
         allow list: if false;
         allow create: if signedIn()
           && userId == request.auth.uid
-          && request.resource.data.keys().hasOnly(['createdAt'])
+          && request.resource.data.keys().hasOnly(['createdAt', 'intensityBand'])
+          && (!request.resource.data.keys().hasAny(['intensityBand'])
+            || validIntensityBand(request.resource.data.intensityBand))
           && isNearRequestTime(request.resource.data.createdAt);
         allow update, delete: if false;
+      }
+
+      // Public aggregates reveal only counts by self-reported MMI band, never reporter identity
+      // or location. A band count can only increase in the same transaction that creates the
+      // caller's one-time private reporter marker for that exact band.
+      match /intensity_counts/{band} {
+        allow read: if true;
+        allow create: if reportsIntensityBand(earthquakeId, band)
+          && request.resource.data.keys().hasOnly(['count'])
+          && request.resource.data.count == 1;
+        allow update: if reportsIntensityBand(earthquakeId, band)
+          && request.resource.data.keys().hasOnly(['count'])
+          && request.resource.data.count == resource.data.count + 1;
+        allow delete: if false;
       }
 
       // Eyewitness comments, auto-ID docs under each earthquake's report.

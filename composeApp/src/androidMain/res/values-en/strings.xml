@@ -110,7 +110,14 @@
     <string name="label_magnitude">Magnitude</string>
     <string name="label_depth">Depth</string>
     <string name="label_intensity">Intensity</string>
-    <string name="label_perceived_intensity">Perceived Intensity</string>
+    <string name="label_perceived_intensity">Estimated MMI</string>
+    <string name="felt_mmi_title">Perceived intensity (MMI)</string>
+    <string name="felt_mmi_button">I felt it</string>
+    <string name="felt_mmi_prompt">How strong did the shaking feel where you were? (MMI II–XII)</string>
+    <string name="felt_mmi_privacy">Your location is not collected. Only aggregate counts per earthquake are shown.</string>
+    <string name="felt_mmi_submit">Send report</string>
+    <string name="felt_mmi_distribution">Community reports</string>
+    <string name="felt_mmi_failed">Report could not be sent. Check your connection and try again.</string>
     <string name="label_source">Source</string>
     <string name="important_warning">⚠️ IMPORTANT</string>
     <string name="show_more">Show More</string>

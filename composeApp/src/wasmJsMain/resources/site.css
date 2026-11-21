@@ -95,6 +95,13 @@ button { font: inherit; }
 .app-frame-bar span { text-align: center; }.app-frame-bar b { justify-self: end; color: #067f76; font-size: .63rem; letter-spacing: .12em; }
 #compose-app { position: relative; width: 100%; min-height: 820px; height: min(900px, 85vh); background: #ebe3d5; overflow: hidden; }
 #compose-app canvas { display: block; }
+.earthquake-map-host { position: absolute; z-index: 5; overflow: hidden; border: 1px solid rgba(130, 165, 194, .24); border-radius: 16px; background: #0b1723; box-shadow: 0 16px 34px rgba(0,0,0,.2); }
+.earthquake-map-host.map-loading::after { position: absolute; inset: 0; display: grid; place-content: center; color: #d9e4ed; background: #0b1723; content: 'Etkileşimli harita yükleniyor…'; text-align: center; font: 500 14px/1.6 Inter, sans-serif; }
+.earthquake-map-host .maplibregl-ctrl-group { overflow: hidden; border: 1px solid rgba(255,255,255,.16); border-radius: 10px; background: rgba(8,20,33,.92); box-shadow: 0 6px 20px rgba(0,0,0,.22); }
+.earthquake-map-host .maplibregl-ctrl-group button { filter: invert(.88) hue-rotate(155deg); }
+.earthquake-map-host .maplibregl-ctrl-attrib { color: #d1dbe5; background: rgba(7,18,30,.82); }
+.earthquake-map-host .maplibregl-ctrl-attrib a { color: #d1e8f4; }
+.earthquake-map-host.map-unavailable::after { position: absolute; inset: 0; display: grid; place-content: center; padding: 24px; color: #d9e4ed; background: #0b1723; content: attr(data-map-error); text-align: center; font: 500 14px/1.6 Inter, sans-serif; }
 .app-loading { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; color: #17334c; background: #ebe3d5; }
 .app-loading small { margin-top: 5px; color: #66798b; }.app-loading strong { margin-top: 16px; }
 .loader-ring { width: 46px; height: 46px; border: 3px solid rgba(17,61,98,.14); border-top-color: #0d8c83; border-radius: 50%; animation: spin .8s linear infinite; }

@@ -38,10 +38,8 @@ private const val TURKEY_MAX_LON = 45.0
 private data class MapBounds(val minLat: Double, val maxLat: Double, val minLon: Double, val maxLon: Double)
 
 /**
- * A lightweight coordinate-plot "map" - not a tiled slippy map (no basemap imagery/street data,
- * which would mean embedding a JS mapping library we haven't vetted against this project's
- * wasmJs toolchain yet), but a real, live, animated spatial read of where the current list's
- * earthquakes are and how strong each one is, which a plain table/list doesn't convey at all.
+ * Lightweight coordinate-plot fallback for native platforms without a tile-backed web map.
+ * The browser dashboard uses MapLibre GL with clustered earthquake points instead.
  */
 @Composable
 fun EarthquakeMapCanvas(earthquakes: List<Earthquake>, modifier: Modifier = Modifier) {
