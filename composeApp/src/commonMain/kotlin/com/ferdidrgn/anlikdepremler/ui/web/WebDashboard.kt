@@ -164,9 +164,9 @@ private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel, onE
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                "VERİ KAYNAĞI",
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onPrimary,
+                "VER� KAYNA�I",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -175,8 +175,8 @@ private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel, onE
             Spacer(modifier = Modifier.height(28.dp))
             Text(
                 stringResource(Res.string.chart_magnitude_title),
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onPrimary,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(12.dp))
@@ -211,9 +211,9 @@ private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel, onE
 
             Spacer(modifier = Modifier.height(24.dp))
             Text(
-                "KEŞFET: DEPREM HARİTASI",
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onPrimary,
+                "KE�FET: DEPREM HAR�TASI",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -327,7 +327,7 @@ private fun MobileWebDashboard(uiState: HomeUiState, viewModel: MainViewModel, o
                 Spacer(modifier = Modifier.height(20.dp))
 
                 Text(
-                    "KEŞFET: DEPREM HARİTASI",
+                    "KE�FET: DEPREM HAR�TASI",
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.Bold
@@ -400,9 +400,9 @@ private fun WebEarthquakeSortRow(
     ) {
         listOf(
             WebEarthquakeSort.NEWEST to "En yeni",
-            WebEarthquakeSort.MAGNITUDE to "En büyük",
+            WebEarthquakeSort.MAGNITUDE to "En b�y�k",
             WebEarthquakeSort.DEPTH to "En derin",
-            WebEarthquakeSort.NEAREST to if (hasLocation) "Yakınımda" else "Konumuma göre"
+            WebEarthquakeSort.NEAREST to if (hasLocation) "Yak�n�mda" else "Konumuma g�re"
         ).forEach { (order, label) ->
             val isSelected = selected == order
             androidx.compose.material3.Surface(
@@ -519,7 +519,7 @@ private fun LoadingState() {
 @Composable
 private fun EmptyState() {
     Box(modifier = Modifier.fillMaxWidth().padding(48.dp), contentAlignment = Alignment.Center) {
-        Text("Gösterilecek deprem verisi yok.", color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text("G�sterilecek deprem verisi yok.", color = MaterialTheme.colorScheme.onSurfaceVariant)
     }
 }
 
@@ -536,3 +536,4 @@ private fun formatMagnitude(value: Double): String {
     val rounded = kotlin.math.round(value * 10) / 10.0
     return rounded.toString()
 }
+
