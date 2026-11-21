@@ -1,11 +1,11 @@
 name: Android Release Bundle
 
 # Builds the Android App Bundle (.aab) automatically on every push to main, and on demand.
-# Needs a few repo secrets to actually succeed and produce a Play Console upload-ready bundle:
+# Needs Firebase configuration and release-signing repo secrets to produce a Play Console upload-ready bundle:
 # GOOGLE_SERVICES_JSON, RELEASE_KEYSTORE_BASE64, RELEASE_KEYSTORE_PASSWORD, RELEASE_KEY_ALIAS,
-# RELEASE_KEY_PASSWORD - see the "Decode release keystore" and "Write google-services.json"
-# steps below for where each is used. This workflow builds and uploads artifacts only; it does
-# not publish to Play Console.
+# RELEASE_KEY_PASSWORD. Maps and AdMob values can be supplied as optional secrets; when absent,
+# related features may be unavailable in this artifact. This workflow builds and uploads artifacts
+# only; it does not publish to Play Console.
 on:
   push:
     branches: [ main ]
@@ -59,10 +59,15 @@ jobs:
           ADMOB_REWARDED_ID: ${{ secrets.ADMOB_REWARDED_ID }}
         run: |
           missing=0
-          for name in GOOGLE_SERVICES_JSON RELEASE_KEYSTORE_BASE64 RELEASE_KEYSTORE_PASSWORD RELEASE_KEY_ALIAS RELEASE_KEY_PASSWORD API_KEY_ADMOB API_KEY_LOCATION ADMOB_APP_OPEN_ID ADMOB_BANNER_ID ADMOB_INTERSTITIAL_ID ADMOB_NATIVE_ID ADMOB_REWARDED_ID; do
+          for name in GOOGLE_SERVICES_JSON RELEASE_KEYSTORE_BASE64 RELEASE_KEYSTORE_PASSWORD RELEASE_KEY_ALIAS RELEASE_KEY_PASSWORD; do
             if [ -z "${!name}" ]; then
               echo "::error::Missing required GitHub Actions secret: $name"
               missing=1
+            fi
+          done
+          for name in API_KEY_ADMOB API_KEY_LOCATION ADMOB_APP_OPEN_ID ADMOB_BANNER_ID ADMOB_INTERSTITIAL_ID ADMOB_NATIVE_ID ADMOB_REWARDED_ID; do
+            if [ -z "${!name}" ]; then
+              echo "::warning::Optional Android configuration is unset: $name"
             fi
           done
           exit "$missing"
