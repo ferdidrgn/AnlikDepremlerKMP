@@ -3,11 +3,8 @@ package com.ferdidrgn.anlikdepremler.ui.web
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -140,13 +137,13 @@ private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel, onE
         }
     }
 
+    // Let the containing website own vertical scrolling. The dashboard must not create
+    // a second scroll area inside the marketing page.
     Row(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
                 .width(280.dp)
-                .fillMaxHeight()
                 .background(MaterialTheme.colorScheme.surface)
-                .verticalScroll(rememberScrollState())
                 .padding(20.dp)
         ) {
             Row(
@@ -165,8 +162,8 @@ private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel, onE
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 "VERİ KAYNAĞI",
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onPrimary,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -175,8 +172,8 @@ private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel, onE
             Spacer(modifier = Modifier.height(28.dp))
             Text(
                 stringResource(Res.string.chart_magnitude_title),
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onPrimary,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(12.dp))
@@ -185,16 +182,9 @@ private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel, onE
             WebActivityInsights(uiState.earthquakes)
         }
 
-        HorizontalDivider(
-            modifier = Modifier.fillMaxHeight().width(1.dp),
-            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f)
-        )
-
         Column(
             modifier = Modifier
                 .weight(1f)
-                .fillMaxHeight()
-                .verticalScroll(rememberScrollState())
                 .padding(28.dp)
         ) {
             Text(stringResource(Res.string.header_subtitle), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
@@ -212,8 +202,8 @@ private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel, onE
             Spacer(modifier = Modifier.height(24.dp))
             Text(
                 "KEŞFET: DEPREM HARİTASI",
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onPrimary,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -253,7 +243,7 @@ private fun DesktopDashboard(uiState: HomeUiState, viewModel: MainViewModel, onE
             Spacer(modifier = Modifier.height(8.dp))
 
             Card(
-                modifier = Modifier.fillMaxWidth().height(440.dp),
+                modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
             ) {
@@ -291,12 +281,10 @@ private fun MobileWebDashboard(uiState: HomeUiState, viewModel: MainViewModel, o
         }
     }
 
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(20.dp),
+    Column(
+        modifier = Modifier.fillMaxWidth().padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        item {
             Column {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -366,15 +354,11 @@ private fun MobileWebDashboard(uiState: HomeUiState, viewModel: MainViewModel, o
                     fontWeight = FontWeight.Bold
                 )
             }
-        }
 
         when {
-            uiState.isLoading && uiState.earthquakes.isEmpty() -> item { LoadingState() }
-            filteredEarthquakes.isEmpty() -> item { EmptyState() }
-            else -> itemsIndexed(
-                items = filteredEarthquakes,
-                key = { _, earthquake -> earthquake.id }
-            ) { index, earthquake ->
+            uiState.isLoading && uiState.earthquakes.isEmpty() -> LoadingState()
+            filteredEarthquakes.isEmpty() -> EmptyState()
+            else -> filteredEarthquakes.forEachIndexed { index, earthquake ->
                 StaggeredEntrance(index = index) {
                     WebEarthquakeCardCompact(
                         earthquake = earthquake,
@@ -496,8 +480,8 @@ private fun EarthquakeTableBody(
     when {
         uiState.isLoading && uiState.earthquakes.isEmpty() -> LoadingState()
         filteredEarthquakes.isEmpty() -> EmptyState()
-        else -> LazyColumn(modifier = Modifier.fillMaxSize()) {
-            itemsIndexed(filteredEarthquakes, key = { _, eq -> eq.id }) { index, eq ->
+        else -> Column(modifier = Modifier.fillMaxWidth()) {
+            filteredEarthquakes.forEachIndexed { index, eq ->
                 StaggeredEntrance(index = index) {
                     Column {
                         WebEarthquakeRow(earthquake = eq, onClick = { onEarthquakeClick(eq) })
